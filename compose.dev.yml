@@ -1,0 +1,47 @@
+# Run:
+# sudo docker compose -f compose.dev.yml up
+
+services:
+  api:
+    image: node:18-alpine
+    working_dir: /app
+    command: npx nx serve api --configuration=development --verbose
+    ports:
+      - '3000:3000'
+    volumes:
+      - .:/app
+      - node-modules:/app/node_modules
+    environment:
+      - NODE_ENV=development
+      - HOST=0.0.0.0
+      - PORT=3000
+      # NX DAEMON is disabled because it needs exclusive rights to the node_modules/@nx folder
+      # and it is not possible to share it between the api and client containers.
+      - NX_DAEMON=false # Enable the Nx Daemon for development.
+    networks:
+      - apps-network
+
+  client:
+    image: node:18-alpine
+    working_dir: /app
+    command: npx nx dev client
+    ports:
+      - '4000:4000'
+    volumes:
+      - .:/app
+      - node-modules:/app/node_modules
+    environment:
+      - NODE_ENV=development
+      - HOST=0.0.0.0
+      - PORT=4000
+      - NX_DAEMON=false
+    networks:
+      - apps-network
+    depends_on:
+      - api
+
+volumes:
+  node-modules:
+
+networks:
+  apps-network:

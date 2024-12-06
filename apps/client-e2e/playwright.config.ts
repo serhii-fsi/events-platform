@@ -4,7 +4,12 @@ import { nxE2EPreset } from '@nx/playwright/preset';
 import { workspaceRoot } from '@nx/devkit';
 
 // For CI, you may want to set BASE_URL to the deployed application.
-const baseURL = process.env['BASE_URL'] || 'http://localhost:3000';
+const host = process.env.HOST ?? 'localhost';
+const port = process.env.PORT ?? '4000';
+const baseURL = `http://${host}:${port}`;
+// Report configuration
+const reportHost = process.env.REPORT_HOST ?? 'localhost';
+const reportPort = process.env.REPORT_PORT ?? '7777';
 
 /**
  * Read environment variables from file.
@@ -23,13 +28,14 @@ export default defineConfig({
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry',
   },
-  /* Run your local dev server before starting the tests */
-  webServer: {
-    command: 'npx nx run client:serve-static',
-    url: 'http://localhost:3000',
-    reuseExistingServer: !process.env.CI,
-    cwd: workspaceRoot,
-  },
+  // // We don't need this as we run the client app in another container
+  // /* Run your local dev server before starting the tests */
+  // webServer: {
+  //   command: 'npx nx run client:serve-static',
+  //   url: 'http://localhost:3000',
+  //   reuseExistingServer: !process.env.CI,
+  //   cwd: workspaceRoot,
+  // },
   projects: [
     {
       name: 'chromium',
@@ -65,5 +71,10 @@ export default defineConfig({
       name: 'Google Chrome',
       use: { ...devices['Desktop Chrome'], channel: 'chrome' },
     } */
+  ],
+  // Use open: 'always' to serve the report after the test run
+  // Use open: 'never' to disable the report serving
+  reporter: [
+    ['html', { open: 'never', host: reportHost, port: reportPort }]
   ],
 });

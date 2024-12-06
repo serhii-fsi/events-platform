@@ -4,6 +4,7 @@
 dist
 tmp
 /out-tsc
+playwright-report
 
 # dependencies
 node_modules
