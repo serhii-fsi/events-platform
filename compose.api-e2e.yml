@@ -1,0 +1,28 @@
+# Run:
+# sudo docker compose -f compose.api-e2e.yml up
+
+# As we run "api" app independently "implicitDependencies" and "dependsOn"
+# are disabled in "api-e2e/project.json"
+
+services:
+  api-e2e:
+    image: node:18-alpine
+    working_dir: /app
+    command: npx nx e2e api-e2e --verbose --watchAll
+    volumes:
+      - .:/app
+      - node-modules:/app/node_modules
+    environment:
+      - HOST=api # Service name "api" to reach the "api" container
+      - PORT=3000 # "api" app port
+      # NX DAEMON is disabled because it needs exclusive rights to the node_modules/@nx folder
+      # and it is not possible to share it between the api and client containers.
+      - NX_DAEMON=false # Enable the Nx Daemon for development.
+    networks:
+      - apps-network
+
+volumes:
+  node-modules:
+
+networks:
+  apps-network:

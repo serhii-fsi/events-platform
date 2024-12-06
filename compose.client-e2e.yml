@@ -1,0 +1,32 @@
+# Run:
+# sudo docker compose -f compose.client-e2e.yml up
+
+# As we run "api" and "client" apps independently "implicitDependencies"
+# is disabled in "client-e2e/project.json"
+
+services:
+  client-e2e:
+    image: mcr.microsoft.com/playwright:v1.49.0-jammy
+    working_dir: /app
+    command: npx nx e2e client-e2e --verbose
+    ports:
+      - '7777:7777' # Playwright report server port
+    volumes:
+      - .:/app
+      - node-modules:/app/node_modules
+    environment:
+      - HOST=client # Service name "client" to reach the "client" container
+      - PORT=4000 # "client" app port
+      - REPORT_HOST=0.0.0.0
+      - REPORT_PORT=7777 # Playwright report server port
+      # NX DAEMON is disabled because it needs exclusive rights to the node_modules/@nx folder
+      # and it is not possible to share it between the api and client containers.
+      - NX_DAEMON=false # Enable the Nx Daemon for development.
+    networks:
+      - apps-network
+
+volumes:
+  node-modules:
+
+networks:
+  apps-network:
