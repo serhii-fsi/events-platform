@@ -2,15 +2,37 @@
 # sudo docker compose -f compose.dev.yml up
 
 services:
+  db:
+    image: postgres:13
+    environment:
+      PGPORT: ${POSTGRES_PORT}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    ports:
+      - '${POSTGRES_PORT}:${POSTGRES_PORT}'
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    networks:
+      - apps-network
+
+  db-test:
+    image: postgres:13
+    environment:
+      PGPORT: ${POSTGRES_TEST_PORT}
+      POSTGRES_USER: ${POSTGRES_TEST_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_TEST_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_TEST_DB}
+    ports:
+      - '${POSTGRES_TEST_PORT}:${POSTGRES_TEST_PORT}'
+    volumes:
+      - postgres-test-data:/var/lib/postgresql/data
+    networks:
+      - apps-network
+
   api:
     image: node:18-alpine
-    working_dir: /app
     command: npx nx serve api --configuration=development --verbose
-    ports:
-      - '3000:3000'
-    volumes:
-      - .:/app
-      - node-modules:/app/node_modules
     environment:
       - NODE_ENV=development
       - HOST=0.0.0.0
@@ -18,29 +40,40 @@ services:
       # NX DAEMON is disabled because it needs exclusive rights to the node_modules/@nx folder
       # and it is not possible to share it between the api and client containers.
       - NX_DAEMON=false # Enable the Nx Daemon for development.
-    networks:
-      - apps-network
-
-  client:
-    image: node:18-alpine
-    working_dir: /app
-    command: npx nx dev client
     ports:
-      - '4000:4000'
+      - '3000:3000'
+    working_dir: /app
     volumes:
       - .:/app
       - node-modules:/app/node_modules
+    networks:
+      - apps-network
+    depends_on:
+      - db
+      - db-test
+
+  client:
+    image: node:18-alpine
+    command: npx nx dev client
     environment:
       - NODE_ENV=development
       - HOST=0.0.0.0
       - PORT=4000
       - NX_DAEMON=false
+    ports:
+      - '4000:4000'
+    working_dir: /app
+    volumes:
+      - .:/app
+      - node-modules:/app/node_modules
     networks:
       - apps-network
     depends_on:
       - api
 
 volumes:
+  postgres-data:
+  postgres-test-data:
   node-modules:
 
 networks:

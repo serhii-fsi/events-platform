@@ -2,37 +2,61 @@
 # sudo docker compose -f compose.prod.yml up
 
 services:
+  db:
+    image: postgres:13
+    environment:
+      PGPORT: ${POSTGRES_PORT}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    ports:
+      - '${POSTGRES_PORT}:${POSTGRES_PORT}'
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    networks:
+      - apps-network
+
   api:
     image: node:18-alpine
-    working_dir: /app
     command: npx nx serve api --configuration=production
-    ports:
-      - '3000:3000'
-    volumes:
-      - .:/app
-      - node-modules:/app/node_modules
     environment:
       - NODE_ENV=production
       - HOST=0.0.0.0
       - PORT=3000
       - NX_DAEMON=false # Disable the Nx Daemon for production.
-
-  client:
-    image: node:18-alpine
-    working_dir: /app
-    command: npx nx start client
     ports:
-      - '4000:4000'
+      - '3000:3000'
+    working_dir: /app
     volumes:
       - .:/app
       - node-modules:/app/node_modules
+    networks:
+      - apps-network
+    depends_on:
+      - db
+
+  client:
+    image: node:18-alpine
+    command: npx nx start client
     environment:
       - NODE_ENV=production
       - HOST=0.0.0.0
       - PORT=4000
       - NX_DAEMON=false
+    ports:
+      - '4000:4000'
+    working_dir: /app
+    volumes:
+      - .:/app
+      - node-modules:/app/node_modules
+    networks:
+      - apps-network
     depends_on:
       - api
 
 volumes:
+  postgres-data:
   node-modules:
+
+networks:
+  apps-network:
