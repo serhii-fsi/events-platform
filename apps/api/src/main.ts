@@ -16,13 +16,14 @@ const users = pgTable('users', {
   id: serial('id').primaryKey(),
   name: varchar('name', { length: 100 }).notNull(),
 });
-
+//
+//
 const pool = new Pool({
-  user: process.env.POSTGRES_USER,
-  host: process.env.POSTGRES_HOST,
-  database: process.env.POSTGRES_DB,
-  password: process.env.POSTGRES_PASSWORD,
-  port: Number(process.env.POSTGRES_PORT),
+  user: process.env.DB_USER,
+  host: process.env.DB_HOST,
+  database: process.env.DB_DB,
+  password: process.env.DB_PASSWORD,
+  port: Number(process.env.DB_PORT),
 });
 
 const db = drizzle(pool);
@@ -44,7 +45,7 @@ setupDatabase();
 app.get('/users', async (req, res) => {
   try {
     const allUsers = await db.select().from(users);
-    res.json(allUsers);
+    res.json({ message: 'Hello111', allUsers: allUsers });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
@@ -52,7 +53,7 @@ app.get('/users', async (req, res) => {
 //--------- test
 
 app.get('/', (req, res) => {
-  res.send({ message: 'Hello API' });
+  res.send({ message: 'Hello API ddsd' });
 });
 
 app.listen(port, host, () => {

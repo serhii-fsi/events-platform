@@ -1,23 +1,11 @@
-# Run:
-# sudo docker compose -f compose.init.yml up
-
-# First time setup.
-# We need to run the following command to install the node_modules
-# to the "node-modules" volume.
-
 services:
   init:
     image: node:18-alpine
     working_dir: /app
     command: >
       sh -c "
-      npm install -g npm@10.9.1 && 
-      npm install --legacy-peer-deps && 
+      npm install --legacy-peer-deps &&
       npm cache clean --force
       "
     volumes:
-      - .:/app
-      - node-modules:/app/node_modules
-
-volumes:
-  node-modules:
+      - ./:/app

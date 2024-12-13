@@ -1,32 +1,133 @@
-# Run:
-# sudo docker compose -f compose.client-e2e.yml up
-
-# As we run "api" and "client" apps independently "implicitDependencies"
-# is disabled in "client-e2e/project.json"
+# As we run apps independently in different containers "implicitDependencies"
+# and "dependsOn" are disabled in "project.json"
 
 services:
-  client-e2e:
-    image: mcr.microsoft.com/playwright:v1.49.0-jammy
-    working_dir: /app
-    command: npx nx e2e client-e2e --verbose
-    ports:
-      - '7777:7777' # Playwright report server port
-    volumes:
-      - .:/app
-      - node-modules:/app/node_modules
+  cliente2e-db:
+    image: postgres:13
     environment:
-      - HOST=client # Service name "client" to reach the "client" container
-      - PORT=4000 # "client" app port
-      - REPORT_HOST=0.0.0.0
-      - REPORT_PORT=7777 # Playwright report server port
-      # NX DAEMON is disabled because it needs exclusive rights to the node_modules/@nx folder
-      # and it is not possible to share it between the api and client containers.
-      - NX_DAEMON=false # Enable the Nx Daemon for development.
+      PGPORT: ${CLIENTE2E_POSTGRES_PORT}
+      POSTGRES_USER: ${CLIENTE2E_POSTGRES_USER}
+      POSTGRES_PASSWORD: ${CLIENTE2E_POSTGRES_PASSWORD}
+      POSTGRES_DB: ${CLIENTE2E_POSTGRES_DB}
+    ports:
+      - '${CLIENTE2E_POSTGRES_PORT}:${CLIENTE2E_POSTGRES_PORT}'
+    volumes:
+      - v-cliente2e-postgres:/var/lib/postgresql/data
     networks:
-      - apps-network
+      - net-cliente2e
+
+  cliente2e-api:
+    image: node:18-alpine
+    command: >
+      sh -c "
+        cp -r /app/.vscode/tmp_docker/node_modules/@nx /app/node_modules/ &&
+        npx nx serve api --configuration=production
+      "
+    environment:
+      - NODE_ENV=production
+      # App
+      - HOST=${CLIENTE2E_API_HOST}
+      - PORT=${CLIENTE2E_API_PORT}
+      # DB
+      - DB_HOST=cliente2e-db
+      - DB_PORT=${CLIENTE2E_POSTGRES_PORT}
+      - DB_USER=${CLIENTE2E_POSTGRES_USER}
+      - DB_PASSWORD=${CLIENTE2E_POSTGRES_PASSWORD}
+      - DB_DB=${CLIENTE2E_POSTGRES_DB}
+      # Enable the Nx Daemon for development
+      - NX_DAEMON=false
+    ports:
+      - '${CLIENTE2E_API_PORT}:${CLIENTE2E_API_PORT}'
+    working_dir: /app
+    volumes:
+      - ./:/app # Mirror the app code
+      - v-cliente2e-api-nx:/app/.nx
+      - v-cliente2e-api-tmp:/app/tmp
+      - v-cliente2e-api-dist:/app/dist
+      # node_modules/@nx
+      - ./node_modules/@nx/:/app/.vscode/tmp_docker/node_modules/@nx/
+      - type: tmpfs
+        target: /app/node_modules/@nx
+    depends_on:
+      - cliente2e-db
+    networks:
+      - net-cliente2e
+
+  cliente2e-client:
+    image: node:18-alpine
+    command: >
+      sh -c "
+        cp -r /app/.vscode/tmp_docker/node_modules/@nx /app/node_modules/ &&
+        npx nx start client
+      "
+    environment:
+      - NODE_ENV=production
+      # App
+      - HOST=${CLIENTE2E_CLIENT_HOST}
+      - PORT=${CLIENTE2E_CLIENT_PORT}
+      # Enable the Nx Daemon for development
+      - NX_DAEMON=false
+    ports:
+      - '${CLIENTE2E_CLIENT_PORT}:${CLIENTE2E_CLIENT_PORT}'
+    working_dir: /app
+    volumes:
+      - ./:/app # Mirror the app code
+      - v-cliente2e-client-nx:/app/.nx
+      - v-cliente2e-client-tmp:/app/tmp
+      - v-cliente2e-client-dist:/app/dist
+      # node_modules/@nx
+      - ./node_modules/@nx/:/app/.vscode/tmp_docker/node_modules/@nx/
+      - type: tmpfs
+        target: /app/node_modules/@nx
+    depends_on:
+      - cliente2e-db
+      - cliente2e-api
+    networks:
+      - net-cliente2e
+
+  cliente2e-e2e:
+    image: mcr.microsoft.com/playwright:v1.49.0-jammy
+    command: >
+      sh -c "
+        sleep 15 &&
+        cp -r /app/.vscode/tmp_docker/node_modules/@nx /app/node_modules/ &&
+        npx nx e2e client-e2e --verbose
+      "
+    environment:
+      - HOST=cliente2e-client # "client" app host
+      - PORT=${CLIENTE2E_CLIENT_PORT} # "client" app port
+      - REPORT_HOST=${CLIENTE2E_REPORT_HOST}
+      - REPORT_PORT=${CLIENTE2E_REPORT_PORT}
+      # Enable the Nx Daemon for development
+      - NX_DAEMON=false
+    working_dir: /app
+    volumes:
+      - ./:/app # Mirror the app code
+      - v-cliente2e-e2e-nx:/app/.nx
+      - v-cliente2e-e2e-tmp:/app/tmp
+      - v-cliente2e-e2e-dist:/app/dist
+      # node_modules/@nx
+      - ./node_modules/@nx/:/app/.vscode/tmp_docker/node_modules/@nx/
+      - type: tmpfs
+        target: /app/node_modules/@nx
+    depends_on:
+      - cliente2e-db
+      - cliente2e-api
+      - cliente2e-client
+    networks:
+      - net-cliente2e
 
 volumes:
-  node-modules:
+  v-cliente2e-postgres:
+  v-cliente2e-api-nx:
+  v-cliente2e-api-tmp:
+  v-cliente2e-api-dist:
+  v-cliente2e-client-nx:
+  v-cliente2e-client-tmp:
+  v-cliente2e-client-dist:
+  v-cliente2e-e2e-nx:
+  v-cliente2e-e2e-tmp:
+  v-cliente2e-e2e-dist:
 
 networks:
-  apps-network:
+  net-cliente2e:

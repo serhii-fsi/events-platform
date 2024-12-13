@@ -1,80 +1,98 @@
-# Run:
-# sudo docker compose -f compose.dev.yml up
+# As we run apps independently in different containers "implicitDependencies"
+# and "dependsOn" are disabled in "project.json"
 
 services:
-  db:
+  dev-db:
     image: postgres:13
     environment:
-      PGPORT: ${POSTGRES_PORT}
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      POSTGRES_DB: ${POSTGRES_DB}
+      PGPORT: ${DEV_POSTGRES_PORT}
+      POSTGRES_USER: ${DEV_POSTGRES_USER}
+      POSTGRES_PASSWORD: ${DEV_POSTGRES_PASSWORD}
+      POSTGRES_DB: ${DEV_POSTGRES_DB}
     ports:
-      - '${POSTGRES_PORT}:${POSTGRES_PORT}'
+      - '${DEV_POSTGRES_PORT}:${DEV_POSTGRES_PORT}'
     volumes:
-      - postgres-data:/var/lib/postgresql/data
+      - v-dev-postgres:/var/lib/postgresql/data
     networks:
-      - apps-network
+      - net-dev
 
-  db-test:
-    image: postgres:13
-    environment:
-      PGPORT: ${POSTGRES_TEST_PORT}
-      POSTGRES_USER: ${POSTGRES_TEST_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_TEST_PASSWORD}
-      POSTGRES_DB: ${POSTGRES_TEST_DB}
-    ports:
-      - '${POSTGRES_TEST_PORT}:${POSTGRES_TEST_PORT}'
-    volumes:
-      - postgres-test-data:/var/lib/postgresql/data
-    networks:
-      - apps-network
-
-  api:
+  dev-api:
     image: node:18-alpine
-    command: npx nx serve api --configuration=development --verbose
+    command: >
+      sh -c "
+        cp -r /app/.vscode/tmp_docker/node_modules/@nx /app/node_modules/ &&
+        npx nx serve api --configuration=development --verbose
+      "
     environment:
       - NODE_ENV=development
-      - HOST=0.0.0.0
-      - PORT=3000
-      # NX DAEMON is disabled because it needs exclusive rights to the node_modules/@nx folder
-      # and it is not possible to share it between the api and client containers.
-      - NX_DAEMON=false # Enable the Nx Daemon for development.
+      # App
+      - HOST=${DEV_API_HOST}
+      - PORT=${DEV_API_PORT}
+      # DB
+      - DB_HOST=dev-db
+      - DB_PORT=${DEV_POSTGRES_PORT}
+      - DB_USER=${DEV_POSTGRES_USER}
+      - DB_PASSWORD=${DEV_POSTGRES_PASSWORD}
+      - DB_DB=${DEV_POSTGRES_DB}
+      # Enable the Nx Daemon for development
+      - NX_DAEMON=true
     ports:
-      - '3000:3000'
+      - '${DEV_API_PORT}:${DEV_API_PORT}'
     working_dir: /app
     volumes:
-      - .:/app
-      - node-modules:/app/node_modules
-    networks:
-      - apps-network
+      - ./:/app # Mirror the app code
+      - v-dev-api-nx:/app/.nx
+      - v-dev-api-tmp:/app/tmp
+      - v-dev-api-dist:/app/dist
+      # node_modules/@nx
+      - ./node_modules/@nx/:/app/.vscode/tmp_docker/node_modules/@nx/
+      - type: tmpfs
+        target: /app/node_modules/@nx
     depends_on:
-      - db
-      - db-test
+      - dev-db
+    networks:
+      - net-dev
 
-  client:
+  dev-client:
     image: node:18-alpine
-    command: npx nx dev client
+    command: >
+      sh -c "
+        cp -r /app/.vscode/tmp_docker/node_modules/@nx /app/node_modules/ &&
+        npx nx dev client
+      "
     environment:
       - NODE_ENV=development
-      - HOST=0.0.0.0
-      - PORT=4000
-      - NX_DAEMON=false
+      # App
+      - HOST=${DEV_CLIENT_HOST}
+      - PORT=${DEV_CLIENT_PORT}
+      # Enable the Nx Daemon for development
+      - NX_DAEMON=true
     ports:
-      - '4000:4000'
+      - '${DEV_CLIENT_PORT}:${DEV_CLIENT_PORT}'
     working_dir: /app
     volumes:
-      - .:/app
-      - node-modules:/app/node_modules
-    networks:
-      - apps-network
+      - ./:/app # Mirror the app code
+      - v-dev-client-nx:/app/.nx
+      - v-dev-client-tmp:/app/tmp
+      - v-dev-client-dist:/app/dist
+      # node_modules/@nx
+      - ./node_modules/@nx/:/app/.vscode/tmp_docker/node_modules/@nx/
+      - type: tmpfs
+        target: /app/node_modules/@nx
     depends_on:
-      - api
+      - dev-db
+      - dev-api
+    networks:
+      - net-dev
 
 volumes:
-  postgres-data:
-  postgres-test-data:
-  node-modules:
+  v-dev-postgres:
+  v-dev-api-nx:
+  v-dev-api-tmp:
+  v-dev-api-dist:
+  v-dev-client-nx:
+  v-dev-client-tmp:
+  v-dev-client-dist:
 
 networks:
-  apps-network:
+  net-dev:

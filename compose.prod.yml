@@ -1,62 +1,96 @@
-# Run:
-# sudo docker compose -f compose.prod.yml up
+# As we run apps independently in different containers "implicitDependencies"
+# and "dependsOn" are disabled in "project.json"
 
 services:
-  db:
+  prod-db:
     image: postgres:13
     environment:
-      PGPORT: ${POSTGRES_PORT}
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      POSTGRES_DB: ${POSTGRES_DB}
+      PGPORT: ${PROD_POSTGRES_PORT}
+      POSTGRES_USER: ${PROD_POSTGRES_USER}
+      POSTGRES_PASSWORD: ${PROD_POSTGRES_PASSWORD}
+      POSTGRES_DB: ${PROD_POSTGRES_DB}
     ports:
-      - '${POSTGRES_PORT}:${POSTGRES_PORT}'
+      - '${PROD_POSTGRES_PORT}:${PROD_POSTGRES_PORT}'
     volumes:
-      - postgres-data:/var/lib/postgresql/data
+      - v-prod-postgres:/var/lib/postgresql/data
     networks:
-      - apps-network
+      - net-prod
 
-  api:
+  prod-api:
     image: node:18-alpine
-    command: npx nx serve api --configuration=production
+    command: >
+      sh -c "
+        cp -r /app/.vscode/tmp_docker/node_modules/@nx /app/node_modules/ &&
+        npx nx serve api --configuration=production
+      "
     environment:
       - NODE_ENV=production
-      - HOST=0.0.0.0
-      - PORT=3000
-      - NX_DAEMON=false # Disable the Nx Daemon for production.
-    ports:
-      - '3000:3000'
-    working_dir: /app
-    volumes:
-      - .:/app
-      - node-modules:/app/node_modules
-    networks:
-      - apps-network
-    depends_on:
-      - db
-
-  client:
-    image: node:18-alpine
-    command: npx nx start client
-    environment:
-      - NODE_ENV=production
-      - HOST=0.0.0.0
-      - PORT=4000
+      # App
+      - HOST=${PROD_API_HOST}
+      - PORT=${PROD_API_PORT}
+      # DB
+      - DB_HOST=prod-db
+      - DB_PORT=${PROD_POSTGRES_PORT}
+      - DB_USER=${PROD_POSTGRES_USER}
+      - DB_PASSWORD=${PROD_POSTGRES_PASSWORD}
+      - DB_DB=${PROD_POSTGRES_DB}
       - NX_DAEMON=false
     ports:
-      - '4000:4000'
+      - '${PROD_API_PORT}:${PROD_API_PORT}'
     working_dir: /app
     volumes:
-      - .:/app
-      - node-modules:/app/node_modules
-    networks:
-      - apps-network
+      - ./:/app # Mirror the app code
+      - v-prod-api-nx:/app/.nx
+      - v-prod-api-tmp:/app/tmp
+      - v-prod-api-dist:/app/dist
+      # node_modules/@nx
+      - ./node_modules/@nx/:/app/.vscode/tmp_docker/node_modules/@nx/
+      - type: tmpfs
+        target: /app/node_modules/@nx
     depends_on:
-      - api
+      - prod-db
+    networks:
+      - net-prod
+
+  prod-client:
+    image: node:18-alpine
+    command: >
+      sh -c "
+        cp -r /app/.vscode/tmp_docker/node_modules/@nx /app/node_modules/ &&
+        npx nx start client
+      "
+    environment:
+      - NODE_ENV=production
+      # App
+      - HOST=${PROD_CLIENT_HOST}
+      - PORT=${PROD_CLIENT_PORT}
+      - NX_DAEMON=false
+    ports:
+      - '${PROD_CLIENT_PORT}:${PROD_CLIENT_PORT}'
+    working_dir: /app
+    volumes:
+      - ./:/app # Mirror the app code
+      - v-prod-client-nx:/app/.nx
+      - v-prod-client-tmp:/app/tmp
+      - v-prod-client-dist:/app/dist
+      # node_modules/@nx
+      - ./node_modules/@nx/:/app/.vscode/tmp_docker/node_modules/@nx/
+      - type: tmpfs
+        target: /app/node_modules/@nx
+    depends_on:
+      - prod-db
+      - prod-api
+    networks:
+      - net-prod
 
 volumes:
-  postgres-data:
-  node-modules:
+  v-prod-postgres:
+  v-prod-api-nx:
+  v-prod-api-tmp:
+  v-prod-api-dist:
+  v-prod-client-nx:
+  v-prod-client-tmp:
+  v-prod-client-dist:
 
 networks:
-  apps-network:
+  net-prod:
