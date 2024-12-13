@@ -3,6 +3,7 @@
 # compiled output
 dist
 tmp
+tmp_docker
 /out-tsc
 playwright-report
 
@@ -47,4 +48,4 @@ Thumbs.db
 out
 
 # Environment variable files
-.env.*
+.env

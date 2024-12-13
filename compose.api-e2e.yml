@@ -1,28 +1,95 @@
-# Run:
-# sudo docker compose -f compose.api-e2e.yml up
-
-# As we run "api" app independently "implicitDependencies" and "dependsOn"
-# are disabled in "api-e2e/project.json"
+# As we run apps independently in different containers "implicitDependencies"
+# and "dependsOn" are disabled in "project.json"
 
 services:
-  api-e2e:
-    image: node:18-alpine
-    working_dir: /app
-    command: npx nx e2e api-e2e --verbose --watchAll
-    volumes:
-      - .:/app
-      - node-modules:/app/node_modules
+  apie2e-db:
+    image: postgres:13
     environment:
-      - HOST=api # Service name "api" to reach the "api" container
-      - PORT=3000 # "api" app port
-      # NX DAEMON is disabled because it needs exclusive rights to the node_modules/@nx folder
-      # and it is not possible to share it between the api and client containers.
-      - NX_DAEMON=false # Enable the Nx Daemon for development.
+      PGPORT: ${APIE2E_POSTGRES_PORT}
+      POSTGRES_USER: ${APIE2E_POSTGRES_USER}
+      POSTGRES_PASSWORD: ${APIE2E_POSTGRES_PASSWORD}
+      POSTGRES_DB: ${APIE2E_POSTGRES_DB}
+    ports:
+      - '${APIE2E_POSTGRES_PORT}:${APIE2E_POSTGRES_PORT}'
+    volumes:
+      - v-apie2e-postgres:/var/lib/postgresql/data
     networks:
-      - apps-network
+      - net-apie2e
+
+  apie2e-api:
+    image: node:18-alpine
+    command: >
+      sh -c "
+        cp -r /app/.vscode/tmp_docker/node_modules/@nx /app/node_modules/ &&
+        npx nx serve api --configuration=development --verbose
+      "
+    environment:
+      - NODE_ENV=development
+      # App
+      - HOST=${APIE2E_API_HOST}
+      - PORT=${APIE2E_API_PORT}
+      # DB
+      - DB_HOST=apie2e-db
+      - DB_PORT=${APIE2E_POSTGRES_PORT}
+      - DB_USER=${APIE2E_POSTGRES_USER}
+      - DB_PASSWORD=${APIE2E_POSTGRES_PASSWORD}
+      - DB_DB=${APIE2E_POSTGRES_DB}
+      # Enable the Nx Daemon for development
+      - NX_DAEMON=false
+    ports:
+      - '${APIE2E_API_PORT}:${APIE2E_API_PORT}'
+    working_dir: /app
+    volumes:
+      - ./:/app # Mirror the app code
+      - v-apie2e-api-nx:/app/.nx
+      - v-apie2e-api-tmp:/app/tmp
+      - v-apie2e-api-dist:/app/dist
+      # node_modules/@nx
+      - ./node_modules/@nx/:/app/.vscode/tmp_docker/node_modules/@nx/
+      - type: tmpfs
+        target: /app/node_modules/@nx
+    depends_on:
+      - apie2e-db
+    networks:
+      - net-apie2e
+
+  apie2e-e2e:
+    image: node:18-alpine
+    command: >
+      sh -c "
+        sleep 5 &&
+        cp -r /app/.vscode/tmp_docker/node_modules/@nx /app/node_modules/ &&
+        npx nx e2e api-e2e --verbose --watchAll
+      "
+    environment:
+      - HOST=apie2e-api # Service name to reach the "api" container
+      - PORT=${APIE2E_API_PORT} # "api" app port
+      # Enable the Nx Daemon for development
+      - NX_DAEMON=false
+    working_dir: /app
+    volumes:
+      - ./:/app # Mirror the app code
+      - v-apie2e-e2e-nx:/app/.nx
+      - v-apie2e-e2e-tmp:/app/tmp
+      - v-apie2e-e2e-dist:/app/dist
+      # node_modules/@nx
+      - ./node_modules/@nx/:/app/.vscode/tmp_docker/node_modules/@nx/
+      - type: tmpfs
+        target: /app/node_modules/@nx
+    depends_on:
+      - apie2e-db
+      - apie2e-api
+    networks:
+      - net-apie2e
 
 volumes:
-  node-modules:
+  v-apie2e-postgres:
+  v-apie2e-api-nx:
+  v-apie2e-api-tmp:
+  v-apie2e-api-dist:
+  v-apie2e-e2e-nx:
+  v-apie2e-e2e-tmp:
+  v-apie2e-e2e-dist:
 
 networks:
-  apps-network:
+  net-apie2e:
