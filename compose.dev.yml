@@ -25,6 +25,8 @@ services:
       "
     environment:
       - NODE_ENV=development
+      # App mode
+      - APP_MODE=${DEV_MODE}
       # App
       - HOST=${DEV_API_HOST}
       - PORT=${DEV_API_PORT}
@@ -53,37 +55,37 @@ services:
     networks:
       - net-dev
 
-  dev-client:
-    image: node:18-alpine
-    command: >
-      sh -c "
-        cp -r /app/.vscode/tmp_docker/node_modules/@nx /app/node_modules/ &&
-        npx nx dev client
-      "
-    environment:
-      - NODE_ENV=development
-      # App
-      - HOST=${DEV_CLIENT_HOST}
-      - PORT=${DEV_CLIENT_PORT}
-      # Enable the Nx Daemon for development
-      - NX_DAEMON=true
-    ports:
-      - '${DEV_CLIENT_PORT}:${DEV_CLIENT_PORT}'
-    working_dir: /app
-    volumes:
-      - ./:/app # Mirror the app code
-      - v-dev-client-nx:/app/.nx
-      - v-dev-client-tmp:/app/tmp
-      - v-dev-client-dist:/app/dist
-      # node_modules/@nx
-      - ./node_modules/@nx/:/app/.vscode/tmp_docker/node_modules/@nx/
-      - type: tmpfs
-        target: /app/node_modules/@nx
-    depends_on:
-      - dev-db
-      - dev-api
-    networks:
-      - net-dev
+  # dev-client:
+  #   image: node:18-alpine
+  #   command: >
+  #     sh -c "
+  #       cp -r /app/.vscode/tmp_docker/node_modules/@nx /app/node_modules/ &&
+  #       npx nx dev client
+  #     "
+  #   environment:
+  #     - NODE_ENV=development
+  #     # App
+  #     - HOST=${DEV_CLIENT_HOST}
+  #     - PORT=${DEV_CLIENT_PORT}
+  #     # Enable the Nx Daemon for development
+  #     - NX_DAEMON=true
+  #   ports:
+  #     - '${DEV_CLIENT_PORT}:${DEV_CLIENT_PORT}'
+  #   working_dir: /app
+  #   volumes:
+  #     - ./:/app # Mirror the app code
+  #     - v-dev-client-nx:/app/.nx
+  #     - v-dev-client-tmp:/app/tmp
+  #     - v-dev-client-dist:/app/dist
+  #     # node_modules/@nx
+  #     - ./node_modules/@nx/:/app/.vscode/tmp_docker/node_modules/@nx/
+  #     - type: tmpfs
+  #       target: /app/node_modules/@nx
+  #   depends_on:
+  #     - dev-db
+  #     - dev-api
+  #   networks:
+  #     - net-dev
 
 volumes:
   v-dev-postgres:

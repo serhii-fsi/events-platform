@@ -2,7 +2,10 @@
   "name": "@events-platform/source",
   "version": "0.0.0",
   "license": "MIT",
-  "scripts": {},
+  "scripts": {
+    "db:generate": "drizzle-kit generate --schema ./apps/api/src/db/schema.ts --out=./apps/api/src/db/migrations --dialect postgresql",
+    "db:migrate": "npx ts-node ./apps/api/src/db/migrate.ts"
+  },
   "private": true,
   "dependencies": {
     "axios": "^1.6.0",

@@ -7,14 +7,14 @@ paths:
   /api/auth/status:
     get:
       summary: Get authentication status
-      parameters:
-        - in: header
-          name: Authorization
-          required: true
-          schema:
-            type: string
-            minLength: 10
-            maxLength: 100
+      # parameters:
+      #   - in: header
+      #     name: Authorization
+      #     required: true
+      #     schema:
+      #       type: string
+      #       minLength: 10
+      #       maxLength: 100
       responses:
         '200':
           description: Successful response
@@ -42,7 +42,7 @@ paths:
                           name:
                             type: string
                             minLength: 1
-                            maxLength: 100
+                            maxLength: 50
         '401':
           $ref: '#/components/responses/Unauthorized'
         '404':
@@ -527,12 +527,12 @@ paths:
                           name:
                             type: string
                             minLength: 1
-                            maxLength: 100
+                            maxLength: 50
                           email:
                             type: string
                             format: email
                             minLength: 5
-                            maxLength: 100
+                            maxLength: 50
         '400':
           $ref: '#/components/responses/BadRequest'
         '401':
@@ -561,7 +561,7 @@ paths:
                 name:
                   type: string
                   minLength: 1
-                  maxLength: 100
+                  maxLength: 50
       responses:
         '200':
           $ref: '#/components/responses/Success'
@@ -585,7 +585,7 @@ paths:
           schema:
             type: string
             minLength: 1
-            maxLength: 100
+            maxLength: 50
       responses:
         '200':
           description: Successful response
@@ -612,12 +612,12 @@ paths:
                             name:
                               type: string
                               minLength: 1
-                              maxLength: 100
+                              maxLength: 50
                             email:
                               type: string
                               format: email
                               minLength: 5
-                              maxLength: 100
+                              maxLength: 50
                             role:
                               type: string
                               enum: [user, editor, admin]
