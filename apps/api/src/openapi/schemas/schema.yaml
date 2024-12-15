@@ -3,6 +3,39 @@ info:
   title: API Documentation
   version: 1.0.0
 paths:
+  /api-docs:
+    get:
+      summary: Swagger UI and assets
+      description: Serves Swagger UI documentation and static files
+      responses:
+        '200':
+          description: Successful response
+          content:
+            '*/*':
+              schema:
+                type: string
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalError'
+  /api-docs/{filepath}:
+    get:
+      summary: API Documentation
+      description: Access API documentation and specifications
+      parameters:
+        - in: path
+          name: filepath
+          required: true
+          schema:
+            type: string
+          description: Documentation file path (URL-encoded if containing slashes)
+      responses:
+        '200':
+          description: Successful response
+          content:
+            '*/*':
+              schema:
+                type: string
   #================= /api/auth/status =================
   /api/auth/status:
     get:
