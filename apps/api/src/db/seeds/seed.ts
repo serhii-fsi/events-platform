@@ -1,40 +1,42 @@
 import { db } from '../connection';
 import { users, events, attendance, calendar } from '../schema';
-import { migrator } from '../migrate';
 
-import path from 'path';
-import fs from 'fs';
+import usersData from './data/dev/users';
+import eventsData from './data/dev/events';
+import relationsData from './data/dev/relations';
 
 export const seed = async () => {
-  const usersData = require(__dirname + '/db/seeds/data/dev/users.json');
-  // const eventsData = require('/app/apps/api/src/db/seeds/data/dev/events.json');
-  // const relationsData = require('/app/apps/api/src/db/seeds/data/dev/relations.json');
+  try {
+    // Insert users
+    await db.insert(users).values(usersData);
 
-  // await require('./db/seeds/seed').seed(
-  //   usersData,
-  //   eventsData,
-  //   relationsData
-  // );
+    // Insert events
+    const eventsDataParsed = eventsData.map((event) => ({
+      ...event,
+      startAt: new Date(event.startAt),
+      endAt: new Date(event.endAt),
+    }));
+    await db.insert(events).values(eventsDataParsed);
 
-  return 'Seeded';
+    // Insert attendance data
+    const attendanceData = relationsData.map((relation) => ({
+      userId: relation.userId,
+      eventId: relation.eventId,
+      status: relation.attendance,
+    }));
+    await db.insert(attendance).values(attendanceData);
 
-  // await migrator();
-  // // Insert users
-  // await db.insert(users).values(usersData);
-  // // Insert events
-  // await db.insert(events).values(eventsData);
-  // // Insert attendance and calendar relations
-  // const attendanceData = relationsData.map((relation) => ({
-  //   userId: relation.userId,
-  //   eventId: relation.eventId,
-  //   status: relation.attendance,
-  // }));
-  // //
-  // const calendarData = relationsData.map((relation) => ({
-  //   userId: relation.userId,
-  //   eventId: relation.eventId,
-  //   status: relation.calendar,
-  // }));
-  // await db.insert(attendance).values(attendanceData);
-  // await db.insert(calendar).values(calendarData);
+    // Insert calendar data
+    const calendarData = relationsData.map((relation) => ({
+      userId: relation.userId,
+      eventId: relation.eventId,
+      status: relation.calendar,
+    }));
+    await db.insert(calendar).values(calendarData);
+
+    return true;
+  } catch (err) {
+    console.error(err);
+    return false;
+  }
 };

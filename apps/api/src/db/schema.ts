@@ -34,7 +34,7 @@ export const users = pgTable('users', {
 export const events = pgTable('events', {
   id: serial('id').primaryKey(),
   title: varchar('title', { length: 100 }).notNull(),
-  description: varchar('description', { length: 100 }).notNull(),
+  description: varchar('description', { length: 1000 }).notNull(),
   startAt: timestamp('start_at').notNull(),
   endAt: timestamp('end_at').notNull(),
   location: varchar('location', { length: 100 }),
