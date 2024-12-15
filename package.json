@@ -11,7 +11,9 @@
     "next": "14.2.16",
     "pg": "^8.13.1",
     "react": "18.3.1",
-    "react-dom": "18.3.1"
+    "react-dom": "18.3.1",
+    "swagger-ui-express": "^5.0.1",
+    "yamljs": "^0.3.0"
   },
   "devDependencies": {
     "@eslint/compat": "^1.1.1",
@@ -37,6 +39,8 @@
     "@types/pg": "^8.11.10",
     "@types/react": "18.3.1",
     "@types/react-dom": "18.3.0",
+    "@types/swagger-ui-express": "^4.1.7",
+    "@types/yamljs": "^0.2.34",
     "babel-jest": "^29.7.0",
     "drizzle-kit": "^0.30.0",
     "esbuild": "^0.19.2",
