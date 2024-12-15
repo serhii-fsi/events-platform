@@ -73,6 +73,16 @@
           "drizzle-kit migrate --schema ./apps/api/src/db/schema.ts --out ./apps/api/src/db/migrations --dialect postgresql --url=postgresql://user:password@host:port/dbname"
         ]
       }
+    },
+
+    "openapi-ts:gen": {
+      "// To gen OpenAPI types": "npx nx openapi-ts:gen api",
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "npx openapi-typescript ./apps/api/src/openapi/schema.yaml -o ./apps/api/src/openapi/schema.d.ts"
+        ]
+      }
     }
   }
 }
