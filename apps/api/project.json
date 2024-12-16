@@ -76,11 +76,11 @@
     },
 
     "openapi-ts:gen": {
-      "// To gen OpenAPI types": "npx nx openapi-ts:gen api",
+      "// To gen TS types from OpenAPI": "npx nx openapi-ts:gen api",
       "executor": "nx:run-commands",
       "options": {
         "commands": [
-          "npx openapi-typescript ./apps/api/src/openapi/schemas/schema.yaml -o ./apps/api/src/openapi/schemas/schema.d.ts"
+          "npx openapi-typescript ./apps/api/src/openapi/schemas/schema.yaml -o ./apps/api/src/openapi/types/schema.d.ts"
         ]
       }
     }

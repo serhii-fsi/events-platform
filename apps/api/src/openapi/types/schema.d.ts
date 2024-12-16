@@ -15,7 +15,9 @@ export interface paths {
         get: {
             parameters: {
                 query?: never;
-                header?: never;
+                header: {
+                    Authorization: components["parameters"]["AuthorizationHeader"];
+                };
                 path?: never;
                 cookie?: never;
             };
@@ -27,16 +29,7 @@ export interface paths {
                         [name: string]: unknown;
                     };
                     content: {
-                        "application/json": {
-                            data: {
-                                user: {
-                                    id: number;
-                                    /** @enum {string} */
-                                    role: "user" | "editor" | "admin";
-                                    name: string;
-                                };
-                            };
-                        };
+                        "application/json": components["schemas"]["AuthStatusResponse"];
                     };
                 };
                 401: components["responses"]["Unauthorized"];
@@ -63,8 +56,8 @@ export interface paths {
         get: {
             parameters: {
                 query?: {
-                    page?: number;
-                    limit?: number;
+                    page?: components["parameters"]["PageQuery"];
+                    limit?: components["parameters"]["LimitQuery"];
                 };
                 header?: never;
                 path?: never;
@@ -78,25 +71,7 @@ export interface paths {
                         [name: string]: unknown;
                     };
                     content: {
-                        "application/json": {
-                            data: {
-                                events: {
-                                    id: number;
-                                    title: string;
-                                    /** Format: date-time */
-                                    startAt: string;
-                                    /** Format: date-time */
-                                    endAt: string;
-                                    location: string;
-                                }[];
-                            };
-                            meta: {
-                                pagination: {
-                                    totalPages: number;
-                                    currentPage: number;
-                                };
-                            };
-                        };
+                        "application/json": components["schemas"]["EventsListResponse"];
                     };
                 };
                 400: components["responses"]["BadRequest"];
@@ -114,15 +89,7 @@ export interface paths {
             };
             requestBody: {
                 content: {
-                    "application/json": {
-                        title: string;
-                        description: string;
-                        /** Format: date-time */
-                        startAt: string;
-                        /** Format: date-time */
-                        endAt: string;
-                        location: string;
-                    };
+                    "application/json": components["schemas"]["CreateEventRequest"];
                 };
             };
             responses: {
@@ -132,15 +99,7 @@ export interface paths {
                         [name: string]: unknown;
                     };
                     content: {
-                        "application/json": {
-                            /** @enum {boolean} */
-                            success: true;
-                            data: {
-                                event: {
-                                    id: number;
-                                };
-                            };
-                        };
+                        "application/json": components["schemas"]["CreateEventResponse"];
                     };
                 };
                 400: components["responses"]["BadRequest"];
@@ -167,7 +126,7 @@ export interface paths {
                 query?: never;
                 header?: never;
                 path: {
-                    eventId: number;
+                    eventId: components["parameters"]["EventIdPath"];
                 };
                 cookie?: never;
             };
@@ -179,19 +138,7 @@ export interface paths {
                         [name: string]: unknown;
                     };
                     content: {
-                        "application/json": {
-                            data: {
-                                event: {
-                                    title: string;
-                                    description: string;
-                                    /** Format: date-time */
-                                    startAt: string;
-                                    /** Format: date-time */
-                                    endAt: string;
-                                    location: string;
-                                };
-                            };
-                        };
+                        "application/json": components["schemas"]["EventDetailsResponse"];
                     };
                 };
                 400: components["responses"]["BadRequest"];
@@ -207,7 +154,7 @@ export interface paths {
                 query?: never;
                 header?: never;
                 path: {
-                    eventId: number;
+                    eventId: components["parameters"]["EventIdPath"];
                 };
                 cookie?: never;
             };
@@ -228,21 +175,13 @@ export interface paths {
                 query?: never;
                 header?: never;
                 path: {
-                    eventId: number;
+                    eventId: components["parameters"]["EventIdPath"];
                 };
                 cookie?: never;
             };
             requestBody: {
                 content: {
-                    "application/json": {
-                        title?: string;
-                        description?: string;
-                        /** Format: date-time */
-                        startAt?: string;
-                        /** Format: date-time */
-                        endAt?: string;
-                        location?: string;
-                    };
+                    "application/json": components["schemas"]["UpdateEventRequest"];
                 };
             };
             responses: {
@@ -268,8 +207,8 @@ export interface paths {
                 query?: never;
                 header?: never;
                 path: {
-                    userId: number;
-                    eventId: number;
+                    userId: components["parameters"]["UserIdPath"];
+                    eventId: components["parameters"]["EventIdPath"];
                 };
                 cookie?: never;
             };
@@ -281,14 +220,7 @@ export interface paths {
                         [name: string]: unknown;
                     };
                     content: {
-                        "application/json": {
-                            data: {
-                                attendance: {
-                                    /** @enum {string|null} */
-                                    status: "attending" | "declined" | null;
-                                };
-                            };
-                        };
+                        "application/json": components["schemas"]["AttendanceStatusResponse"];
                     };
                 };
                 400: components["responses"]["BadRequest"];
@@ -308,17 +240,14 @@ export interface paths {
                 query?: never;
                 header?: never;
                 path: {
-                    userId: number;
-                    eventId: number;
+                    userId: components["parameters"]["UserIdPath"];
+                    eventId: components["parameters"]["EventIdPath"];
                 };
                 cookie?: never;
             };
             requestBody: {
                 content: {
-                    "application/json": {
-                        /** @enum {string|null} */
-                        status: "attending" | "declined" | null;
-                    };
+                    "application/json": components["schemas"]["UpdateAttendanceStatusRequest"];
                 };
             };
             responses: {
@@ -344,8 +273,8 @@ export interface paths {
                 query?: never;
                 header?: never;
                 path: {
-                    userId: number;
-                    eventId: number;
+                    userId: components["parameters"]["UserIdPath"];
+                    eventId: components["parameters"]["EventIdPath"];
                 };
                 cookie?: never;
             };
@@ -357,14 +286,7 @@ export interface paths {
                         [name: string]: unknown;
                     };
                     content: {
-                        "application/json": {
-                            data: {
-                                calendar: {
-                                    /** @enum {string|null} */
-                                    status: "added" | "removed" | null;
-                                };
-                            };
-                        };
+                        "application/json": components["schemas"]["CalendarStatusResponse"];
                     };
                 };
                 400: components["responses"]["BadRequest"];
@@ -384,17 +306,14 @@ export interface paths {
                 query?: never;
                 header?: never;
                 path: {
-                    userId: number;
-                    eventId: number;
+                    userId: components["parameters"]["UserIdPath"];
+                    eventId: components["parameters"]["EventIdPath"];
                 };
                 cookie?: never;
             };
             requestBody: {
                 content: {
-                    "application/json": {
-                        /** @enum {string|null} */
-                        status: "added" | "removed" | null;
-                    };
+                    "application/json": components["schemas"]["UpdateCalendarStatusRequest"];
                 };
             };
             responses: {
@@ -420,7 +339,7 @@ export interface paths {
                 query?: never;
                 header?: never;
                 path: {
-                    userId: number;
+                    userId: components["parameters"]["UserIdPath"];
                 };
                 cookie?: never;
             };
@@ -432,15 +351,7 @@ export interface paths {
                         [name: string]: unknown;
                     };
                     content: {
-                        "application/json": {
-                            data: {
-                                profile: {
-                                    name: string;
-                                    /** Format: email */
-                                    email: string;
-                                };
-                            };
-                        };
+                        "application/json": components["schemas"]["UserProfileResponse"];
                     };
                 };
                 400: components["responses"]["BadRequest"];
@@ -460,15 +371,13 @@ export interface paths {
                 query?: never;
                 header?: never;
                 path: {
-                    userId: number;
+                    userId: components["parameters"]["UserIdPath"];
                 };
                 cookie?: never;
             };
             requestBody: {
                 content: {
-                    "application/json": {
-                        name?: string;
-                    };
+                    "application/json": components["schemas"]["UpdateUserProfileRequest"];
                 };
             };
             responses: {
@@ -492,7 +401,7 @@ export interface paths {
         get: {
             parameters: {
                 query?: {
-                    search?: string;
+                    search?: components["parameters"]["SearchQuery"];
                 };
                 header?: never;
                 path?: never;
@@ -506,18 +415,7 @@ export interface paths {
                         [name: string]: unknown;
                     };
                     content: {
-                        "application/json": {
-                            data: {
-                                users: {
-                                    id: number;
-                                    name: string;
-                                    /** Format: email */
-                                    email: string;
-                                    /** @enum {string} */
-                                    role: "user" | "editor" | "admin";
-                                }[];
-                            };
-                        };
+                        "application/json": components["schemas"]["SearchUsersResponse"];
                     };
                 };
                 400: components["responses"]["BadRequest"];
@@ -552,16 +450,13 @@ export interface paths {
                 query?: never;
                 header?: never;
                 path: {
-                    userId: number;
+                    userId: components["parameters"]["UserIdPath"];
                 };
                 cookie?: never;
             };
             requestBody: {
                 content: {
-                    "application/json": {
-                        /** @enum {string} */
-                        role: "user" | "editor" | "admin";
-                    };
+                    "application/json": components["schemas"]["UpdateUserRoleRequest"];
                 };
             };
             responses: {
@@ -577,7 +472,129 @@ export interface paths {
 }
 export type webhooks = Record<string, never>;
 export interface components {
-    schemas: never;
+    schemas: {
+        AuthStatusResponse: {
+            data: {
+                user: {
+                    id: number;
+                    /** @enum {string} */
+                    role: "user" | "editor" | "admin";
+                    name: string;
+                };
+            };
+        };
+        EventsListResponse: {
+            data: {
+                events: {
+                    id: number;
+                    title: string;
+                    /** Format: date-time */
+                    startAt: string;
+                    /** Format: date-time */
+                    endAt: string;
+                    location: string;
+                }[];
+            };
+            meta: {
+                pagination: {
+                    totalPages: number;
+                    currentPage: number;
+                };
+            };
+        };
+        CreateEventRequest: {
+            title: string;
+            description: string;
+            /** Format: date-time */
+            startAt: string;
+            /** Format: date-time */
+            endAt: string;
+            location: string;
+        };
+        CreateEventResponse: {
+            /** @enum {boolean} */
+            success: true;
+            data: {
+                event: {
+                    id: number;
+                };
+            };
+        };
+        EventDetailsResponse: {
+            data: {
+                event: {
+                    title: string;
+                    description: string;
+                    /** Format: date-time */
+                    startAt: string;
+                    /** Format: date-time */
+                    endAt: string;
+                    location: string;
+                };
+            };
+        };
+        UpdateEventRequest: {
+            title?: string;
+            description?: string;
+            /** Format: date-time */
+            startAt?: string;
+            /** Format: date-time */
+            endAt?: string;
+            location?: string;
+        };
+        AttendanceStatusResponse: {
+            data: {
+                attendance: {
+                    /** @enum {string|null} */
+                    status: "attending" | "declined" | null;
+                };
+            };
+        };
+        UpdateAttendanceStatusRequest: {
+            /** @enum {string|null} */
+            status: "attending" | "declined" | null;
+        };
+        CalendarStatusResponse: {
+            data: {
+                calendar: {
+                    /** @enum {string|null} */
+                    status: "added" | "removed" | null;
+                };
+            };
+        };
+        UpdateCalendarStatusRequest: {
+            /** @enum {string|null} */
+            status: "added" | "removed" | null;
+        };
+        UserProfileResponse: {
+            data: {
+                profile: {
+                    name: string;
+                    /** Format: email */
+                    email: string;
+                };
+            };
+        };
+        UpdateUserProfileRequest: {
+            name?: string;
+        };
+        SearchUsersResponse: {
+            data: {
+                users: {
+                    id: number;
+                    name: string;
+                    /** Format: email */
+                    email: string;
+                    /** @enum {string} */
+                    role: "user" | "editor" | "admin";
+                }[];
+            };
+        };
+        UpdateUserRoleRequest: {
+            /** @enum {string} */
+            role: "user" | "editor" | "admin";
+        };
+    };
     responses: {
         /** @description Operation successful */
         Success: {
@@ -640,7 +657,14 @@ export interface components {
             };
         };
     };
-    parameters: never;
+    parameters: {
+        AuthorizationHeader: string;
+        PageQuery: number;
+        LimitQuery: number;
+        EventIdPath: number;
+        UserIdPath: number;
+        SearchQuery: string;
+    };
     requestBodies: never;
     headers: never;
     pathItems: never;
