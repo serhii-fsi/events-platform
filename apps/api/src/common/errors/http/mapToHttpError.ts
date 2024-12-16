@@ -1,6 +1,7 @@
 import {
   AppError,
   BadRequestError,
+  ForbiddenError,
   InternalServerError,
   NotAcceptableError,
   NotFoundError,
@@ -11,6 +12,10 @@ import { HttpError } from '.';
 export const mapToHttpError = (error: AppError): HttpError | null => {
   if (error instanceof BadRequestError) {
     return new HttpError(400, error.message, error.getCause());
+  }
+
+  if (error instanceof ForbiddenError) {
+    return new HttpError(403, error.message, error.getCause());
   }
 
   if (error instanceof InternalServerError) {
