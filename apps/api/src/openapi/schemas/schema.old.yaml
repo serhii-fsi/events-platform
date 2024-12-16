@@ -1,0 +1,729 @@
+openapi: 3.0.0
+info:
+  title: API Documentation
+  version: 1.0.0
+paths:
+  #================= /api/auth/status =================
+  /api/auth/status:
+    get:
+      summary: Get authentication status
+      # parameters:
+      #   - in: header
+      #     name: Authorization
+      #     required: true
+      #     schema:
+      #       type: string
+      #       minLength: 10
+      #       maxLength: 100
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [data]
+                properties:
+                  data:
+                    type: object
+                    required: [user]
+                    properties:
+                      user:
+                        type: object
+                        required: [id, role, name]
+                        properties:
+                          id:
+                            type: integer
+                            minimum: 1
+                            maximum: 2147483647
+                          role:
+                            type: string
+                            enum: [user, editor, admin]
+                          name:
+                            type: string
+                            minLength: 1
+                            maxLength: 50
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+  #================= /api/events =================
+  # Endpoints: E2, E4
+  /api/events:
+    get:
+      summary: Get list of events
+      parameters:
+        - in: query
+          name: page
+          schema:
+            type: integer
+            minimum: 1
+            default: 1
+        - in: query
+          name: limit
+          schema:
+            type: integer
+            minimum: 1
+            default: 10
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [data, meta]
+                properties:
+                  data:
+                    type: object
+                    required: [events]
+                    properties:
+                      events:
+                        type: array
+                        items:
+                          type: object
+                          required: [id, title, startAt, endAt, location]
+                          properties:
+                            id:
+                              type: integer
+                              minimum: 1
+                              maximum: 2147483647
+                            title:
+                              type: string
+                              minLength: 1
+                              maxLength: 100
+                            startAt:
+                              type: string
+                              format: date-time
+                            endAt:
+                              type: string
+                              format: date-time
+                            location:
+                              type: string
+                              minLength: 0
+                              maxLength: 100
+                  meta:
+                    type: object
+                    required: [pagination]
+                    properties:
+                      pagination:
+                        type: object
+                        required: [totalPages, currentPage]
+                        properties:
+                          totalPages:
+                            type: integer
+                            minimum: 1
+                            maximum: 2147483647
+                          currentPage:
+                            type: integer
+                            minimum: 1
+                            maximum: 2147483647
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '500':
+          $ref: '#/components/responses/InternalError'
+    post:
+      summary: Create a new event
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [title, description, startAt, endAt, location]
+              properties:
+                title:
+                  type: string
+                  minLength: 1
+                  maxLength: 100
+                description:
+                  type: string
+                  minLength: 1
+                  maxLength: 1000
+                startAt:
+                  type: string
+                  format: date-time
+                endAt:
+                  type: string
+                  format: date-time
+                location:
+                  type: string
+                  minLength: 0
+                  maxLength: 100
+      responses:
+        '201':
+          description: Event created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [success, data]
+                properties:
+                  success:
+                    type: boolean
+                    enum: [true]
+                  data:
+                    type: object
+                    required: [event]
+                    properties:
+                      event:
+                        type: object
+                        required: [id]
+                        properties:
+                          id:
+                            type: integer
+                            minimum: 1
+                            maximum: 2147483647
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+  #================= /api/events/:eventId =================
+  # Endpoints: E3, E5, E15
+  /api/events/{eventId}:
+    get:
+      summary: Get event details
+      parameters:
+        - in: path
+          name: eventId
+          required: true
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 2147483647
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [data]
+                properties:
+                  data:
+                    type: object
+                    required: [event]
+                    properties:
+                      event:
+                        type: object
+                        required: [title, description, startAt, endAt, location]
+                        properties:
+                          title:
+                            type: string
+                            minLength: 1
+                            maxLength: 100
+                          description:
+                            type: string
+                            minLength: 1
+                            maxLength: 1000
+                          startAt:
+                            type: string
+                            format: date-time
+                          endAt:
+                            type: string
+                            format: date-time
+                          location:
+                            type: string
+                            minLength: 0
+                            maxLength: 100
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalError'
+    patch:
+      summary: Update event details
+      parameters:
+        - in: path
+          name: eventId
+          required: true
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 2147483647
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                  minLength: 1
+                  maxLength: 100
+                description:
+                  type: string
+                  minLength: 1
+                  maxLength: 1000
+                startAt:
+                  type: string
+                  format: date-time
+                endAt:
+                  type: string
+                  format: date-time
+                location:
+                  type: string
+                  minLength: 0
+                  maxLength: 100
+      responses:
+        '200':
+          $ref: '#/components/responses/Success'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalError'
+    delete:
+      summary: Delete an event
+      parameters:
+        - in: path
+          name: eventId
+          required: true
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 2147483647
+      responses:
+        '200':
+          $ref: '#/components/responses/Success'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+  #================= /api/users/:userId/events/:eventId/attendance-status =================
+  # Endpoints: E6, E7
+  /api/users/{userId}/events/{eventId}/attendance-status:
+    get:
+      summary: Get user's attendance status for an event
+      parameters:
+        - in: path
+          name: userId
+          required: true
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 2147483647
+        - in: path
+          name: eventId
+          required: true
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 2147483647
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - data
+                properties:
+                  data:
+                    type: object
+                    required:
+                      - attendance
+                    properties:
+                      attendance:
+                        type: object
+                        required:
+                          - status
+                        properties:
+                          status:
+                            type: string
+                            nullable: true
+                            enum: [attending, declined]
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalError'
+    patch:
+      summary: Update user's attendance status for an event
+      parameters:
+        - in: path
+          name: userId
+          required: true
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 2147483647
+        - in: path
+          name: eventId
+          required: true
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 2147483647
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - status
+              properties:
+                status:
+                  type: string
+                  nullable: true
+                  enum: [attending, declined]
+      responses:
+        '200':
+          $ref: '#/components/responses/Success'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+  #================= /api/users/:userId/events/:eventId/calendar-status =================
+  # Endpoints: E11, E12
+  /api/users/{userId}/events/{eventId}/calendar-status:
+    get:
+      summary: Get user's calendar status for an event
+      parameters:
+        - in: path
+          name: userId
+          required: true
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 2147483647
+        - in: path
+          name: eventId
+          required: true
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 2147483647
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - data
+                properties:
+                  data:
+                    type: object
+                    required:
+                      - calendar
+                    properties:
+                      calendar:
+                        type: object
+                        required:
+                          - status
+                        properties:
+                          status:
+                            type: string
+                            nullable: true
+                            enum: [added, removed]
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalError'
+    patch:
+      summary: Update user's calendar status for an event
+      parameters:
+        - in: path
+          name: userId
+          required: true
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 2147483647
+        - in: path
+          name: eventId
+          required: true
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 2147483647
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - status
+              properties:
+                status:
+                  type: string
+                  nullable: true
+                  enum: [added, removed]
+      responses:
+        '200':
+          $ref: '#/components/responses/Success'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+  #================= /api/users/:userId/profile =================
+  # Endpoints: E8, E9
+  /api/users/{userId}/profile:
+    get:
+      summary: Get user's profile
+      parameters:
+        - in: path
+          name: userId
+          required: true
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 2147483647
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [data]
+                properties:
+                  data:
+                    type: object
+                    required: [profile]
+                    properties:
+                      profile:
+                        type: object
+                        required: [name, email]
+                        properties:
+                          name:
+                            type: string
+                            minLength: 1
+                            maxLength: 50
+                          email:
+                            type: string
+                            format: email
+                            minLength: 5
+                            maxLength: 50
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalError'
+    patch:
+      summary: Update user's profile
+      parameters:
+        - in: path
+          name: userId
+          required: true
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 2147483647
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  minLength: 1
+                  maxLength: 50
+      responses:
+        '200':
+          $ref: '#/components/responses/Success'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+  #================= /api/users =================
+  # Endpoints: E10
+  /api/users:
+    get:
+      summary: Search users
+      parameters:
+        - in: query
+          name: search
+          schema:
+            type: string
+            minLength: 1
+            maxLength: 50
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [data]
+                properties:
+                  data:
+                    type: object
+                    required: [users]
+                    properties:
+                      users:
+                        type: array
+                        items:
+                          type: object
+                          required: [id, name, email, role]
+                          properties:
+                            id:
+                              type: integer
+                              minimum: 1
+                              maximum: 2147483647
+                            name:
+                              type: string
+                              minLength: 1
+                              maxLength: 50
+                            email:
+                              type: string
+                              format: email
+                              minLength: 5
+                              maxLength: 50
+                            role:
+                              type: string
+                              enum: [user, editor, admin]
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+  #================= /api/users/:userId/role =================
+  # Endpoints: E14
+  /api/users/{userId}/role:
+    patch:
+      summary: Update user's role
+      parameters:
+        - in: path
+          name: userId
+          required: true
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 2147483647
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [role]
+              properties:
+                role:
+                  type: string
+                  enum: [user, editor, admin]
+      responses:
+        '200':
+          $ref: '#/components/responses/Success'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+#================= components =================
+components:
+  responses:
+    Success:
+      description: Operation successful
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - success
+            properties:
+              success:
+                type: boolean
+                enum: [true]
+    Unauthorized:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - error
+            properties:
+              error:
+                type: string
+                example: Unauthorized
+    BadRequest:
+      description: Bad Request
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - error
+            properties:
+              error:
+                type: string
+                example: Bad Request
+    NotFound:
+      description: Not Found
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - error
+            properties:
+              error:
+                type: string
+                example: Not Found
+    InternalError:
+      description: Internal Server Error
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - error
+            properties:
+              error:
+                type: string
+                example: Internal Server Error
