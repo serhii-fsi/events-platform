@@ -9,5 +9,6 @@ export function setupSwagger(app: Express) {
     // from the dist folder and typscript compiles the code to the dist folder except yaml file
     getRootPath() + 'apps/api/src/openapi/schemas/schema.yaml'
   );
+
   app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 }
