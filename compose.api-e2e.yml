@@ -25,6 +25,8 @@ services:
       "
     environment:
       - NODE_ENV=development
+      # App mode
+      - APP_MODE=${TEST_MODE}
       # App
       - HOST=${APIE2E_API_HOST}
       - PORT=${APIE2E_API_PORT}

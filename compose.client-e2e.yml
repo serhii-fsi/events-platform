@@ -24,7 +24,9 @@ services:
         npx nx serve api --configuration=production
       "
     environment:
-      - NODE_ENV=production
+      - NODE_ENV=development
+      # App mode
+      - APP_MODE=${TEST_MODE}
       # App
       - HOST=${CLIENTE2E_API_HOST}
       - PORT=${CLIENTE2E_API_PORT}
