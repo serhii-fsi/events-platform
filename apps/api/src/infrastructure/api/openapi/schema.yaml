@@ -309,6 +309,34 @@ paths:
 #================= components =================
 components:
   schemas:
+    BaseEvent:
+      type: object
+      required: [id, title, startAt, endAt, location, createdAt, updatedAt]
+      properties:
+        id:
+          type: integer
+          minimum: 1
+          maximum: 2147483647
+        title:
+          type: string
+          minLength: 1
+          maxLength: 100
+        startAt:
+          type: string
+          format: date-time
+        endAt:
+          type: string
+          format: date-time
+        location:
+          type: string
+          minLength: 0
+          maxLength: 100
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
     AuthStatusResponse:
       type: object
       required: [data]
@@ -343,27 +371,7 @@ components:
             events:
               type: array
               items:
-                type: object
-                required: [id, title, startAt, endAt, location]
-                properties:
-                  id:
-                    type: integer
-                    minimum: 1
-                    maximum: 2147483647
-                  title:
-                    type: string
-                    minLength: 1
-                    maxLength: 100
-                  startAt:
-                    type: string
-                    format: date-time
-                  endAt:
-                    type: string
-                    format: date-time
-                  location:
-                    type: string
-                    minLength: 0
-                    maxLength: 100
+                $ref: '#/components/schemas/BaseEvent'
         meta:
           type: object
           required: [pagination]
@@ -431,7 +439,16 @@ components:
           properties:
             event:
               type: object
-              required: [title, description, startAt, endAt, location]
+              required:
+                [
+                  title,
+                  description,
+                  startAt,
+                  endAt,
+                  location,
+                  createdAt,
+                  updatedAt,
+                ]
               properties:
                 title:
                   type: string
@@ -451,6 +468,12 @@ components:
                   type: string
                   minLength: 0
                   maxLength: 100
+                createdAt:
+                  type: string
+                  format: date-time
+                updatedAt:
+                  type: string
+                  format: date-time
     UpdateEventRequest:
       type: object
       properties:
@@ -482,12 +505,18 @@ components:
           properties:
             attendance:
               type: object
-              required: [status]
+              required: [status, createdAt, updatedAt]
               properties:
                 status:
                   type: string
                   nullable: true
                   enum: [attending, declined]
+                createdAt:
+                  type: string
+                  format: date-time
+                updatedAt:
+                  type: string
+                  format: date-time
     UpdateAttendanceStatusRequest:
       type: object
       required: [status]
@@ -506,12 +535,18 @@ components:
           properties:
             calendar:
               type: object
-              required: [status]
+              required: [status, createdAt, updatedAt]
               properties:
                 status:
                   type: string
                   nullable: true
                   enum: [added, removed]
+                createdAt:
+                  type: string
+                  format: date-time
+                updatedAt:
+                  type: string
+                  format: date-time
     UpdateCalendarStatusRequest:
       type: object
       required: [status]
@@ -530,7 +565,7 @@ components:
           properties:
             profile:
               type: object
-              required: [name, email]
+              required: [name, email, createdAt, updatedAt]
               properties:
                 name:
                   type: string
@@ -541,6 +576,12 @@ components:
                   format: email
                   minLength: 5
                   maxLength: 50
+                createdAt:
+                  type: string
+                  format: date-time
+                updatedAt:
+                  type: string
+                  format: date-time
     UpdateUserProfileRequest:
       type: object
       properties:
@@ -560,7 +601,7 @@ components:
               type: array
               items:
                 type: object
-                required: [id, name, email, role]
+                required: [id, name, email, role, createdAt, updatedAt]
                 properties:
                   id:
                     type: integer
@@ -578,6 +619,12 @@ components:
                   role:
                     type: string
                     enum: [user, editor, admin]
+                  createdAt:
+                    type: string
+                    format: date-time
+                  updatedAt:
+                    type: string
+                    format: date-time
     UpdateUserRoleRequest:
       type: object
       required: [role]

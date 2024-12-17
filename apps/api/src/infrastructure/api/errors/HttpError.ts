@@ -1,5 +1,5 @@
-import { AppError } from '../app/';
-import { ErrorResponseDto } from '../../types/dto';
+import { AppError } from '../../../domain/errors';
+import { ErrorResponseDto } from '../types/dto';
 
 export class HttpError extends AppError {
   readonly statusCode: number;

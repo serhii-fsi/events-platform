@@ -33,7 +33,7 @@ export default [
       'Annual conference for React developers. Topics include React 19, performance optimization, and state management. Including workshops and networking sessions.',
     location: 'Business Design Centre, 52 Upper Street, N1 0QH',
     startAt: '2025-02-01T09:00:00',
-    endAt: '2025-02-01T12:00:00.000Z',
+    endAt: '2025-02-01T12:00:00',
   },
   {
     id: 5,
@@ -141,7 +141,7 @@ export default [
       "Sample diverse cuisines from London's top restaurants and street food vendors. Live cooking demonstrations included.",
     location: 'Tobacco Dock, Tobacco Quay, Wapping Lane, E1W 2SF',
     startAt: '2025-08-01T12:00:00',
-    endAt: '2025-08-01T12:00:00.000Z',
+    endAt: '2025-08-01T15:00:00',
   },
   {
     id: 17,
@@ -186,7 +186,7 @@ export default [
       'Leading experts share insights on latest cybersecurity threats and defense strategies. Includes hands-on workshops on penetration testing and security best practices.',
     location: 'ExCeL London, Royal Victoria Dock, E16 1XL',
     startAt: '2025-10-15T09:00:00',
-    endAt: '2025-10-15T10:00:00.000Z',
+    endAt: '2025-10-15T12:00:00',
   },
   {
     id: 22,
@@ -249,7 +249,7 @@ export default [
       'Hands-on workshop covering React Native and Flutter development. Build your first mobile app in one day.',
     location: 'Skills Matter, 10 South Place, EC2M 7EB',
     startAt: '2026-01-15T09:30:00',
-    endAt: '2026-01-15T11:30:00.000Z',
+    endAt: '2026-01-15T16:30:00',
   },
   {
     id: 29,
@@ -303,7 +303,7 @@ export default [
       'Annual gathering of publishers, authors, and literary agents. Book signings, panel discussions, and author talks.',
     location: 'Olympia London, Hammersmith Road, W14 8UX',
     startAt: '2026-04-15T10:00:00',
-    endAt: '2026-04-15T12:00:00.000Z',
+    endAt: '2026-04-15T12:00:00',
   },
   {
     id: 35,
@@ -312,7 +312,7 @@ export default [
       'Leading fintech experts discuss future of digital banking and cryptocurrency',
     location: 'Level39, One Canada Square, Canary Wharf, E14 5AB',
     startAt: '2026-04-20T09:00:00',
-    endAt: '2026-04-20T10:00:00.000Z',
+    endAt: '2026-04-20T12:00:00',
   },
   {
     id: 36,
@@ -329,7 +329,7 @@ export default [
       'Celebration of coffee culture with tastings, workshops and barista competitions',
     location: 'The Old Truman Brewery, 91 Brick Lane, E1 6QR',
     startAt: '2026-05-01T10:00:00',
-    endAt: '2026-05-01T10:00:00.000Z',
+    endAt: '2026-05-01T17:00:00',
   },
   {
     id: 38,
@@ -356,7 +356,7 @@ export default [
       "World's most prestigious flower show featuring innovative garden designs",
     location: 'Royal Hospital Chelsea, Royal Hospital Road, SW3 4SR',
     startAt: '2026-05-20T09:00:00',
-    endAt: '2026-05-20T11:00:00.000Z',
+    endAt: '2026-05-20T11:00:00',
   },
   {
     id: 41,
@@ -373,7 +373,7 @@ export default [
       'Latest developments in AI applications for medical diagnosis and treatment',
     location: 'Royal College of Physicians, 11 St Andrews Place, NW1 4LE',
     startAt: '2026-06-01T09:00:00',
-    endAt: '2026-06-01T11:00:00.000Z',
+    endAt: '2026-06-01T12:00:00',
   },
   {
     id: 43,
@@ -382,7 +382,7 @@ export default [
       'Annual celebration of LGBTQ+ community with parade and performances',
     location: 'Trafalgar Square, WC2N 5DN',
     startAt: '2026-06-15T12:00:00',
-    endAt: '2026-06-15T14:00:00.000Z',
+    endAt: '2026-06-15T14:00:00',
   },
   {
     id: 44,
@@ -415,7 +415,7 @@ export default [
     description: "International cuisine from London's best street food vendors",
     location: 'Spitalfields Market, 56 Brushfield St, E1 6AA',
     startAt: '2026-07-15T11:00:00',
-    endAt: '2026-07-15T11:00:00.000Z',
+    endAt: '2026-07-15T15:00:00',
   },
   {
     id: 48,
@@ -456,8 +456,8 @@ export default [
     description:
       'Spectacular evening featuring songs from Les Misérables, Phantom of the Opera, and other beloved musicals. Special guest performances from current West End stars.',
     location: 'Prince Edward Theatre, Old Compton St, W1D 4HS',
-    startAt: '2025-08-28T18:30:00.000Z',
-    endAt: '2025-08-28T21:30:00.000Z',
+    startAt: '2025-08-28T18:30:00',
+    endAt: '2025-08-28T21:30:00',
   },
   {
     id: 53,
@@ -484,7 +484,7 @@ export default [
       'Hands-on workshop covering latest developments in AI. Practice with real-world datasets and learn from industry experts.',
     location: 'Imperial College London, Exhibition Rd, SW7 2AZ',
     startAt: '2025-01-03T09:00:00',
-    endAt: '2025-01-03T12:00:00.000Z',
+    endAt: '2025-01-03T12:00:00',
   },
   {
     id: 56,
@@ -502,7 +502,7 @@ export default [
       'Latest trends in SEO, social media, and content marketing. Keynotes from Google, Meta, and leading digital agencies. Interactive workshops included.',
     location: 'QEII Centre, Broad Sanctuary, SW1P 3EE',
     startAt: '2025-01-08T08:30:00',
-    endAt: '2025-01-08T09:30:00.000Z',
+    endAt: '2025-01-08T12:30:00',
   },
   {
     id: 58,
@@ -538,7 +538,7 @@ export default [
       'Explore the future of decentralized applications. Technical workshops, case studies, and networking with blockchain pioneers.',
     location: "etc.venues St Paul's, 200 Aldersgate St, EC1A 4HD",
     startAt: '2025-01-18T09:00:00',
-    endAt: '2025-01-18T12:00:00.000Z',
+    endAt: '2025-01-18T12:00:00',
   },
   {
     id: 62,
@@ -574,7 +574,7 @@ export default [
       'Leading HR professionals discuss remote work, company culture, and workplace innovation. Interactive panels and networking sessions.',
     location: 'The Brewery, 52 Chiswell St, EC1Y 4SD',
     startAt: '2025-01-28T09:00:00',
-    endAt: '2025-01-28T11:00:00.000Z',
+    endAt: '2025-01-28T12:00:00',
   },
   {
     id: 66,
@@ -601,7 +601,7 @@ export default [
       "Celebrate London's diverse culinary scene. 30+ food stalls, live music, and cooking demonstrations.",
     location: 'Spitalfields Market, 56 Brushfield St, E1 6AA',
     startAt: '2025-02-05T11:00:00',
-    endAt: '2025-02-05T12:00:00.000Z',
+    endAt: '2025-02-05T12:00:00',
   },
   {
     id: 69,
@@ -610,7 +610,7 @@ export default [
       'Latest in cyber threats and defense strategies. Hands-on security workshops and expert presentations.',
     location: 'RSA House, 8 John Adam St, WC2N 6EZ',
     startAt: '2025-02-08T09:00:00',
-    endAt: '2025-02-08T11:00:00.000Z',
+    endAt: '2025-02-08T11:00:00',
   },
   {
     id: 70,
@@ -627,8 +627,8 @@ export default [
     description:
       'Deep dive into React 19 features and Next.js App Router best practices. Live coding sessions, networking, and pizza! Perfect for both beginners and experienced developers.',
     location: 'Skills Matter, 10 South Place, EC2M 7EB',
-    startAt: '2025-09-27T17:30:00.000Z',
-    endAt: '2025-09-27T20:00:00.000Z',
+    startAt: '2025-09-27T17:30:00',
+    endAt: '2025-09-27T20:00:00',
   },
   {
     id: 72,
@@ -636,8 +636,8 @@ export default [
     description:
       'Spectacular evening featuring songs from Les Misérables, Phantom of the Opera, and other beloved musicals. Special guest performances from current West End stars.',
     location: 'Prince Edward Theatre, Old Compton St, W1D 4HS',
-    startAt: '2025-10-28T19:30:00.000Z',
-    endAt: '2025-10-28T22:30:00.000Z',
+    startAt: '2025-10-28T19:30:00',
+    endAt: '2025-10-28T22:30:00',
   },
   {
     id: 73,
@@ -645,8 +645,8 @@ export default [
     description:
       "10 promising startups pitch to top VCs and angel investors. Networking opportunity with London's tech ecosystem leaders.",
     location: 'TechHub London, 20 Ropemaker St, EC2Y 9AR',
-    startAt: '2025-05-30T16:00:00.000Z',
-    endAt: '2025-05-30T19:00:00.000Z',
+    startAt: '2025-05-30T16:00:00',
+    endAt: '2025-05-30T19:00:00',
   },
   {
     id: 74,
@@ -654,8 +654,8 @@ export default [
     description:
       "Ring in 2025 with London's finest jazz ensemble. Champagne reception, live performances, and dancing until dawn. Black tie event.",
     location: "Ronnie Scott's Jazz Club, 47 Frith St, W1D 4HT",
-    startAt: '2025-07-01T19:00:00.000Z',
-    endAt: '2025-07-01T01:00:00.000Z',
+    startAt: '2025-12-31T21:00:00',
+    endAt: '2025-12-31T23:00:00',
   },
   {
     id: 75,
@@ -663,8 +663,8 @@ export default [
     description:
       'Hands-on workshop covering latest developments in AI. Practice with real-world datasets and learn from industry experts.',
     location: 'Imperial College London, Exhibition Rd, SW7 2AZ',
-    startAt: '2025-03-03T09:00:00.000Z',
-    endAt: '2025-03-03T11:00:00.000Z',
+    startAt: '2025-03-03T09:00:00',
+    endAt: '2025-03-03T11:00:00',
   },
   {
     id: 76,
@@ -672,8 +672,8 @@ export default [
     description:
       "An evening of Tchaikovsky, featuring The Nutcracker Suite and Symphony No. 1 'Winter Dreams'. Guest conductor Michael Thompson.",
     location: 'Barbican Centre, Silk St, EC2Y 8DS',
-    startAt: '2025-07-05T18:00:00.000Z',
-    endAt: '2025-07-05T20:30:00.000Z',
+    startAt: '2025-07-05T18:00:00',
+    endAt: '2025-07-05T20:30:00',
   },
   {
     id: 77,
@@ -681,8 +681,8 @@ export default [
     description:
       'Latest trends in SEO, social media, and content marketing. Keynotes from Google, Meta, and leading digital agencies. Interactive workshops included.',
     location: 'QEII Centre, Broad Sanctuary, SW1P 3EE',
-    startAt: '2025-09-08T07:30:00.000Z',
-    endAt: '2025-09-08T08:30:00.000Z',
+    startAt: '2025-09-08T07:30:00',
+    endAt: '2025-09-08T08:30:00',
   },
   {
     id: 78,
@@ -690,8 +690,8 @@ export default [
     description:
       'Top UK comedians perform their best material. Three headline acts plus rising stars from the London comedy scene.',
     location: 'The Comedy Store, 1a Oxendon St, SW1Y 4EE',
-    startAt: '2025-03-10T19:30:00.000Z',
-    endAt: '2025-03-10T22:30:00.000Z',
+    startAt: '2025-03-10T19:30:00',
+    endAt: '2025-03-10T22:30:00',
   },
   {
     id: 79,
@@ -699,8 +699,8 @@ export default [
     description:
       'Master TypeScript with advanced type system features, decorators, and real-world architectural patterns. Bring your laptop!',
     location: 'CodeNode, 10 South Place, EC2M 7EB',
-    startAt: '2025-11-12T10:00:00.000Z',
-    endAt: '2025-11-12T16:00:00.000Z',
+    startAt: '2025-11-12T10:00:00',
+    endAt: '2025-11-12T16:00:00',
   },
   {
     id: 80,
@@ -708,8 +708,8 @@ export default [
     description:
       'Exhibition opening featuring contemporary British artists. Wine reception and artist talks included.',
     location: "Saatchi Gallery, Duke of York's HQ, SW3 4RY",
-    startAt: '2025-10-15T17:00:00.000Z',
-    endAt: '2025-10-15T20:00:00.000Z',
+    startAt: '2025-10-15T17:00:00',
+    endAt: '2025-10-15T20:00:00',
   },
   {
     id: 81,
@@ -717,8 +717,8 @@ export default [
     description:
       'Explore the future of decentralized applications. Technical workshops, case studies, and networking with blockchain pioneers.',
     location: "etc.venues St Paul's, 200 Aldersgate St, EC1A 4HD",
-    startAt: '2025-05-18T08:00:00.000Z',
-    endAt: '2025-05-18T10:00:00.000Z',
+    startAt: '2025-05-18T08:00:00',
+    endAt: '2025-05-18T10:00:00',
   },
   {
     id: 82,
@@ -726,8 +726,8 @@ export default [
     description:
       'Exclusive preview of upcoming collections from emerging British designers. Includes runway show and meeting with designers.',
     location: 'Victoria House, Bloomsbury Square, WC1B 4DA',
-    startAt: '2025-03-20T19:00:00.000Z',
-    endAt: '2025-03-20T22:00:00.000Z',
+    startAt: '2025-03-20T19:00:00',
+    endAt: '2025-03-20T22:00:00',
   },
   {
     id: 83,
@@ -735,8 +735,8 @@ export default [
     description:
       'Best practices in CI/CD, container orchestration, and cloud infrastructure. Case studies from Netflix and Spotify engineering teams.',
     location: 'AWS Office, 1 Principal Place, EC2A 2FA',
-    startAt: '2025-11-22T18:00:00.000Z',
-    endAt: '2025-11-22T21:00:00.000Z',
+    startAt: '2025-11-22T18:00:00',
+    endAt: '2025-11-22T21:00:00',
   },
   {
     id: 84,
@@ -744,8 +744,8 @@ export default [
     description:
       'Sample premium wines from around the world. Expert sommeliers guide you through exclusive vintages. Cheese pairing included.',
     location: "Berry Bros. & Rudd, 3 St James's St, SW1A 1EG",
-    startAt: '2025-11-25T19:00:00.000Z',
-    endAt: '2025-11-25T22:00:00.000Z',
+    startAt: '2025-11-25T19:00:00',
+    endAt: '2025-11-25T22:00:00',
   },
   {
     id: 85,
@@ -753,8 +753,8 @@ export default [
     description:
       'Leading HR professionals discuss remote work, company culture, and workplace innovation. Interactive panels and networking sessions.',
     location: 'The Brewery, 52 Chiswell St, EC1Y 4SD',
-    startAt: '2025-05-28T08:00:00.000Z',
-    endAt: '2025-05-28T09:00:00.000Z',
+    startAt: '2025-05-28T08:00:00',
+    endAt: '2025-05-28T09:00:00',
   },
   {
     id: 86,
@@ -762,8 +762,8 @@ export default [
     description:
       'Award-winning pianist performs Chopin, Liszt, and Rachmaninoff. Intimate venue, premium acoustics.',
     location: 'Wigmore Hall, 36 Wigmore St, W1U 2BP',
-    startAt: '2025-09-30T18:30:00.000Z',
-    endAt: '2025-09-30T20:30:00.000Z',
+    startAt: '2025-09-30T18:30:00',
+    endAt: '2025-09-30T20:30:00',
   },
   {
     id: 87,
@@ -771,8 +771,8 @@ export default [
     description:
       'Meet leading employers in data science and analytics. On-site interviews and resume workshops available.',
     location: 'Business Design Centre, 52 Upper St, N1 0QH',
-    startAt: '2025-06-02T09:00:00.000Z',
-    endAt: '2025-06-02T15:00:00.000Z',
+    startAt: '2025-06-02T09:00:00',
+    endAt: '2025-06-02T15:00:00',
   },
   {
     id: 88,
@@ -780,8 +780,8 @@ export default [
     description:
       "Celebrate London's diverse culinary scene. 30+ food stalls, live music, and cooking demonstrations.",
     location: 'Spitalfields Market, 56 Brushfield St, E1 6AA',
-    startAt: '2025-11-05T11:00:00.000Z',
-    endAt: '2025-11-05T12:00:00.000Z',
+    startAt: '2025-11-05T11:00:00',
+    endAt: '2025-11-05T12:00:00',
   },
   {
     id: 89,
@@ -789,8 +789,8 @@ export default [
     description:
       'Latest in cyber threats and defense strategies. Hands-on security workshops and expert presentations.',
     location: 'RSA House, 8 John Adam St, WC2N 6EZ',
-    startAt: '2025-10-08T08:00:00.000Z',
-    endAt: '2025-10-08T09:00:00.000Z',
+    startAt: '2025-10-08T08:00:00',
+    endAt: '2025-10-08T09:00:00',
   },
   {
     id: 90,
@@ -798,8 +798,8 @@ export default [
     description:
       "Romantic classics performed by the Royal Philharmonic Orchestra. Programme includes Tchaikovsky's Romeo and Juliet.",
     location: 'Royal Albert Hall, Kensington Gore, SW7 2AP',
-    startAt: '2025-07-14T18:30:00.000Z',
-    endAt: '2025-07-14T21:00:00.000Z',
+    startAt: '2025-07-14T18:30:00',
+    endAt: '2025-07-14T21:00:00',
   },
   {
     id: 91,
@@ -843,8 +843,8 @@ export default [
     description:
       'Deep dive into React 19 features and Next.js App Router best practices. Live coding sessions, networking, and pizza! Perfect for both beginners and experienced developers.',
     location: 'Skills Matter, 10 South Place, EC2M 7EB',
-    startAt: '2025-05-27T17:30:00.000Z',
-    endAt: '2025-05-27T20:00:00.000Z',
+    startAt: '2025-05-27T17:30:00',
+    endAt: '2025-05-27T20:00:00',
   },
   {
     id: 96,
@@ -852,8 +852,8 @@ export default [
     description:
       'Spectacular evening featuring songs from Les Misérables, Phantom of the Opera, and other beloved musicals. Special guest performances from current West End stars.',
     location: 'Prince Edward Theatre, Old Compton St, W1D 4HS',
-    startAt: '2025-10-28T19:30:00.000Z',
-    endAt: '2025-10-28T22:30:00.000Z',
+    startAt: '2025-10-28T19:30:00',
+    endAt: '2025-10-28T22:30:00',
   },
   {
     id: 97,
@@ -861,8 +861,8 @@ export default [
     description:
       "10 promising startups pitch to top VCs and angel investors. Networking opportunity with London's tech ecosystem leaders.",
     location: 'TechHub London, 20 Ropemaker St, EC2Y 9AR',
-    startAt: '2025-03-30T16:00:00.000Z',
-    endAt: '2025-03-30T19:00:00.000Z',
+    startAt: '2025-03-30T16:00:00',
+    endAt: '2025-03-30T19:00:00',
   },
   {
     id: 98,
@@ -870,8 +870,8 @@ export default [
     description:
       "Ring in 2025 with London's finest jazz ensemble. Champagne reception, live performances, and dancing until dawn. Black tie event.",
     location: "Ronnie Scott's Jazz Club, 47 Frith St, W1D 4HT",
-    startAt: '2025-07-31T19:00:00.000Z',
-    endAt: '2025-08-01T01:00:00.000Z',
+    startAt: '2025-07-31T19:00:00',
+    endAt: '2025-08-01T01:00:00',
   },
   {
     id: 99,
@@ -879,8 +879,8 @@ export default [
     description:
       'Hands-on workshop covering latest developments in AI. Practice with real-world datasets and learn from industry experts.',
     location: 'Imperial College London, Exhibition Rd, SW7 2AZ',
-    startAt: '2025-03-03T09:00:00.000Z',
-    endAt: '2025-03-03T12:00:00.000Z',
+    startAt: '2025-03-03T09:00:00',
+    endAt: '2025-03-03T12:00:00',
   },
   {
     id: 100,
@@ -888,7 +888,7 @@ export default [
     description:
       "An evening of Tchaikovsky, featuring The Nutcracker Suite and Symphony No. 1 'Winter Dreams'. Guest conductor Michael Thompson.",
     location: 'Barbican Centre, Silk St, EC2Y 8DS',
-    startAt: '2025-10-05T18:00:00.000Z',
-    endAt: '2025-10-05T20:30:00.000Z',
+    startAt: '2025-10-05T18:00:00',
+    endAt: '2025-10-05T20:30:00',
   },
 ];

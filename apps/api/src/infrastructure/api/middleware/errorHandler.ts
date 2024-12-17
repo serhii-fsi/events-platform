@@ -1,7 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
-import { AppError } from '../common/errors/app';
-import { HttpError } from '../common/errors/http';
-import { mapToHttpError } from '../common/errors/http/mapToHttpError';
+import { AppError } from '../../../domain/errors';
+import { HttpError, mapToHttpError } from '../errors/';
 import { checkIsValidatorError } from '../openapi/validator/checkIsValidatorError';
 
 export const errorHandler = (
@@ -25,6 +24,10 @@ export const errorHandler = (
       httpError = new HttpError(500, 'Unexpected critical error');
     }
   } else {
+    if (error.getCause()) {
+      console.error('Unexpected critical error:', '\n', error);
+    }
+
     httpError = mapToHttpError(error);
 
     if (!httpError) {

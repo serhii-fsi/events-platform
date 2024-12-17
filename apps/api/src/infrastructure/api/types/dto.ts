@@ -1,6 +1,7 @@
-import { components } from '../../openapi/types/schema';
+import { components } from '../openapi/schema';
 
 export type AuthStatusResponseDto = components['schemas']['AuthStatusResponse'];
+export type BaseEventDto = components['schemas']['BaseEvent'];
 export type EventsListResponseDto = components['schemas']['EventsListResponse'];
 export type CreateEventRequestDto = components['schemas']['CreateEventRequest'];
 export type CreateEventResponseDto =
@@ -34,8 +35,10 @@ export type ErrorResponseDto =
 // Parameter types
 export type AuthorizationHeader =
   components['parameters']['AuthorizationHeader'];
+
 export type PageQuery = components['parameters']['PageQuery'];
 export type LimitQuery = components['parameters']['LimitQuery'];
+
 export type EventIdPath = components['parameters']['EventIdPath'];
 export type UserIdPath = components['parameters']['UserIdPath'];
 export type SearchQuery = components['parameters']['SearchQuery'];

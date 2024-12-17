@@ -473,6 +473,19 @@ export interface paths {
 export type webhooks = Record<string, never>;
 export interface components {
     schemas: {
+        BaseEvent: {
+            id: number;
+            title: string;
+            /** Format: date-time */
+            startAt: string;
+            /** Format: date-time */
+            endAt: string;
+            location: string;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+        };
         AuthStatusResponse: {
             data: {
                 user: {
@@ -485,15 +498,7 @@ export interface components {
         };
         EventsListResponse: {
             data: {
-                events: {
-                    id: number;
-                    title: string;
-                    /** Format: date-time */
-                    startAt: string;
-                    /** Format: date-time */
-                    endAt: string;
-                    location: string;
-                }[];
+                events: components["schemas"]["BaseEvent"][];
             };
             meta: {
                 pagination: {
@@ -530,6 +535,10 @@ export interface components {
                     /** Format: date-time */
                     endAt: string;
                     location: string;
+                    /** Format: date-time */
+                    createdAt: string;
+                    /** Format: date-time */
+                    updatedAt: string;
                 };
             };
         };
@@ -547,6 +556,10 @@ export interface components {
                 attendance: {
                     /** @enum {string|null} */
                     status: "attending" | "declined" | null;
+                    /** Format: date-time */
+                    createdAt: string;
+                    /** Format: date-time */
+                    updatedAt: string;
                 };
             };
         };
@@ -559,6 +572,10 @@ export interface components {
                 calendar: {
                     /** @enum {string|null} */
                     status: "added" | "removed" | null;
+                    /** Format: date-time */
+                    createdAt: string;
+                    /** Format: date-time */
+                    updatedAt: string;
                 };
             };
         };
@@ -572,6 +589,10 @@ export interface components {
                     name: string;
                     /** Format: email */
                     email: string;
+                    /** Format: date-time */
+                    createdAt: string;
+                    /** Format: date-time */
+                    updatedAt: string;
                 };
             };
         };
@@ -587,6 +608,10 @@ export interface components {
                     email: string;
                     /** @enum {string} */
                     role: "user" | "editor" | "admin";
+                    /** Format: date-time */
+                    createdAt: string;
+                    /** Format: date-time */
+                    updatedAt: string;
                 }[];
             };
         };

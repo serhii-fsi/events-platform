@@ -16,7 +16,7 @@
         "bundle": false,
         "main": "apps/api/src/main.ts",
         "tsConfig": "apps/api/tsconfig.app.json",
-        "assets": ["apps/api/src/assets"],
+        "assets": ["apps/api/src/infrastructure/assets"],
         "generatePackageJson": true,
         "esbuildOptions": {
           "sourcemap": true,
@@ -61,7 +61,7 @@
       "executor": "nx:run-commands",
       "options": {
         "commands": [
-          "drizzle-kit generate --schema ./apps/api/src/db/schema.ts --out ./apps/api/src/db/migrations --dialect postgresql"
+          "drizzle-kit generate --schema ./apps/api/src/infrastructure/db/schema.ts --out ./apps/api/src/infrastructure/db/migrations --dialect postgresql"
         ]
       }
     },
@@ -70,7 +70,7 @@
       "executor": "nx:run-commands",
       "options": {
         "commands": [
-          "drizzle-kit migrate --schema ./apps/api/src/db/schema.ts --out ./apps/api/src/db/migrations --dialect postgresql --url=postgresql://user:password@host:port/dbname"
+          "drizzle-kit migrate --schema ./apps/api/src/infrastructure/db/schema.ts --out ./apps/api/src/infrastructure/db/migrations --dialect postgresql --url=postgresql://user:password@host:port/dbname"
         ]
       }
     },
@@ -80,7 +80,7 @@
       "executor": "nx:run-commands",
       "options": {
         "commands": [
-          "npx openapi-typescript ./apps/api/src/openapi/schemas/schema.yaml -o ./apps/api/src/openapi/types/schema.d.ts"
+          "npx openapi-typescript ./apps/api/src/infrastructure/api/openapi/schema.yaml -o ./apps/api/src/infrastructure/api/openapi/schema.d.ts"
         ]
       }
     }

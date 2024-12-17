@@ -1,9 +1,9 @@
 import express from 'express';
 const router = express.Router();
-import { DEV_MODE, TEST_MODE } from '../common/utils/appMode';
-import { checkSeedData } from '../db/seeds/checkSeedData';
-import { seed } from '../db/seeds/seed';
-import { purge } from '../db/seeds/purge';
+import { DEV_MODE, TEST_MODE } from '../../utils/appMode';
+import { checkSeedData } from '../../db/seeds/checkSeedData';
+import { seed } from '../../db/seeds/seed';
+import { purge } from '../../db/seeds/purge';
 
 // Seed db
 if (DEV_MODE || TEST_MODE) {

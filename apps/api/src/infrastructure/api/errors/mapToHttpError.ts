@@ -6,7 +6,7 @@ import {
   NotAcceptableError,
   NotFoundError,
   UnauthorizedError,
-} from '../app';
+} from '../../../domain/errors';
 import { HttpError } from '.';
 
 export const mapToHttpError = (error: AppError): HttpError | null => {
