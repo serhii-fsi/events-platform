@@ -1,4 +1,5 @@
 import { AppError } from '../app/';
+import { ErrorResponseDto } from '../../types/dto';
 
 export class HttpError extends AppError {
   readonly statusCode: number;
@@ -9,8 +10,9 @@ export class HttpError extends AppError {
   }
 
   toDTO() {
-    return {
+    const errorResponse: ErrorResponseDto = {
       error: this.message,
     };
+    return errorResponse;
   }
 }

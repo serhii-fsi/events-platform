@@ -32,9 +32,9 @@ export interface paths {
                         "application/json": components["schemas"]["AuthStatusResponse"];
                     };
                 };
-                401: components["responses"]["Unauthorized"];
-                404: components["responses"]["NotFound"];
-                500: components["responses"]["InternalError"];
+                401: components["responses"]["Error"];
+                404: components["responses"]["Error"];
+                500: components["responses"]["Error"];
             };
         };
         put?: never;
@@ -74,8 +74,8 @@ export interface paths {
                         "application/json": components["schemas"]["EventsListResponse"];
                     };
                 };
-                400: components["responses"]["BadRequest"];
-                500: components["responses"]["InternalError"];
+                400: components["responses"]["Error"];
+                500: components["responses"]["Error"];
             };
         };
         put?: never;
@@ -102,9 +102,9 @@ export interface paths {
                         "application/json": components["schemas"]["CreateEventResponse"];
                     };
                 };
-                400: components["responses"]["BadRequest"];
-                401: components["responses"]["Unauthorized"];
-                500: components["responses"]["InternalError"];
+                400: components["responses"]["Error"];
+                401: components["responses"]["Error"];
+                500: components["responses"]["Error"];
             };
         };
         delete?: never;
@@ -141,9 +141,9 @@ export interface paths {
                         "application/json": components["schemas"]["EventDetailsResponse"];
                     };
                 };
-                400: components["responses"]["BadRequest"];
-                404: components["responses"]["NotFound"];
-                500: components["responses"]["InternalError"];
+                400: components["responses"]["Error"];
+                404: components["responses"]["Error"];
+                500: components["responses"]["Error"];
             };
         };
         put?: never;
@@ -161,10 +161,10 @@ export interface paths {
             requestBody?: never;
             responses: {
                 200: components["responses"]["Success"];
-                400: components["responses"]["BadRequest"];
-                401: components["responses"]["Unauthorized"];
-                404: components["responses"]["NotFound"];
-                500: components["responses"]["InternalError"];
+                400: components["responses"]["Error"];
+                401: components["responses"]["Error"];
+                404: components["responses"]["Error"];
+                500: components["responses"]["Error"];
             };
         };
         options?: never;
@@ -186,10 +186,10 @@ export interface paths {
             };
             responses: {
                 200: components["responses"]["Success"];
-                400: components["responses"]["BadRequest"];
-                401: components["responses"]["Unauthorized"];
-                404: components["responses"]["NotFound"];
-                500: components["responses"]["InternalError"];
+                400: components["responses"]["Error"];
+                401: components["responses"]["Error"];
+                404: components["responses"]["Error"];
+                500: components["responses"]["Error"];
             };
         };
         trace?: never;
@@ -223,10 +223,10 @@ export interface paths {
                         "application/json": components["schemas"]["AttendanceStatusResponse"];
                     };
                 };
-                400: components["responses"]["BadRequest"];
-                401: components["responses"]["Unauthorized"];
-                404: components["responses"]["NotFound"];
-                500: components["responses"]["InternalError"];
+                400: components["responses"]["Error"];
+                401: components["responses"]["Error"];
+                404: components["responses"]["Error"];
+                500: components["responses"]["Error"];
             };
         };
         put?: never;
@@ -252,10 +252,10 @@ export interface paths {
             };
             responses: {
                 200: components["responses"]["Success"];
-                400: components["responses"]["BadRequest"];
-                401: components["responses"]["Unauthorized"];
-                404: components["responses"]["NotFound"];
-                500: components["responses"]["InternalError"];
+                400: components["responses"]["Error"];
+                401: components["responses"]["Error"];
+                404: components["responses"]["Error"];
+                500: components["responses"]["Error"];
             };
         };
         trace?: never;
@@ -289,10 +289,10 @@ export interface paths {
                         "application/json": components["schemas"]["CalendarStatusResponse"];
                     };
                 };
-                400: components["responses"]["BadRequest"];
-                401: components["responses"]["Unauthorized"];
-                404: components["responses"]["NotFound"];
-                500: components["responses"]["InternalError"];
+                400: components["responses"]["Error"];
+                401: components["responses"]["Error"];
+                404: components["responses"]["Error"];
+                500: components["responses"]["Error"];
             };
         };
         put?: never;
@@ -318,10 +318,10 @@ export interface paths {
             };
             responses: {
                 200: components["responses"]["Success"];
-                400: components["responses"]["BadRequest"];
-                401: components["responses"]["Unauthorized"];
-                404: components["responses"]["NotFound"];
-                500: components["responses"]["InternalError"];
+                400: components["responses"]["Error"];
+                401: components["responses"]["Error"];
+                404: components["responses"]["Error"];
+                500: components["responses"]["Error"];
             };
         };
         trace?: never;
@@ -354,10 +354,10 @@ export interface paths {
                         "application/json": components["schemas"]["UserProfileResponse"];
                     };
                 };
-                400: components["responses"]["BadRequest"];
-                401: components["responses"]["Unauthorized"];
-                404: components["responses"]["NotFound"];
-                500: components["responses"]["InternalError"];
+                400: components["responses"]["Error"];
+                401: components["responses"]["Error"];
+                404: components["responses"]["Error"];
+                500: components["responses"]["Error"];
             };
         };
         put?: never;
@@ -382,10 +382,10 @@ export interface paths {
             };
             responses: {
                 200: components["responses"]["Success"];
-                400: components["responses"]["BadRequest"];
-                401: components["responses"]["Unauthorized"];
-                404: components["responses"]["NotFound"];
-                500: components["responses"]["InternalError"];
+                400: components["responses"]["Error"];
+                401: components["responses"]["Error"];
+                404: components["responses"]["Error"];
+                500: components["responses"]["Error"];
             };
         };
         trace?: never;
@@ -418,9 +418,9 @@ export interface paths {
                         "application/json": components["schemas"]["SearchUsersResponse"];
                     };
                 };
-                400: components["responses"]["BadRequest"];
-                401: components["responses"]["Unauthorized"];
-                500: components["responses"]["InternalError"];
+                400: components["responses"]["Error"];
+                401: components["responses"]["Error"];
+                500: components["responses"]["Error"];
             };
         };
         put?: never;
@@ -461,10 +461,10 @@ export interface paths {
             };
             responses: {
                 200: components["responses"]["Success"];
-                400: components["responses"]["BadRequest"];
-                401: components["responses"]["Unauthorized"];
-                404: components["responses"]["NotFound"];
-                500: components["responses"]["InternalError"];
+                400: components["responses"]["Error"];
+                401: components["responses"]["Error"];
+                404: components["responses"]["Error"];
+                500: components["responses"]["Error"];
             };
         };
         trace?: never;
@@ -608,50 +608,14 @@ export interface components {
                 };
             };
         };
-        /** @description Unauthorized */
-        Unauthorized: {
+        /** @description Unauthorized 401, BadRequest 400, NotFound 404, InternalError 500 */
+        Error: {
             headers: {
                 [name: string]: unknown;
             };
             content: {
                 "application/json": {
-                    /** @example Unauthorized */
-                    error: string;
-                };
-            };
-        };
-        /** @description Bad Request */
-        BadRequest: {
-            headers: {
-                [name: string]: unknown;
-            };
-            content: {
-                "application/json": {
-                    /** @example Bad Request */
-                    error: string;
-                };
-            };
-        };
-        /** @description Not Found */
-        NotFound: {
-            headers: {
-                [name: string]: unknown;
-            };
-            content: {
-                "application/json": {
-                    /** @example Not Found */
-                    error: string;
-                };
-            };
-        };
-        /** @description Internal Server Error */
-        InternalError: {
-            headers: {
-                [name: string]: unknown;
-            };
-            content: {
-                "application/json": {
-                    /** @example Internal Server Error */
+                    /** @example NotFound */
                     error: string;
                 };
             };

@@ -20,11 +20,11 @@ paths:
               schema:
                 $ref: '#/components/schemas/AuthStatusResponse'
         '401':
-          $ref: '#/components/responses/Unauthorized'
+          $ref: '#/components/responses/Error'
         '404':
-          $ref: '#/components/responses/NotFound'
+          $ref: '#/components/responses/Error'
         '500':
-          $ref: '#/components/responses/InternalError'
+          $ref: '#/components/responses/Error'
 
   #================= /api/events =================
   # Endpoints: E2, E4
@@ -42,9 +42,9 @@ paths:
               schema:
                 $ref: '#/components/schemas/EventsListResponse'
         '400':
-          $ref: '#/components/responses/BadRequest'
+          $ref: '#/components/responses/Error'
         '500':
-          $ref: '#/components/responses/InternalError'
+          $ref: '#/components/responses/Error'
     post:
       summary: Create a new event
       requestBody:
@@ -61,11 +61,11 @@ paths:
               schema:
                 $ref: '#/components/schemas/CreateEventResponse'
         '400':
-          $ref: '#/components/responses/BadRequest'
+          $ref: '#/components/responses/Error'
         '401':
-          $ref: '#/components/responses/Unauthorized'
+          $ref: '#/components/responses/Error'
         '500':
-          $ref: '#/components/responses/InternalError'
+          $ref: '#/components/responses/Error'
 
   #================= /api/events/{eventId} =================
   # Endpoints: E3, E5, E15
@@ -82,11 +82,11 @@ paths:
               schema:
                 $ref: '#/components/schemas/EventDetailsResponse'
         '400':
-          $ref: '#/components/responses/BadRequest'
+          $ref: '#/components/responses/Error'
         '404':
-          $ref: '#/components/responses/NotFound'
+          $ref: '#/components/responses/Error'
         '500':
-          $ref: '#/components/responses/InternalError'
+          $ref: '#/components/responses/Error'
     patch:
       summary: Update event details
       parameters:
@@ -101,13 +101,13 @@ paths:
         '200':
           $ref: '#/components/responses/Success'
         '400':
-          $ref: '#/components/responses/BadRequest'
+          $ref: '#/components/responses/Error'
         '401':
-          $ref: '#/components/responses/Unauthorized'
+          $ref: '#/components/responses/Error'
         '404':
-          $ref: '#/components/responses/NotFound'
+          $ref: '#/components/responses/Error'
         '500':
-          $ref: '#/components/responses/InternalError'
+          $ref: '#/components/responses/Error'
     delete:
       summary: Delete an event
       parameters:
@@ -116,13 +116,13 @@ paths:
         '200':
           $ref: '#/components/responses/Success'
         '400':
-          $ref: '#/components/responses/BadRequest'
+          $ref: '#/components/responses/Error'
         '401':
-          $ref: '#/components/responses/Unauthorized'
+          $ref: '#/components/responses/Error'
         '404':
-          $ref: '#/components/responses/NotFound'
+          $ref: '#/components/responses/Error'
         '500':
-          $ref: '#/components/responses/InternalError'
+          $ref: '#/components/responses/Error'
 
   #================= /api/users/{userId}/events/{eventId}/attendance-status =================
   # Endpoints: E6, E7
@@ -140,13 +140,13 @@ paths:
               schema:
                 $ref: '#/components/schemas/AttendanceStatusResponse'
         '400':
-          $ref: '#/components/responses/BadRequest'
+          $ref: '#/components/responses/Error'
         '401':
-          $ref: '#/components/responses/Unauthorized'
+          $ref: '#/components/responses/Error'
         '404':
-          $ref: '#/components/responses/NotFound'
+          $ref: '#/components/responses/Error'
         '500':
-          $ref: '#/components/responses/InternalError'
+          $ref: '#/components/responses/Error'
     patch:
       summary: Update user's attendance status for an event
       parameters:
@@ -162,13 +162,13 @@ paths:
         '200':
           $ref: '#/components/responses/Success'
         '400':
-          $ref: '#/components/responses/BadRequest'
+          $ref: '#/components/responses/Error'
         '401':
-          $ref: '#/components/responses/Unauthorized'
+          $ref: '#/components/responses/Error'
         '404':
-          $ref: '#/components/responses/NotFound'
+          $ref: '#/components/responses/Error'
         '500':
-          $ref: '#/components/responses/InternalError'
+          $ref: '#/components/responses/Error'
 
   #================= /api/users/{userId}/events/{eventId}/calendar-status =================
   # Endpoints: E11, E12
@@ -186,13 +186,13 @@ paths:
               schema:
                 $ref: '#/components/schemas/CalendarStatusResponse'
         '400':
-          $ref: '#/components/responses/BadRequest'
+          $ref: '#/components/responses/Error'
         '401':
-          $ref: '#/components/responses/Unauthorized'
+          $ref: '#/components/responses/Error'
         '404':
-          $ref: '#/components/responses/NotFound'
+          $ref: '#/components/responses/Error'
         '500':
-          $ref: '#/components/responses/InternalError'
+          $ref: '#/components/responses/Error'
     patch:
       summary: Update user's calendar status for an event
       parameters:
@@ -208,13 +208,13 @@ paths:
         '200':
           $ref: '#/components/responses/Success'
         '400':
-          $ref: '#/components/responses/BadRequest'
+          $ref: '#/components/responses/Error'
         '401':
-          $ref: '#/components/responses/Unauthorized'
+          $ref: '#/components/responses/Error'
         '404':
-          $ref: '#/components/responses/NotFound'
+          $ref: '#/components/responses/Error'
         '500':
-          $ref: '#/components/responses/InternalError'
+          $ref: '#/components/responses/Error'
 
   #================= /api/users/{userId}/profile =================
   # Endpoints: E8, E9
@@ -231,13 +231,13 @@ paths:
               schema:
                 $ref: '#/components/schemas/UserProfileResponse'
         '400':
-          $ref: '#/components/responses/BadRequest'
+          $ref: '#/components/responses/Error'
         '401':
-          $ref: '#/components/responses/Unauthorized'
+          $ref: '#/components/responses/Error'
         '404':
-          $ref: '#/components/responses/NotFound'
+          $ref: '#/components/responses/Error'
         '500':
-          $ref: '#/components/responses/InternalError'
+          $ref: '#/components/responses/Error'
     patch:
       summary: Update user's profile
       parameters:
@@ -252,13 +252,13 @@ paths:
         '200':
           $ref: '#/components/responses/Success'
         '400':
-          $ref: '#/components/responses/BadRequest'
+          $ref: '#/components/responses/Error'
         '401':
-          $ref: '#/components/responses/Unauthorized'
+          $ref: '#/components/responses/Error'
         '404':
-          $ref: '#/components/responses/NotFound'
+          $ref: '#/components/responses/Error'
         '500':
-          $ref: '#/components/responses/InternalError'
+          $ref: '#/components/responses/Error'
 
   #================= /api/users =================
   # Endpoints: E10
@@ -275,11 +275,11 @@ paths:
               schema:
                 $ref: '#/components/schemas/SearchUsersResponse'
         '400':
-          $ref: '#/components/responses/BadRequest'
+          $ref: '#/components/responses/Error'
         '401':
-          $ref: '#/components/responses/Unauthorized'
+          $ref: '#/components/responses/Error'
         '500':
-          $ref: '#/components/responses/InternalError'
+          $ref: '#/components/responses/Error'
 
   #================= /api/users/{userId}/role =================
   # Endpoints: E14
@@ -298,13 +298,13 @@ paths:
         '200':
           $ref: '#/components/responses/Success'
         '400':
-          $ref: '#/components/responses/BadRequest'
+          $ref: '#/components/responses/Error'
         '401':
-          $ref: '#/components/responses/Unauthorized'
+          $ref: '#/components/responses/Error'
         '404':
-          $ref: '#/components/responses/NotFound'
+          $ref: '#/components/responses/Error'
         '500':
-          $ref: '#/components/responses/InternalError'
+          $ref: '#/components/responses/Error'
 
 #================= components =================
 components:
@@ -600,6 +600,7 @@ components:
       schema:
         type: integer
         minimum: 1
+        maximum: 2147483647
         default: 1
     LimitQuery:
       in: query
@@ -607,6 +608,7 @@ components:
       schema:
         type: integer
         minimum: 1
+        maximum: 100
         default: 10
     EventIdPath:
       in: path
@@ -644,8 +646,8 @@ components:
               success:
                 type: boolean
                 enum: [true]
-    Unauthorized:
-      description: Unauthorized
+    Error:
+      description: Unauthorized 401, BadRequest 400, NotFound 404, InternalError 500
       content:
         application/json:
           schema:
@@ -655,40 +657,4 @@ components:
             properties:
               error:
                 type: string
-                example: Unauthorized
-    BadRequest:
-      description: Bad Request
-      content:
-        application/json:
-          schema:
-            type: object
-            required:
-              - error
-            properties:
-              error:
-                type: string
-                example: Bad Request
-    NotFound:
-      description: Not Found
-      content:
-        application/json:
-          schema:
-            type: object
-            required:
-              - error
-            properties:
-              error:
-                type: string
-                example: Not Found
-    InternalError:
-      description: Internal Server Error
-      content:
-        application/json:
-          schema:
-            type: object
-            required:
-              - error
-            properties:
-              error:
-                type: string
-                example: Internal Server Error
+                example: NotFound
