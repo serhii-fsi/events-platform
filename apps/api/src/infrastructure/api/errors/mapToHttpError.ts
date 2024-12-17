@@ -7,7 +7,7 @@ import {
   NotFoundError,
   UnauthorizedError,
 } from '../../../domain/errors';
-import { HttpError } from '.';
+import { HttpError } from './HttpError';
 
 export const mapToHttpError = (error: AppError): HttpError | null => {
   if (error instanceof BadRequestError) {

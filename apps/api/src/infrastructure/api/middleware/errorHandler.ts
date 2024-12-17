@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import { AppError } from '../../../domain/errors';
-import { HttpError, mapToHttpError } from '../errors/';
+import { HttpError } from '../errors/HttpError';
+import { mapToHttpError } from '../errors/mapToHttpError';
 import { checkIsValidatorError } from '../openapi/validator/checkIsValidatorError';
 
 export const errorHandler = (
