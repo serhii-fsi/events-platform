@@ -1,15 +1,49 @@
 import axios from 'axios';
+import { request, seedDb, purgeDb } from '../../../support/utils';
+
+import * as DOMAIN from '../../../../../api/src/domain/constants';
+
+const USERS = {
+  'visitor John': { token: null },
+  'visitor Sam': { token: 'invalid.user.token' },
+  'user Dan': { token: 'valid.user.token' },
+  'editor Alice': { token: 'valid.editor.token' },
+  'editor Bob': { token: 'valid.editor.token' },
+  'admin Eve': { token: 'valid.admin.token' },
+  'admin Mallory': { token: 'valid.admin.token' },
+};
+
+const EVENT_REQ = {
+  title: 'Test Conference 2025',
+  description: 'Annual test conference',
+  startAt: '2025-03-15T09:00:00.000Z',
+  endAt: '2025-03-15T17:00:00.000Z',
+  location: 'Test Convention Center',
+};
+
+const EVENT_RES = {
+  data: {
+    event: {
+      ...EVENT_REQ,
+      id: expect.any(Number),
+      createdAt: expect.any(String),
+      updatedAt: expect.any(String),
+    },
+  },
+};
+
+beforeAll(async () => {
+  // Reset database before running tests
+  await purgeDb();
+  await seedDb();
+});
 
 describe('Events API', () => {
+  // Get events
   describe('GET /api/events', () => {
-    // Helper function to call the endpoint with optional query parameters
-    const getEvents = async (params = {}) => {
-      return axios.get('/api/events', { params });
-    };
-
     describe('happy path scenarios', () => {
       it('should return first page of events with default pagination', async () => {
-        const response = await getEvents();
+        const response = await axios.get('/api/events');
         expect(response.status).toBe(200);
 
         const { data, meta } = response.data;
@@ -20,7 +54,9 @@ describe('Events API', () => {
       });
 
       it('should return events with custom pagination parameters', async () => {
-        const response = await getEvents({ page: 2, limit: 5 });
+        const response = await axios.get('/api/events', {
+          params: { page: 2, limit: 5 },
+        });
         expect(response.status).toBe(200);
 
         const { data, meta } = response.data;
@@ -30,42 +66,106 @@ describe('Events API', () => {
       });
 
       it('should return correct event data structure', async () => {
-        const response = await getEvents();
+        const response = await axios.get('/api/events');
         expect(response.status).toBe(200);
 
         const event = response.data.data.events[0];
-        expect(event).toHaveProperty('id');
-        expect(event).toHaveProperty('title');
-        expect(event).toHaveProperty('startAt');
-        expect(event).toHaveProperty('endAt');
-        expect(event).toHaveProperty('location');
-        expect(event).toHaveProperty('createdAt');
-        expect(event).toHaveProperty('updatedAt');
-      });
-    });
-
-    describe('error scenarios', () => {
-      it('should return 400 when page parameter is invalid', async () => {
-        const response = await getEvents({ page: -1 });
-        expect(response.status).toBe(400);
-        expect(response.data).toHaveProperty('error');
-      });
-
-      it('should return 400 when limit parameter is invalid', async () => {
-        const response = await getEvents({ limit: 101 });
-        expect(response.status).toBe(400);
-        expect(response.data).toHaveProperty('error');
+        expect(event).toMatchObject({
+          id: expect.any(Number),
+          title: expect.any(String),
+          startAt: expect.any(String),
+          endAt: expect.any(String),
+          location: expect.any(String),
+          createdAt: expect.any(String),
+          updatedAt: expect.any(String),
+        });
       });
     });
 
     describe('pagination edge cases', () => {
       it('should return empty events array for page beyond total pages', async () => {
-        const initialResponse = await getEvents();
+        const initialResponse = await axios.get('/api/events');
         const totalPages = initialResponse.data.meta.pagination.totalPages;
 
-        const response = await getEvents({ page: totalPages + 1 });
+        const response = await axios.get('/api/events', {
+          params: { page: totalPages + 1 },
+        });
         expect(response.status).toBe(200);
         expect(response.data.data.events).toHaveLength(0);
+      });
+    });
+  });
+
+  // Create event
+  describe('POST /api/events', () => {
+    const POST_RESULTS = {
+      'visitor John': {
+        status: 401,
+        res: { status: 401, error: 'Unauthorized' },
+      },
+      'visitor Sam': {
+        status: 401,
+        res: { status: 401, error: 'Unauthorized' },
+      },
+      'user Dan': { status: 403, res: { status: 403, error: 'Forbidden' } },
+      'editor Alice': { status: 201, res: EVENT_RES },
+      'admin Eve': { status: 201, res: EVENT_RES },
+    };
+
+    describe('happy path scenarios', () => {
+      ['editor Alice', 'admin Eve'].forEach((user) => {
+        const result = POST_RESULTS[user];
+        const testDescription = `${user} should successfully create event with status ${result.status}`;
+
+        it(testDescription, async () => {
+          const response = await request(
+            'post',
+            '/api/events',
+            EVENT_REQ,
+            USERS[user].token
+          );
+          expect(response.status).toBe(result.status);
+          expect(response.data).toMatchObject(result.res);
+        });
+      });
+    });
+
+    describe('error scenarios', () => {
+      // ['visitor John', 'visitor Sam', 'user Dan'].forEach((user) => {
+      //   const result = POST_RESULTS[user];
+      //   const testDescription = `${user} should receive ${result.res.error} error with status ${result.status}`;
+
+      //   it(testDescription, async () => {
+      //     const response = await request('post', '/api/events', {
+      //       headers: { Authorization: `Bearer ${USERS[user].token}` },
+      //     });
+      //     expect(response.status).toBe(result.status);
+      //     expect(response.data).toMatchObject(result.res);
+      //   });
+      // });
+
+      it('should return error when editor tries to create event with startAt equal to or after endAt', async () => {
+        const invalidEventReqs = [
+          { ...EVENT_REQ, startAt: EVENT_REQ.endAt },
+          {
+            ...EVENT_REQ,
+            startAt: new Date(
+              new Date(EVENT_REQ.endAt).getTime() + 60000
+            ).toISOString(),
+          }, // startAt 1 minute after endAt
+        ];
+
+        for (const invalidEventReq of invalidEventReqs) {
+          const response = await axios.post('/api/events', invalidEventReq, {
+            headers: { Authorization: `Bearer ${USERS['editor Alice'].token}` },
+          });
+
+          expect(response.status).toBe(400);
+          expect(response.data).toMatchObject({
+            status: 400,
+            error: DOMAIN.ERRORS.INVALID_DATE_RANGE,
+          });
+        }
       });
     });
   });

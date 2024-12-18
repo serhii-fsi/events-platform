@@ -4,28 +4,27 @@ import { AttendanceStatus, CalendarStatus, UserRole } from './constants';
 export type UserId = number;
 export type EventId = number;
 
-export interface BaseEntity {
-  id: number;
-  createdAt: Date;
-  updatedAt: Date;
-}
-
-export interface BaseEventEntity extends BaseEntity {
-  id: EventId;
+export interface BaseEventEntity {
+  id?: EventId;
   title: string;
   startAt: Date;
   endAt: Date;
-  location: string | null;
+  location: string;
+  createdAt?: Date;
+  updatedAt?: Date;
 }
 
 export interface DetailedEventEntity extends BaseEventEntity {
   description: string;
 }
 
-export interface User extends BaseEntity {
+export interface User {
+  userId?: UserId;
   name: string;
   email: string;
   role: UserRole;
+  createdAt?: Date;
+  updatedAt?: Date;
 }
 
 export interface Attendance {

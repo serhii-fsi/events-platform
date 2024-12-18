@@ -1,7 +1,7 @@
 import { db } from '../db/connection';
 import { events } from '../db/schema';
 import { desc, sql } from 'drizzle-orm';
-import { BaseEventEntity } from '../../domain/entities';
+import { BaseEventEntity, DetailedEventEntity } from '../../domain/entities';
 import { PaginationParams, PaginatedResult } from '../../domain/types';
 
 const eventsRepository = {
@@ -38,6 +38,21 @@ const eventsRepository = {
         currentPage: Math.floor(skip / take) + 1,
       },
     };
+  },
+
+  create: async (event: DetailedEventEntity): Promise<DetailedEventEntity> => {
+    const [created] = await db
+      .insert(events)
+      .values({
+        title: event.title,
+        description: event.description,
+        startAt: event.startAt,
+        endAt: event.endAt,
+        location: event.location,
+      })
+      .returning();
+
+    return created;
   },
 };
 

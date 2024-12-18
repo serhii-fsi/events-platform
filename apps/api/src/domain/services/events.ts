@@ -1,20 +1,15 @@
-import { InternalServerError } from '../errors';
+import { InternalServerError, BadRequestError } from '../errors';
 import eventsRepository from '../../infrastructure/repositories/events';
-import { BaseEventEntity } from '../entities';
+import { BaseEventEntity, DetailedEventEntity } from '../entities';
 import { PaginatedResult } from '../types';
-import { DOMAIN_MESSAGES } from '../constants';
 import { AppError } from '../errors';
+import { ERRORS } from '../constants';
 
-const validateEvent = (event: BaseEventEntity): void => {
-  if (event.startAt.getTime() > event.endAt.getTime()) {
-    throw new InternalServerError(
-      DOMAIN_MESSAGES.FETCH_EVENTS_ERROR,
-      new Error(
-        'Event end time must be after start time. Event:' +
-          JSON.stringify(event)
-      )
-    );
-  }
+export const eventValidator = {
+  validateDateRange: (event: BaseEventEntity): boolean => {
+    if (event.startAt.getTime() < event.endAt.getTime()) return true;
+    return false;
+  },
   // We don't need to validate:
   // TITLE_MAX_LENGTH, DESCRIPTION_MAX_LENGTH, LOCATION_MAX_LENGTH
   // as they are validated by the openapi express-validator middleware
@@ -31,7 +26,16 @@ export const eventsService = {
         take: limit,
       });
 
-      res.items.forEach(validateEvent);
+      res.items.forEach((event) => {
+        if (!eventValidator.validateDateRange(event)) {
+          throw new InternalServerError(
+            ERRORS.INVALID_DATE_RANGE,
+            new Error(
+              'Database consistency error. Event:' + JSON.stringify(event)
+            )
+          );
+        }
+      });
 
       return res;
     } catch (error) {
@@ -47,8 +51,27 @@ export const eventsService = {
         throw error;
       } else {
         throw new InternalServerError(
-          DOMAIN_MESSAGES.FETCH_EVENTS_ERROR,
-          error as Error
+          ERRORS.FETCH_EVENTS,
+          error as Error // Add unexpected error as a cause to inform about a problem
+        );
+      }
+    }
+  },
+
+  create: async (event: DetailedEventEntity): Promise<DetailedEventEntity> => {
+    try {
+      if (!eventValidator.validateDateRange(event)) {
+        throw new BadRequestError(ERRORS.INVALID_DATE_RANGE);
+      }
+
+      return await eventsRepository.create(event);
+    } catch (error) {
+      if (error instanceof AppError) {
+        throw error;
+      } else {
+        throw new InternalServerError(
+          ERRORS.CREATE_EVENT,
+          error as Error // Add unexpected error as a cause to inform about a problem
         );
       }
     }

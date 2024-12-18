@@ -14,7 +14,11 @@ module.exports = [
         'error',
         {
           enforceBuildableLibDependency: true,
-          allow: ['^.*/eslint(\\.base)?\\.config\\.[cm]?js$'],
+          allow: [
+            '^.*/eslint(\\.base)?\\.config\\.[cm]?js$',
+            // REMOVE and REFACTOR later! All shared code should be in shared folder!
+            '.*/api/src/domain/constants',
+          ],
           depConstraints: [
             {
               sourceTag: '*',

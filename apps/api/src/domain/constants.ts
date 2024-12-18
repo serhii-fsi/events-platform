@@ -31,9 +31,12 @@ export const VALIDATION = {
 } as const;
 
 // Domain-specific messages
-export const DOMAIN_MESSAGES = {
+export const ERRORS = {
+  // Error messages
+  NOT_AUTHORIZED: 'User not authorized',
+  // Event validation errors
   EVENT_NOT_FOUND: 'Event not found',
-  USER_NOT_AUTHORIZED: 'User not authorized',
+  FETCH_EVENTS: 'Failed to fetch events',
+  CREATE_EVENT: 'Failed to create event',
   INVALID_DATE_RANGE: 'End date must be after start date',
-  FETCH_EVENTS_ERROR: 'Failed to fetch events',
 } as const;
