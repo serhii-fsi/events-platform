@@ -1,5 +1,5 @@
 {
-  "id": "82f83272-4022-4bac-979d-a89cb11a30ba",
+  "id": "21307fc2-5b7e-4896-b9d2-5b3b314c3a89",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -232,7 +232,7 @@
           "name": "location",
           "type": "varchar(100)",
           "primaryKey": false,
-          "notNull": false
+          "notNull": true
         },
         "created_at": {
           "name": "created_at",

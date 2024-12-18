@@ -23,7 +23,7 @@ CREATE TABLE "events" (
 	"description" varchar(1000) NOT NULL,
 	"start_at" timestamp NOT NULL,
 	"end_at" timestamp NOT NULL,
-	"location" varchar(100),
+	"location" varchar(100) NOT NULL,
 	"created_at" timestamp DEFAULT now() NOT NULL,
 	"updated_at" timestamp DEFAULT now() NOT NULL
 );

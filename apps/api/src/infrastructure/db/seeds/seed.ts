@@ -1,4 +1,5 @@
 import { db } from '../connection';
+import { sql } from 'drizzle-orm';
 import { users, events, attendance, calendar } from '../schema';
 
 import usersData from './data/dev/users';
@@ -9,6 +10,10 @@ export const seed = async () => {
   try {
     // Insert users
     await db.insert(users).values(usersData);
+    // Reset the sequence for the events table
+    await db.execute(
+      sql`SELECT setval(pg_get_serial_sequence('users', 'id'), coalesce(max(id), 1) + 1, false) FROM users`
+    );
 
     // Insert events
     const eventsDataParsed = eventsData.map((event) => ({
@@ -17,6 +22,10 @@ export const seed = async () => {
       endAt: new Date(event.endAt),
     }));
     await db.insert(events).values(eventsDataParsed);
+    // Reset the sequence for the events table
+    await db.execute(
+      sql`SELECT setval(pg_get_serial_sequence('events', 'id'), coalesce(max(id), 1) + 1, false) FROM events`
+    );
 
     // Insert attendance data
     const attendanceData = relationsData.map((relation) => ({
