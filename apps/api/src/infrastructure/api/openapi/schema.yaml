@@ -339,7 +339,7 @@ components:
           format: date-time
         location:
           type: string
-          minLength: 0
+          minLength: 1
           maxLength: 100
         createdAt:
           type: string
@@ -413,7 +413,7 @@ components:
           format: date-time
         location:
           type: string
-          minLength: 0
+          minLength: 1
           maxLength: 100
         createdAt:
           type: string
@@ -502,7 +502,7 @@ components:
           format: date-time
         location:
           type: string
-          minLength: 0
+          minLength: 1
           maxLength: 100
 
     DetailedEventResponse:
@@ -535,7 +535,7 @@ components:
           format: date-time
         location:
           type: string
-          minLength: 0
+          minLength: 1
           maxLength: 100
 
     AttendanceStatusResponse:
