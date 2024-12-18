@@ -20,11 +20,11 @@ paths:
               schema:
                 $ref: '#/components/schemas/AuthStatusResponse'
         '401':
-          $ref: '#/components/responses/Error'
+          $ref: '#/components/responses/ErrorUnauthorized'
         '404':
-          $ref: '#/components/responses/Error'
+          $ref: '#/components/responses/ErrorNotFound'
         '500':
-          $ref: '#/components/responses/Error'
+          $ref: '#/components/responses/ErrorInternal'
 
   #================= /api/events =================
   # Endpoints: E2, E4
@@ -42,9 +42,9 @@ paths:
               schema:
                 $ref: '#/components/schemas/EventsListResponse'
         '400':
-          $ref: '#/components/responses/Error'
+          $ref: '#/components/responses/ErrorBadRequest'
         '500':
-          $ref: '#/components/responses/Error'
+          $ref: '#/components/responses/ErrorInternal'
     post:
       summary: Create a new event
       requestBody:
@@ -61,11 +61,13 @@ paths:
               schema:
                 $ref: '#/components/schemas/CreateEventResponse'
         '400':
-          $ref: '#/components/responses/Error'
+          $ref: '#/components/responses/ErrorBadRequest'
         '401':
-          $ref: '#/components/responses/Error'
+          $ref: '#/components/responses/ErrorUnauthorized'
+        '403':
+          $ref: '#/components/responses/ErrorForbidden'
         '500':
-          $ref: '#/components/responses/Error'
+          $ref: '#/components/responses/ErrorInternal'
 
   #================= /api/events/{eventId} =================
   # Endpoints: E3, E5, E15
@@ -81,12 +83,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/EventDetailsResponse'
-        '400':
-          $ref: '#/components/responses/Error'
         '404':
-          $ref: '#/components/responses/Error'
+          $ref: '#/components/responses/ErrorNotFound'
         '500':
-          $ref: '#/components/responses/Error'
+          $ref: '#/components/responses/ErrorInternal'
     patch:
       summary: Update event details
       parameters:
@@ -99,30 +99,32 @@ paths:
               $ref: '#/components/schemas/UpdateEventRequest'
       responses:
         '200':
-          $ref: '#/components/responses/Success'
+          $ref: '#/components/schemas/EventDetailsResponse'
         '400':
-          $ref: '#/components/responses/Error'
+          $ref: '#/components/responses/ErrorBadRequest'
         '401':
-          $ref: '#/components/responses/Error'
+          $ref: '#/components/responses/ErrorUnauthorized'
+        '403':
+          $ref: '#/components/responses/ErrorForbidden'
         '404':
-          $ref: '#/components/responses/Error'
+          $ref: '#/components/responses/ErrorNotFound'
         '500':
-          $ref: '#/components/responses/Error'
+          $ref: '#/components/responses/ErrorInternal'
     delete:
       summary: Delete an event
       parameters:
         - $ref: '#/components/parameters/EventIdPath'
       responses:
         '200':
-          $ref: '#/components/responses/Success'
-        '400':
-          $ref: '#/components/responses/Error'
+          $ref: '#/components/responses/SuccessOk'
         '401':
-          $ref: '#/components/responses/Error'
+          $ref: '#/components/responses/ErrorUnauthorized'
+        '403':
+          $ref: '#/components/responses/ErrorForbidden'
         '404':
-          $ref: '#/components/responses/Error'
+          $ref: '#/components/responses/ErrorNotFound'
         '500':
-          $ref: '#/components/responses/Error'
+          $ref: '#/components/responses/ErrorInternal'
 
   #================= /api/users/{userId}/events/{eventId}/attendance-status =================
   # Endpoints: E6, E7
@@ -139,14 +141,14 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/AttendanceStatusResponse'
-        '400':
-          $ref: '#/components/responses/Error'
         '401':
-          $ref: '#/components/responses/Error'
+          $ref: '#/components/responses/ErrorUnauthorized'
+        '403':
+          $ref: '#/components/responses/ErrorForbidden'
         '404':
-          $ref: '#/components/responses/Error'
+          $ref: '#/components/responses/ErrorNotFound'
         '500':
-          $ref: '#/components/responses/Error'
+          $ref: '#/components/responses/ErrorInternal'
     patch:
       summary: Update user's attendance status for an event
       parameters:
@@ -160,15 +162,17 @@ paths:
               $ref: '#/components/schemas/UpdateAttendanceStatusRequest'
       responses:
         '200':
-          $ref: '#/components/responses/Success'
+          $ref: '#/components/schemas/AttendanceStatusResponse'
         '400':
-          $ref: '#/components/responses/Error'
+          $ref: '#/components/responses/ErrorBadRequest'
         '401':
-          $ref: '#/components/responses/Error'
+          $ref: '#/components/responses/ErrorUnauthorized'
+        '403':
+          $ref: '#/components/responses/ErrorForbidden'
         '404':
-          $ref: '#/components/responses/Error'
+          $ref: '#/components/responses/ErrorNotFound'
         '500':
-          $ref: '#/components/responses/Error'
+          $ref: '#/components/responses/ErrorInternal'
 
   #================= /api/users/{userId}/events/{eventId}/calendar-status =================
   # Endpoints: E11, E12
@@ -185,14 +189,14 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/CalendarStatusResponse'
-        '400':
-          $ref: '#/components/responses/Error'
         '401':
-          $ref: '#/components/responses/Error'
+          $ref: '#/components/responses/ErrorUnauthorized'
+        '403':
+          $ref: '#/components/responses/ErrorForbidden'
         '404':
-          $ref: '#/components/responses/Error'
+          $ref: '#/components/responses/ErrorNotFound'
         '500':
-          $ref: '#/components/responses/Error'
+          $ref: '#/components/responses/ErrorInternal'
     patch:
       summary: Update user's calendar status for an event
       parameters:
@@ -206,15 +210,17 @@ paths:
               $ref: '#/components/schemas/UpdateCalendarStatusRequest'
       responses:
         '200':
-          $ref: '#/components/responses/Success'
+          $ref: '#/components/schemas/CalendarStatusResponse'
         '400':
-          $ref: '#/components/responses/Error'
+          $ref: '#/components/responses/ErrorBadRequest'
         '401':
-          $ref: '#/components/responses/Error'
+          $ref: '#/components/responses/ErrorUnauthorized'
+        '403':
+          $ref: '#/components/responses/ErrorForbidden'
         '404':
-          $ref: '#/components/responses/Error'
+          $ref: '#/components/responses/ErrorNotFound'
         '500':
-          $ref: '#/components/responses/Error'
+          $ref: '#/components/responses/ErrorInternal'
 
   #================= /api/users/{userId}/profile =================
   # Endpoints: E8, E9
@@ -230,14 +236,14 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/UserProfileResponse'
-        '400':
-          $ref: '#/components/responses/Error'
         '401':
-          $ref: '#/components/responses/Error'
+          $ref: '#/components/responses/ErrorUnauthorized'
+        '403':
+          $ref: '#/components/responses/ErrorForbidden'
         '404':
-          $ref: '#/components/responses/Error'
+          $ref: '#/components/responses/ErrorNotFound'
         '500':
-          $ref: '#/components/responses/Error'
+          $ref: '#/components/responses/ErrorInternal'
     patch:
       summary: Update user's profile
       parameters:
@@ -250,15 +256,17 @@ paths:
               $ref: '#/components/schemas/UpdateUserProfileRequest'
       responses:
         '200':
-          $ref: '#/components/responses/Success'
+          $ref: '#/components/schemas/UserProfileResponse'
         '400':
-          $ref: '#/components/responses/Error'
+          $ref: '#/components/responses/ErrorBadRequest'
         '401':
-          $ref: '#/components/responses/Error'
+          $ref: '#/components/responses/ErrorUnauthorized'
+        '403':
+          $ref: '#/components/responses/ErrorForbidden'
         '404':
-          $ref: '#/components/responses/Error'
+          $ref: '#/components/responses/ErrorNotFound'
         '500':
-          $ref: '#/components/responses/Error'
+          $ref: '#/components/responses/ErrorInternal'
 
   #================= /api/users =================
   # Endpoints: E10
@@ -274,12 +282,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/SearchUsersResponse'
-        '400':
-          $ref: '#/components/responses/Error'
         '401':
-          $ref: '#/components/responses/Error'
+          $ref: '#/components/responses/ErrorUnauthorized'
+        '403':
+          $ref: '#/components/responses/ErrorForbidden'
         '500':
-          $ref: '#/components/responses/Error'
+          $ref: '#/components/responses/ErrorInternal'
 
   #================= /api/users/{userId}/role =================
   # Endpoints: E14
@@ -296,15 +304,17 @@ paths:
               $ref: '#/components/schemas/UpdateUserRoleRequest'
       responses:
         '200':
-          $ref: '#/components/responses/Success'
+          $ref: '#/components/schemas/UserProfileResponse'
         '400':
-          $ref: '#/components/responses/Error'
+          $ref: '#/components/responses/ErrorBadRequest'
         '401':
-          $ref: '#/components/responses/Error'
+          $ref: '#/components/responses/ErrorUnauthorized'
+        '403':
+          $ref: '#/components/responses/ErrorForbidden'
         '404':
-          $ref: '#/components/responses/Error'
+          $ref: '#/components/responses/ErrorNotFound'
         '500':
-          $ref: '#/components/responses/Error'
+          $ref: '#/components/responses/ErrorInternal'
 
 #================= components =================
 components:
@@ -337,6 +347,7 @@ components:
         updatedAt:
           type: string
           format: date-time
+
     AuthStatusResponse:
       type: object
       required: [data]
@@ -347,19 +358,31 @@ components:
           properties:
             user:
               type: object
-              required: [id, role, name]
+              required: [id, name, email, role, createdAt, updatedAt]
               properties:
                 id:
                   type: integer
                   minimum: 1
                   maximum: 2147483647
-                role:
-                  type: string
-                  enum: [user, editor, admin]
                 name:
                   type: string
                   minLength: 1
                   maxLength: 50
+                email:
+                  type: string
+                  format: email
+                  minLength: 5
+                  maxLength: 50
+                role:
+                  type: string
+                  enum: [user, editor, admin]
+                createdAt:
+                  type: string
+                  format: date-time
+                updatedAt:
+                  type: string
+                  format: date-time
+
     EventsListResponse:
       type: object
       required: [data, meta]
@@ -388,6 +411,7 @@ components:
                   type: integer
                   minimum: 1
                   maximum: 2147483647
+
     CreateEventRequest:
       type: object
       required: [title, description, startAt, endAt, location]
@@ -410,6 +434,7 @@ components:
           type: string
           minLength: 0
           maxLength: 100
+
     CreateEventResponse:
       type: object
       required: [success, data]
@@ -423,24 +448,9 @@ components:
           properties:
             event:
               type: object
-              required: [id]
-              properties:
-                id:
-                  type: integer
-                  minimum: 1
-                  maximum: 2147483647
-    EventDetailsResponse:
-      type: object
-      required: [data]
-      properties:
-        data:
-          type: object
-          required: [event]
-          properties:
-            event:
-              type: object
               required:
                 [
+                  id,
                   title,
                   description,
                   startAt,
@@ -450,6 +460,10 @@ components:
                   updatedAt,
                 ]
               properties:
+                id:
+                  type: integer
+                  minimum: 1
+                  maximum: 2147483647
                 title:
                   type: string
                   minLength: 1
@@ -474,6 +488,58 @@ components:
                 updatedAt:
                   type: string
                   format: date-time
+
+    EventDetailsResponse:
+      type: object
+      required: [data]
+      properties:
+        data:
+          type: object
+          required: [event]
+          properties:
+            event:
+              type: object
+              required:
+                [
+                  id,
+                  title,
+                  description,
+                  startAt,
+                  endAt,
+                  location,
+                  createdAt,
+                  updatedAt,
+                ]
+              properties:
+                id:
+                  type: integer
+                  minimum: 1
+                  maximum: 2147483647
+                title:
+                  type: string
+                  minLength: 1
+                  maxLength: 100
+                description:
+                  type: string
+                  minLength: 1
+                  maxLength: 1000
+                startAt:
+                  type: string
+                  format: date-time
+                endAt:
+                  type: string
+                  format: date-time
+                location:
+                  type: string
+                  minLength: 0
+                  maxLength: 100
+                createdAt:
+                  type: string
+                  format: date-time
+                updatedAt:
+                  type: string
+                  format: date-time
+
     UpdateEventRequest:
       type: object
       properties:
@@ -495,15 +561,16 @@ components:
           type: string
           minLength: 0
           maxLength: 100
+
     AttendanceStatusResponse:
       type: object
       required: [data]
       properties:
         data:
           type: object
-          required: [attendance]
+          required: [attendanceStatus]
           properties:
-            attendance:
+            attendanceStatus:
               type: object
               required: [status, createdAt, updatedAt]
               properties:
@@ -517,23 +584,25 @@ components:
                 updatedAt:
                   type: string
                   format: date-time
+
     UpdateAttendanceStatusRequest:
       type: object
-      required: [status]
+      required: [attendanceStatus]
       properties:
-        status:
+        attendanceStatus:
           type: string
           nullable: true
           enum: [attending, declined]
+
     CalendarStatusResponse:
       type: object
       required: [data]
       properties:
         data:
           type: object
-          required: [calendar]
+          required: [calendarStatus]
           properties:
-            calendar:
+            calendarStatus:
               type: object
               required: [status, createdAt, updatedAt]
               properties:
@@ -547,26 +616,32 @@ components:
                 updatedAt:
                   type: string
                   format: date-time
+
     UpdateCalendarStatusRequest:
       type: object
-      required: [status]
+      required: [calendarStatus]
       properties:
-        status:
+        calendarStatus:
           type: string
           nullable: true
           enum: [added, removed]
+
     UserProfileResponse:
       type: object
       required: [data]
       properties:
         data:
           type: object
-          required: [profile]
+          required: [user]
           properties:
-            profile:
+            user:
               type: object
-              required: [name, email, createdAt, updatedAt]
+              required: [id, name, email, role, createdAt, updatedAt]
               properties:
+                id:
+                  type: integer
+                  minimum: 1
+                  maximum: 2147483647
                 name:
                   type: string
                   minLength: 1
@@ -576,12 +651,16 @@ components:
                   format: email
                   minLength: 5
                   maxLength: 50
+                role:
+                  type: string
+                  enum: [user, editor, admin]
                 createdAt:
                   type: string
                   format: date-time
                 updatedAt:
                   type: string
                   format: date-time
+
     UpdateUserProfileRequest:
       type: object
       properties:
@@ -589,6 +668,7 @@ components:
           type: string
           minLength: 1
           maxLength: 50
+
     SearchUsersResponse:
       type: object
       required: [data]
@@ -625,6 +705,7 @@ components:
                   updatedAt:
                     type: string
                     format: date-time
+
     UpdateUserRoleRequest:
       type: object
       required: [role]
@@ -632,6 +713,7 @@ components:
         role:
           type: string
           enum: [user, editor, admin]
+
   parameters:
     AuthorizationHeader:
       in: header
@@ -641,6 +723,7 @@ components:
         type: string
         minLength: 10
         maxLength: 100
+
     PageQuery:
       in: query
       name: page
@@ -649,6 +732,7 @@ components:
         minimum: 1
         maximum: 2147483647
         default: 1
+
     LimitQuery:
       in: query
       name: limit
@@ -657,6 +741,7 @@ components:
         minimum: 1
         maximum: 100
         default: 10
+
     EventIdPath:
       in: path
       name: eventId
@@ -665,6 +750,7 @@ components:
         type: integer
         minimum: 1
         maximum: 2147483647
+
     UserIdPath:
       in: path
       name: userId
@@ -673,6 +759,7 @@ components:
         type: integer
         minimum: 1
         maximum: 2147483647
+
     SearchQuery:
       in: query
       name: search
@@ -680,8 +767,9 @@ components:
         type: string
         minLength: 1
         maxLength: 50
+
   responses:
-    Success:
+    SuccessOk:
       description: Operation successful
       content:
         application/json:
@@ -690,11 +778,47 @@ components:
             required:
               - success
             properties:
+              status:
+                type: integer
+                enum: [200]
               success:
                 type: boolean
                 enum: [true]
-    Error:
-      description: Unauthorized 401, BadRequest 400, NotFound 404, InternalError 500
+
+    SuccessCreated:
+      description: The request was successful, and a new resource was created.
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - success
+            properties:
+              status:
+                type: integer
+                enum: [201]
+              success:
+                type: boolean
+                enum: [true]
+
+    SuccessNoContent:
+      description: The request was successful, but there is no content to return.
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - success
+            properties:
+              status:
+                type: integer
+                enum: [204]
+              success:
+                type: boolean
+                enum: [true]
+
+    ErrorUnauthorized:
+      description: Unauthorized 401 - The client must authenticate itself to get the requested response. Client has not provided any authentication credentials, or the credentials provided are invalid.
       content:
         application/json:
           schema:
@@ -702,6 +826,78 @@ components:
             required:
               - error
             properties:
+              status:
+                type: integer
+                enum: [401]
               error:
                 type: string
-                example: NotFound
+                minLength: 1
+                maxLength: 1000
+
+    ErrorBadRequest:
+      description: BadRequest 400 - The request was malformed or invalid.
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - error
+            properties:
+              status:
+                type: integer
+                enum: [400]
+              error:
+                type: string
+                minLength: 1
+                maxLength: 1000
+
+    ErrorNotFound:
+      description: NotFound 404 - The resource was not found.
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - error
+            properties:
+              status:
+                type: integer
+                enum: [404]
+              error:
+                type: string
+                minLength: 1
+                maxLength: 1000
+
+    ErrorInternal:
+      description: ErrorInternal 500 - An error occurred on the server.
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - error
+            properties:
+              status:
+                type: integer
+                enum: [500]
+              error:
+                type: string
+                minLength: 1
+                maxLength: 1000
+
+    ErrorForbidden:
+      description: ErrorForbidden 403 - The server understands the request but refuses to authorize it. Client is authenticated but does not have permission to access the requested resource.
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - error
+            properties:
+              status:
+                type: integer
+                enum: [403]
+              error:
+                type: string
+                minLength: 1
+                maxLength: 1000
