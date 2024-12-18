@@ -1,9 +1,10 @@
 import { AppError } from '../../../domain/errors';
-import { ErrorResponseDto } from '../types/dto';
+import { ErrorResponseDto, ErrorResponseCodes } from '../types/dto';
 
 export class HttpError extends AppError {
-  readonly statusCode: number;
-  constructor(statusCode: number, message: string, cause?: Error) {
+  readonly statusCode: ErrorResponseCodes;
+
+  constructor(statusCode: ErrorResponseCodes, message: string, cause?: Error) {
     super(message, cause);
     this.name = this.constructor.name;
     this.statusCode = statusCode;
@@ -11,6 +12,7 @@ export class HttpError extends AppError {
 
   toDTO() {
     const errorResponse: ErrorResponseDto = {
+      status: this.statusCode,
       error: this.message,
     };
     return errorResponse;

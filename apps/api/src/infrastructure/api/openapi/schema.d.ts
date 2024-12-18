@@ -32,9 +32,9 @@ export interface paths {
                         "application/json": components["schemas"]["AuthStatusResponse"];
                     };
                 };
-                401: components["responses"]["Error"];
-                404: components["responses"]["Error"];
-                500: components["responses"]["Error"];
+                401: components["responses"]["ErrorUnauthorized"];
+                404: components["responses"]["ErrorNotFound"];
+                500: components["responses"]["ErrorInternal"];
             };
         };
         put?: never;
@@ -74,8 +74,8 @@ export interface paths {
                         "application/json": components["schemas"]["EventsListResponse"];
                     };
                 };
-                400: components["responses"]["Error"];
-                500: components["responses"]["Error"];
+                400: components["responses"]["ErrorBadRequest"];
+                500: components["responses"]["ErrorInternal"];
             };
         };
         put?: never;
@@ -99,12 +99,13 @@ export interface paths {
                         [name: string]: unknown;
                     };
                     content: {
-                        "application/json": components["schemas"]["CreateEventResponse"];
+                        "application/json": components["schemas"]["DetailedEventResponse"];
                     };
                 };
-                400: components["responses"]["Error"];
-                401: components["responses"]["Error"];
-                500: components["responses"]["Error"];
+                400: components["responses"]["ErrorBadRequest"];
+                401: components["responses"]["ErrorUnauthorized"];
+                403: components["responses"]["ErrorForbidden"];
+                500: components["responses"]["ErrorInternal"];
             };
         };
         delete?: never;
@@ -138,12 +139,11 @@ export interface paths {
                         [name: string]: unknown;
                     };
                     content: {
-                        "application/json": components["schemas"]["EventDetailsResponse"];
+                        "application/json": components["schemas"]["DetailedEventResponse"];
                     };
                 };
-                400: components["responses"]["Error"];
-                404: components["responses"]["Error"];
-                500: components["responses"]["Error"];
+                404: components["responses"]["ErrorNotFound"];
+                500: components["responses"]["ErrorInternal"];
             };
         };
         put?: never;
@@ -160,11 +160,11 @@ export interface paths {
             };
             requestBody?: never;
             responses: {
-                200: components["responses"]["Success"];
-                400: components["responses"]["Error"];
-                401: components["responses"]["Error"];
-                404: components["responses"]["Error"];
-                500: components["responses"]["Error"];
+                200: components["responses"]["SuccessOk"];
+                401: components["responses"]["ErrorUnauthorized"];
+                403: components["responses"]["ErrorForbidden"];
+                404: components["responses"]["ErrorNotFound"];
+                500: components["responses"]["ErrorInternal"];
             };
         };
         options?: never;
@@ -185,11 +185,12 @@ export interface paths {
                 };
             };
             responses: {
-                200: components["responses"]["Success"];
-                400: components["responses"]["Error"];
-                401: components["responses"]["Error"];
-                404: components["responses"]["Error"];
-                500: components["responses"]["Error"];
+                200: components["schemas"]["DetailedEventResponse"];
+                400: components["responses"]["ErrorBadRequest"];
+                401: components["responses"]["ErrorUnauthorized"];
+                403: components["responses"]["ErrorForbidden"];
+                404: components["responses"]["ErrorNotFound"];
+                500: components["responses"]["ErrorInternal"];
             };
         };
         trace?: never;
@@ -223,10 +224,10 @@ export interface paths {
                         "application/json": components["schemas"]["AttendanceStatusResponse"];
                     };
                 };
-                400: components["responses"]["Error"];
-                401: components["responses"]["Error"];
-                404: components["responses"]["Error"];
-                500: components["responses"]["Error"];
+                401: components["responses"]["ErrorUnauthorized"];
+                403: components["responses"]["ErrorForbidden"];
+                404: components["responses"]["ErrorNotFound"];
+                500: components["responses"]["ErrorInternal"];
             };
         };
         put?: never;
@@ -251,11 +252,12 @@ export interface paths {
                 };
             };
             responses: {
-                200: components["responses"]["Success"];
-                400: components["responses"]["Error"];
-                401: components["responses"]["Error"];
-                404: components["responses"]["Error"];
-                500: components["responses"]["Error"];
+                200: components["schemas"]["AttendanceStatusResponse"];
+                400: components["responses"]["ErrorBadRequest"];
+                401: components["responses"]["ErrorUnauthorized"];
+                403: components["responses"]["ErrorForbidden"];
+                404: components["responses"]["ErrorNotFound"];
+                500: components["responses"]["ErrorInternal"];
             };
         };
         trace?: never;
@@ -289,10 +291,10 @@ export interface paths {
                         "application/json": components["schemas"]["CalendarStatusResponse"];
                     };
                 };
-                400: components["responses"]["Error"];
-                401: components["responses"]["Error"];
-                404: components["responses"]["Error"];
-                500: components["responses"]["Error"];
+                401: components["responses"]["ErrorUnauthorized"];
+                403: components["responses"]["ErrorForbidden"];
+                404: components["responses"]["ErrorNotFound"];
+                500: components["responses"]["ErrorInternal"];
             };
         };
         put?: never;
@@ -317,11 +319,12 @@ export interface paths {
                 };
             };
             responses: {
-                200: components["responses"]["Success"];
-                400: components["responses"]["Error"];
-                401: components["responses"]["Error"];
-                404: components["responses"]["Error"];
-                500: components["responses"]["Error"];
+                200: components["schemas"]["CalendarStatusResponse"];
+                400: components["responses"]["ErrorBadRequest"];
+                401: components["responses"]["ErrorUnauthorized"];
+                403: components["responses"]["ErrorForbidden"];
+                404: components["responses"]["ErrorNotFound"];
+                500: components["responses"]["ErrorInternal"];
             };
         };
         trace?: never;
@@ -354,10 +357,10 @@ export interface paths {
                         "application/json": components["schemas"]["UserProfileResponse"];
                     };
                 };
-                400: components["responses"]["Error"];
-                401: components["responses"]["Error"];
-                404: components["responses"]["Error"];
-                500: components["responses"]["Error"];
+                401: components["responses"]["ErrorUnauthorized"];
+                403: components["responses"]["ErrorForbidden"];
+                404: components["responses"]["ErrorNotFound"];
+                500: components["responses"]["ErrorInternal"];
             };
         };
         put?: never;
@@ -381,11 +384,12 @@ export interface paths {
                 };
             };
             responses: {
-                200: components["responses"]["Success"];
-                400: components["responses"]["Error"];
-                401: components["responses"]["Error"];
-                404: components["responses"]["Error"];
-                500: components["responses"]["Error"];
+                200: components["schemas"]["UserProfileResponse"];
+                400: components["responses"]["ErrorBadRequest"];
+                401: components["responses"]["ErrorUnauthorized"];
+                403: components["responses"]["ErrorForbidden"];
+                404: components["responses"]["ErrorNotFound"];
+                500: components["responses"]["ErrorInternal"];
             };
         };
         trace?: never;
@@ -418,9 +422,9 @@ export interface paths {
                         "application/json": components["schemas"]["SearchUsersResponse"];
                     };
                 };
-                400: components["responses"]["Error"];
-                401: components["responses"]["Error"];
-                500: components["responses"]["Error"];
+                401: components["responses"]["ErrorUnauthorized"];
+                403: components["responses"]["ErrorForbidden"];
+                500: components["responses"]["ErrorInternal"];
             };
         };
         put?: never;
@@ -460,11 +464,12 @@ export interface paths {
                 };
             };
             responses: {
-                200: components["responses"]["Success"];
-                400: components["responses"]["Error"];
-                401: components["responses"]["Error"];
-                404: components["responses"]["Error"];
-                500: components["responses"]["Error"];
+                200: components["schemas"]["UserProfileResponse"];
+                400: components["responses"]["ErrorBadRequest"];
+                401: components["responses"]["ErrorUnauthorized"];
+                403: components["responses"]["ErrorForbidden"];
+                404: components["responses"]["ErrorNotFound"];
+                500: components["responses"]["ErrorInternal"];
             };
         };
         trace?: never;
@@ -486,14 +491,55 @@ export interface components {
             /** Format: date-time */
             updatedAt: string;
         };
+        User: {
+            id: number;
+            name: string;
+            /** Format: email */
+            email: string;
+            /** @enum {string} */
+            role: "user" | "editor" | "admin";
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+        };
+        Pagination: {
+            totalPages: number;
+            currentPage: number;
+        };
+        DetailedEvent: {
+            id: number;
+            title: string;
+            description: string;
+            /** Format: date-time */
+            startAt: string;
+            /** Format: date-time */
+            endAt: string;
+            location: string;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+        };
+        AttendanceStatus: {
+            /** @enum {string|null} */
+            status: "attending" | "declined" | null;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+        };
+        CalendarStatus: {
+            /** @enum {string|null} */
+            status: "added" | "removed" | null;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+        };
         AuthStatusResponse: {
             data: {
-                user: {
-                    id: number;
-                    /** @enum {string} */
-                    role: "user" | "editor" | "admin";
-                    name: string;
-                };
+                user: components["schemas"]["User"];
             };
         };
         EventsListResponse: {
@@ -501,10 +547,7 @@ export interface components {
                 events: components["schemas"]["BaseEvent"][];
             };
             meta: {
-                pagination: {
-                    totalPages: number;
-                    currentPage: number;
-                };
+                pagination: components["schemas"]["Pagination"];
             };
         };
         CreateEventRequest: {
@@ -516,30 +559,9 @@ export interface components {
             endAt: string;
             location: string;
         };
-        CreateEventResponse: {
-            /** @enum {boolean} */
-            success: true;
+        DetailedEventResponse: {
             data: {
-                event: {
-                    id: number;
-                };
-            };
-        };
-        EventDetailsResponse: {
-            data: {
-                event: {
-                    title: string;
-                    description: string;
-                    /** Format: date-time */
-                    startAt: string;
-                    /** Format: date-time */
-                    endAt: string;
-                    location: string;
-                    /** Format: date-time */
-                    createdAt: string;
-                    /** Format: date-time */
-                    updatedAt: string;
-                };
+                event: components["schemas"]["DetailedEvent"];
             };
         };
         UpdateEventRequest: {
@@ -553,47 +575,25 @@ export interface components {
         };
         AttendanceStatusResponse: {
             data: {
-                attendance: {
-                    /** @enum {string|null} */
-                    status: "attending" | "declined" | null;
-                    /** Format: date-time */
-                    createdAt: string;
-                    /** Format: date-time */
-                    updatedAt: string;
-                };
+                attendanceStatus: components["schemas"]["AttendanceStatus"];
             };
         };
         UpdateAttendanceStatusRequest: {
             /** @enum {string|null} */
-            status: "attending" | "declined" | null;
+            attendanceStatus: "attending" | "declined" | null;
         };
         CalendarStatusResponse: {
             data: {
-                calendar: {
-                    /** @enum {string|null} */
-                    status: "added" | "removed" | null;
-                    /** Format: date-time */
-                    createdAt: string;
-                    /** Format: date-time */
-                    updatedAt: string;
-                };
+                calendarStatus: components["schemas"]["CalendarStatus"];
             };
         };
         UpdateCalendarStatusRequest: {
             /** @enum {string|null} */
-            status: "added" | "removed" | null;
+            calendarStatus: "added" | "removed" | null;
         };
         UserProfileResponse: {
             data: {
-                profile: {
-                    name: string;
-                    /** Format: email */
-                    email: string;
-                    /** Format: date-time */
-                    createdAt: string;
-                    /** Format: date-time */
-                    updatedAt: string;
-                };
+                user: components["schemas"]["User"];
             };
         };
         UpdateUserProfileRequest: {
@@ -601,18 +601,7 @@ export interface components {
         };
         SearchUsersResponse: {
             data: {
-                users: {
-                    id: number;
-                    name: string;
-                    /** Format: email */
-                    email: string;
-                    /** @enum {string} */
-                    role: "user" | "editor" | "admin";
-                    /** Format: date-time */
-                    createdAt: string;
-                    /** Format: date-time */
-                    updatedAt: string;
-                }[];
+                users: components["schemas"]["User"][];
             };
         };
         UpdateUserRoleRequest: {
@@ -622,25 +611,121 @@ export interface components {
     };
     responses: {
         /** @description Operation successful */
-        Success: {
+        SuccessOk: {
             headers: {
                 [name: string]: unknown;
             };
             content: {
                 "application/json": {
+                    /** @enum {integer} */
+                    status: 200;
                     /** @enum {boolean} */
                     success: true;
                 };
             };
         };
-        /** @description Unauthorized 401, BadRequest 400, NotFound 404, InternalError 500 */
-        Error: {
+        /** @description The request was successful, and a new resource was created. */
+        SuccessCreated: {
             headers: {
                 [name: string]: unknown;
             };
             content: {
                 "application/json": {
-                    /** @example NotFound */
+                    /** @enum {integer} */
+                    status: 201;
+                    /** @enum {boolean} */
+                    success: true;
+                };
+            };
+        };
+        /** @description The request was successful, but there is no content to return. */
+        SuccessNoContent: {
+            headers: {
+                [name: string]: unknown;
+            };
+            content: {
+                "application/json": {
+                    /** @enum {integer} */
+                    status: 204;
+                    /** @enum {boolean} */
+                    success: true;
+                };
+            };
+        };
+        /** @description Unauthorized 401 - The client must authenticate itself to get the requested response. Client has not provided any authentication credentials, or the credentials provided are invalid. */
+        ErrorUnauthorized: {
+            headers: {
+                [name: string]: unknown;
+            };
+            content: {
+                "application/json": {
+                    /** @enum {integer} */
+                    status: 401;
+                    error: string;
+                };
+            };
+        };
+        /** @description BadRequest 400 - The request was malformed or invalid. */
+        ErrorBadRequest: {
+            headers: {
+                [name: string]: unknown;
+            };
+            content: {
+                "application/json": {
+                    /** @enum {integer} */
+                    status: 400;
+                    error: string;
+                };
+            };
+        };
+        /** @description ErrorForbidden 403 - The server understands the request but refuses to authorize it. Client is authenticated but does not have permission to access the requested resource. */
+        ErrorForbidden: {
+            headers: {
+                [name: string]: unknown;
+            };
+            content: {
+                "application/json": {
+                    /** @enum {integer} */
+                    status: 403;
+                    error: string;
+                };
+            };
+        };
+        /** @description Not Acceptable 406 - The server cannot produce a response matching the list of acceptable values defined in the request's proactive content negotiation headers. */
+        ErrorNotAcceptable: {
+            headers: {
+                [name: string]: unknown;
+            };
+            content: {
+                "application/json": {
+                    /** @enum {integer} */
+                    status: 406;
+                    error: string;
+                };
+            };
+        };
+        /** @description NotFound 404 - The resource was not found. */
+        ErrorNotFound: {
+            headers: {
+                [name: string]: unknown;
+            };
+            content: {
+                "application/json": {
+                    /** @enum {integer} */
+                    status: 404;
+                    error: string;
+                };
+            };
+        };
+        /** @description ErrorInternal 500 - An error occurred on the server. */
+        ErrorInternal: {
+            headers: {
+                [name: string]: unknown;
+            };
+            content: {
+                "application/json": {
+                    /** @enum {integer} */
+                    status: 500;
                     error: string;
                 };
             };
