@@ -679,8 +679,7 @@ components:
         application/json:
           schema:
             type: object
-            required:
-              - success
+            required: [status, success]
             properties:
               status:
                 type: integer
@@ -695,8 +694,7 @@ components:
         application/json:
           schema:
             type: object
-            required:
-              - success
+            required: [status, success]
             properties:
               status:
                 type: integer
@@ -711,8 +709,7 @@ components:
         application/json:
           schema:
             type: object
-            required:
-              - success
+            required: [status, success]
             properties:
               status:
                 type: integer
@@ -727,8 +724,7 @@ components:
         application/json:
           schema:
             type: object
-            required:
-              - error
+            required: [status, error]
             properties:
               status:
                 type: integer
@@ -744,12 +740,43 @@ components:
         application/json:
           schema:
             type: object
-            required:
-              - error
+            required: [status, error]
             properties:
               status:
                 type: integer
                 enum: [400]
+              error:
+                type: string
+                minLength: 1
+                maxLength: 1000
+
+    ErrorForbidden:
+      description: ErrorForbidden 403 - The server understands the request but refuses to authorize it. Client is authenticated but does not have permission to access the requested resource.
+      content:
+        application/json:
+          schema:
+            type: object
+            required: [status, error]
+            properties:
+              status:
+                type: integer
+                enum: [403]
+              error:
+                type: string
+                minLength: 1
+                maxLength: 1000
+
+    ErrorNotAcceptable:
+      description: Not Acceptable 406 - The server cannot produce a response matching the list of acceptable values defined in the request's proactive content negotiation headers.
+      content:
+        application/json:
+          schema:
+            type: object
+            required: [status, error]
+            properties:
+              status:
+                type: integer
+                enum: [406]
               error:
                 type: string
                 minLength: 1
@@ -761,8 +788,7 @@ components:
         application/json:
           schema:
             type: object
-            required:
-              - error
+            required: [status, error]
             properties:
               status:
                 type: integer
@@ -778,29 +804,11 @@ components:
         application/json:
           schema:
             type: object
-            required:
-              - error
+            required: [status, error]
             properties:
               status:
                 type: integer
                 enum: [500]
-              error:
-                type: string
-                minLength: 1
-                maxLength: 1000
-
-    ErrorForbidden:
-      description: ErrorForbidden 403 - The server understands the request but refuses to authorize it. Client is authenticated but does not have permission to access the requested resource.
-      content:
-        application/json:
-          schema:
-            type: object
-            required:
-              - error
-            properties:
-              status:
-                type: integer
-                enum: [403]
               error:
                 type: string
                 minLength: 1
