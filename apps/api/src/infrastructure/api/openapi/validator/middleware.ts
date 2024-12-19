@@ -7,5 +7,4 @@ export default middleware({
   validateRequests: true,
   validateResponses: true,
   validateApiSpec: true,
-  ignorePaths: /^\/api-docs|^\/seed-db\/{0,1}$|^\/purge-db\/{0,1}$/,
 });
