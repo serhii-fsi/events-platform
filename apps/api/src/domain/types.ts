@@ -60,7 +60,7 @@ export interface DetailedEventEntity extends BaseEventEntity {
 }
 
 export interface UserEntity {
-  userId?: UserId;
+  id?: UserId;
   name: string;
   email: string;
   role: Role;

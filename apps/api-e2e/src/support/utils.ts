@@ -3,11 +3,14 @@ import axios from 'axios';
 export const request = async (
   method: 'get' | 'post' | 'put' | 'delete' | 'patch',
   url: string,
-  data?: any,
-  token?: string
+  // eslint-disable-next-line
+  config?: any
 ) => {
-  const config = token ? { headers: { TestAuthorization: `${token}` } } : {};
-  return axios({ method, url, data, ...config });
+  if (config?.token) {
+    config.headers = { TestAuthorization: config.token };
+    delete config.token;
+  }
+  return config ? axios({ method, url, ...config }) : axios({ method, url });
 };
 
 export const seedDb = async () => {

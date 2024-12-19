@@ -1,26 +1,6 @@
-import axios from 'axios';
-import { request, seedDb, purgeDb } from '../../../support/utils';
-
-import * as DOMAIN from '../../../../../api/src/domain/constants';
-
-const USERS = {
-  'VISITOR Sam': { token: null },
-  'USER Carol': {
-    token: '{"name":"Carol Reed", "email":"carol.reed@hotmail.com"}',
-  },
-  'EDITOR Rachel': {
-    token: '{"name":"Rachel Green", "email":"rachel.green@gmail.com"}',
-  },
-  'EDITOR Thomas': {
-    token: '{"name":"Thomas Brown", "email":"thomas.brown@gmail.com"}',
-  },
-  'ADMIN David': {
-    token: '{"name":"David Thompson", "email":"david.thompson@gmail.com"}',
-  },
-  'ADMIN EMMA': {
-    token: '{"name":"Emma Roberts", "email":"emma.roberts@gmail.com"}',
-  },
-};
+import { request, seedDb, purgeDb } from '../../support/utils';
+import { USERS } from '../../support/test-constants';
+import * as DOMAIN from '../../../../api/src/domain/constants';
 
 const EVENT_REQ = {
   title: 'Test Conference 2025',
@@ -52,7 +32,7 @@ describe('Events API', () => {
   describe('GET /api/events', () => {
     describe('happy path scenarios', () => {
       it('should return first page of events with default pagination', async () => {
-        const response = await axios.get('/api/events');
+        const response = await request('get', '/api/events');
         expect(response.status).toBe(200);
 
         const { data, meta } = response.data;
@@ -63,7 +43,7 @@ describe('Events API', () => {
       });
 
       it('should return events with custom pagination parameters', async () => {
-        const response = await axios.get('/api/events', {
+        const response = await request('get', '/api/events', {
           params: { page: 2, limit: 5 },
         });
         expect(response.status).toBe(200);
@@ -75,7 +55,7 @@ describe('Events API', () => {
       });
 
       it('should return correct event data structure', async () => {
-        const response = await axios.get('/api/events');
+        const response = await request('get', '/api/events');
         expect(response.status).toBe(200);
 
         const event = response.data.data.events[0];
@@ -93,10 +73,10 @@ describe('Events API', () => {
 
     describe('pagination edge cases', () => {
       it('should return empty events array for page beyond total pages', async () => {
-        const initialResponse = await axios.get('/api/events');
+        const initialResponse = await request('get', '/api/events');
         const totalPages = initialResponse.data.meta.pagination.totalPages;
 
-        const response = await axios.get('/api/events', {
+        const response = await request('get', '/api/events', {
           params: { page: totalPages + 1 },
         });
         expect(response.status).toBe(200);
@@ -126,12 +106,10 @@ describe('Events API', () => {
         const testDescription = `${user} should successfully create event with status ${result.status}`;
 
         it(testDescription, async () => {
-          const response = await request(
-            'post',
-            '/api/events',
-            EVENT_REQ,
-            USERS[user].token
-          );
+          const response = await request('post', '/api/events', {
+            data: EVENT_REQ,
+            token: USERS[user].token,
+          });
           expect(response.status).toBe(result.status);
           expect(response.data).toMatchObject(result.res);
         });
@@ -144,12 +122,10 @@ describe('Events API', () => {
         const testDescription = `${user} should receive ${result.res.error} error with status ${result.status}`;
 
         it(testDescription, async () => {
-          const response = await request(
-            'post',
-            '/api/events',
-            EVENT_REQ,
-            USERS[user].token
-          );
+          const response = await request('post', '/api/events', {
+            data: EVENT_REQ,
+            token: USERS[user].token,
+          });
           expect(response.status).toBe(result.status);
           expect(response.data).toMatchObject(result.res);
         });
@@ -168,12 +144,10 @@ describe('Events API', () => {
         ];
 
         for (const invalidEventReq of invalidEventReqs) {
-          const response = await request(
-            'post',
-            '/api/events',
-            invalidEventReq,
-            USERS['EDITOR Rachel'].token
-          );
+          const response = await request('post', '/api/events', {
+            data: invalidEventReq,
+            token: USERS['EDITOR Rachel'].token,
+          });
 
           expect(response.status).toBe(400);
           expect(response.data).toMatchObject({
