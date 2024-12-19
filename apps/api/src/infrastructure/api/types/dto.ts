@@ -65,8 +65,6 @@ export type ErrorResponseDto =
 export type ErrorResponseCodes = 400 | 401 | 403 | 404 | 406 | 500;
 
 // Parameter types
-export type AuthorizationHeader =
-  components['parameters']['AuthorizationHeader'];
 export type PageQuery = components['parameters']['PageQuery'];
 export type LimitQuery = components['parameters']['LimitQuery'];
 export type EventIdPath = components['parameters']['EventIdPath'];

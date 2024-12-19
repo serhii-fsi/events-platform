@@ -11,13 +11,11 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** Get authentication status */
+        /** Get authorization status */
         get: {
             parameters: {
                 query?: never;
-                header: {
-                    Authorization: components["parameters"]["AuthorizationHeader"];
-                };
+                header?: never;
                 path?: never;
                 cookie?: never;
             };
@@ -732,7 +730,6 @@ export interface components {
         };
     };
     parameters: {
-        AuthorizationHeader: string;
         PageQuery: number;
         LimitQuery: number;
         EventIdPath: number;

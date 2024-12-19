@@ -9,9 +9,7 @@ paths:
   #================= /api/auth/status =================
   /api/auth/status:
     get:
-      summary: Get authentication status
-      parameters:
-        - $ref: '#/components/parameters/AuthorizationHeader'
+      summary: Get authorization status
       responses:
         '200':
           description: Successful response
@@ -619,15 +617,6 @@ components:
           enum: [user, editor, admin]
 
   parameters:
-    AuthorizationHeader:
-      in: header
-      name: Authorization
-      required: true
-      schema:
-        type: string
-        minLength: 10
-        maxLength: 100
-
     PageQuery:
       in: query
       name: page
