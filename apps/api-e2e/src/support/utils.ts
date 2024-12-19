@@ -6,7 +6,7 @@ export const request = async (
   data?: any,
   token?: string
 ) => {
-  const config = token ? { headers: { Authorization: `Bearer ${token}` } } : {};
+  const config = token ? { headers: { TestAuthorization: `${token}` } } : {};
   return axios({ method, url, data, ...config });
 };
 

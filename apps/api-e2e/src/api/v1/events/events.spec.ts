@@ -4,13 +4,22 @@ import { request, seedDb, purgeDb } from '../../../support/utils';
 import * as DOMAIN from '../../../../../api/src/domain/constants';
 
 const USERS = {
-  'visitor John': { token: null },
-  'visitor Sam': { token: 'invalid.user.token' },
-  'user Dan': { token: 'valid.user.token' },
-  'editor Alice': { token: 'valid.editor.token' },
-  'editor Bob': { token: 'valid.editor.token' },
-  'admin Eve': { token: 'valid.admin.token' },
-  'admin Mallory': { token: 'valid.admin.token' },
+  'VISITOR Sam': { token: null },
+  'USER Carol': {
+    token: '{"name":"Carol Reed", "email":"carol.reed@hotmail.com"}',
+  },
+  'EDITOR Rachel': {
+    token: '{"name":"Rachel Green", "email":"rachel.green@gmail.com"}',
+  },
+  'EDITOR Thomas': {
+    token: '{"name":"Thomas Brown", "email":"thomas.brown@gmail.com"}',
+  },
+  'ADMIN David': {
+    token: '{"name":"David Thompson", "email":"david.thompson@gmail.com"}',
+  },
+  'ADMIN EMMA': {
+    token: '{"name":"Emma Roberts", "email":"emma.roberts@gmail.com"}',
+  },
 };
 
 const EVENT_REQ = {
@@ -99,21 +108,20 @@ describe('Events API', () => {
   // Create event
   describe('POST /api/events', () => {
     const POST_RESULTS = {
-      'visitor John': {
+      'VISITOR Sam': {
         status: 401,
-        res: { status: 401, error: 'Unauthorized' },
+        res: { status: 401, error: DOMAIN.ERRORS.AUTHENTICATION },
       },
-      'visitor Sam': {
-        status: 401,
-        res: { status: 401, error: 'Unauthorized' },
+      'USER Carol': {
+        status: 403,
+        res: { status: 403, error: DOMAIN.ERRORS.AUTHORIZATION },
       },
-      'user Dan': { status: 403, res: { status: 403, error: 'Forbidden' } },
-      'editor Alice': { status: 201, res: EVENT_RES },
-      'admin Eve': { status: 201, res: EVENT_RES },
+      'EDITOR Rachel': { status: 201, res: EVENT_RES },
+      'ADMIN David': { status: 201, res: EVENT_RES },
     };
 
     describe('happy path scenarios', () => {
-      ['editor Alice', 'admin Eve'].forEach((user) => {
+      ['EDITOR Rachel', 'ADMIN David'].forEach((user) => {
         const result = POST_RESULTS[user];
         const testDescription = `${user} should successfully create event with status ${result.status}`;
 
@@ -131,18 +139,21 @@ describe('Events API', () => {
     });
 
     describe('error scenarios', () => {
-      // ['visitor John', 'visitor Sam', 'user Dan'].forEach((user) => {
-      //   const result = POST_RESULTS[user];
-      //   const testDescription = `${user} should receive ${result.res.error} error with status ${result.status}`;
+      ['VISITOR Sam', 'USER Carol'].forEach((user) => {
+        const result = POST_RESULTS[user];
+        const testDescription = `${user} should receive ${result.res.error} error with status ${result.status}`;
 
-      //   it(testDescription, async () => {
-      //     const response = await request('post', '/api/events', {
-      //       headers: { Authorization: `Bearer ${USERS[user].token}` },
-      //     });
-      //     expect(response.status).toBe(result.status);
-      //     expect(response.data).toMatchObject(result.res);
-      //   });
-      // });
+        it(testDescription, async () => {
+          const response = await request(
+            'post',
+            '/api/events',
+            EVENT_REQ,
+            USERS[user].token
+          );
+          expect(response.status).toBe(result.status);
+          expect(response.data).toMatchObject(result.res);
+        });
+      });
 
       it('should return error when editor tries to create event with startAt equal to or after endAt', async () => {
         const invalidEventReqs = [
@@ -150,15 +161,19 @@ describe('Events API', () => {
           {
             ...EVENT_REQ,
             startAt: new Date(
+              // startAt 1 minute after endAt
               new Date(EVENT_REQ.endAt).getTime() + 60000
             ).toISOString(),
-          }, // startAt 1 minute after endAt
+          },
         ];
 
         for (const invalidEventReq of invalidEventReqs) {
-          const response = await axios.post('/api/events', invalidEventReq, {
-            headers: { Authorization: `Bearer ${USERS['editor Alice'].token}` },
-          });
+          const response = await request(
+            'post',
+            '/api/events',
+            invalidEventReq,
+            USERS['EDITOR Rachel'].token
+          );
 
           expect(response.status).toBe(400);
           expect(response.data).toMatchObject({
