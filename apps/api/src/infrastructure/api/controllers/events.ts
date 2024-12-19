@@ -9,7 +9,7 @@ import {
   DetailedEventResponseDto,
 } from '../types/dto';
 import { eventsService } from '../../../domain/services/events';
-import { BaseEventEntity, DetailedEventEntity } from '../../../domain/entities';
+import { BaseEventEntity, DetailedEventEntity } from '../../../domain/types';
 import { PAGINATION } from '../../../domain/constants';
 
 const mapBaseEventToDto = (event: BaseEventEntity): BaseEventDto => ({

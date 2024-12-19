@@ -1,9 +1,15 @@
-import { UserRole } from './constants';
+import { Role, AttendanceStatus, CalendarStatus } from './constants';
 
 // Repository params types
 export interface PaginationParams {
   skip: number;
   take: number;
+}
+
+// Repository result types
+export interface ItemsWithTotalResult<T> {
+  items: T[];
+  totalItems: number;
 }
 
 // Service result types
@@ -16,7 +22,17 @@ export interface PaginatedResult<T> {
   };
 }
 
+// Domain-specific types
+export type UserId = number;
+export type EventId = number;
+
 // Domain-specific complex types
+export type AuthenticatedUser = {
+  name?: string;
+  picture?: string;
+  email: string;
+};
+
 export interface EventFilters {
   startDate?: Date;
   endDate?: Date;
@@ -24,6 +40,43 @@ export interface EventFilters {
 }
 
 export interface UserFilters {
-  role?: UserRole;
+  role?: Role;
   searchTerm?: string;
+}
+
+// Entities
+export interface BaseEventEntity {
+  id?: EventId;
+  title: string;
+  startAt: Date;
+  endAt: Date;
+  location: string;
+  createdAt?: Date;
+  updatedAt?: Date;
+}
+
+export interface DetailedEventEntity extends BaseEventEntity {
+  description: string;
+}
+
+export interface UserEntity {
+  userId?: UserId;
+  name: string;
+  email: string;
+  role: Role;
+  createdAt?: Date;
+  updatedAt?: Date;
+}
+
+// Relationship entities
+export interface Attendance {
+  userId: UserId;
+  eventId: EventId;
+  status: AttendanceStatus | null;
+}
+
+export interface Calendar {
+  userId: UserId;
+  eventId: EventId;
+  status: CalendarStatus | null;
 }

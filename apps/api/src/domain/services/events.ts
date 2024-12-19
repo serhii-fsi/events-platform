@@ -1,7 +1,10 @@
 import { InternalServerError, BadRequestError } from '../errors';
 import eventsRepository from '../../infrastructure/repositories/events';
-import { BaseEventEntity, DetailedEventEntity } from '../entities';
-import { PaginatedResult } from '../types';
+import {
+  BaseEventEntity,
+  DetailedEventEntity,
+  PaginatedResult,
+} from '../types';
 import { AppError } from '../errors';
 import { ERRORS } from '../constants';
 
@@ -21,10 +24,9 @@ export const eventsService = {
     limit: number
   ): Promise<PaginatedResult<BaseEventEntity>> => {
     try {
-      const res = await eventsRepository.findMany({
-        skip: (page - 1) * limit,
-        take: limit,
-      });
+      const skip = (page - 1) * limit;
+      const take = limit;
+      const res = await eventsRepository.findMany({ skip, take });
 
       res.items.forEach((event) => {
         if (!eventValidator.validateDateRange(event)) {
@@ -37,7 +39,14 @@ export const eventsService = {
         }
       });
 
-      return res;
+      return {
+        items: res.items,
+        pagination: {
+          totalItems: res.totalItems,
+          totalPages: Math.ceil(res.totalItems / take),
+          currentPage: Math.floor(skip / take) + 1,
+        },
+      };
     } catch (error) {
       // Repository can also throw a domain errors (AppError subclass)
       // If we work with such repository, we have to check Is it a domain error?

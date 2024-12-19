@@ -1,5 +1,5 @@
 // Domain-specific enums
-export enum UserRole {
+export enum Role {
   USER = 'user',
   EDITOR = 'editor',
   ADMIN = 'admin',
@@ -33,7 +33,12 @@ export const VALIDATION = {
 // Domain-specific messages
 export const ERRORS = {
   // Error messages
-  NOT_AUTHORIZED: 'User not authorized',
+  // Authentication errors
+  AUTHENTICATION: 'Authentication failed',
+  AUTHENTICATION_BUG: 'Unexpected authentication failure',
+  // Authorization errors
+  AUTHORIZATION: 'Authorization failed',
+  AUTHORIZATION_BUG: 'Unexpected authorization failure',
   // Event validation errors
   EVENT_NOT_FOUND: 'Event not found',
   FETCH_EVENTS: 'Failed to fetch events',

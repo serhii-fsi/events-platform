@@ -1,14 +1,18 @@
 import { db } from '../db/connection';
 import { events } from '../db/schema';
 import { desc, sql } from 'drizzle-orm';
-import { BaseEventEntity, DetailedEventEntity } from '../../domain/entities';
-import { PaginationParams, PaginatedResult } from '../../domain/types';
+import {
+  BaseEventEntity,
+  DetailedEventEntity,
+  PaginationParams,
+  ItemsWithTotalResult,
+} from '../../domain/types';
 
 const eventsRepository = {
   findMany: async ({
     skip,
     take,
-  }: PaginationParams): Promise<PaginatedResult<BaseEventEntity>> => {
+  }: PaginationParams): Promise<ItemsWithTotalResult<BaseEventEntity>> => {
     const [eventsResult, totalCount] = await Promise.all([
       db
         .select({
@@ -32,11 +36,7 @@ const eventsRepository = {
 
     return {
       items: eventsResult,
-      pagination: {
-        totalItems: total,
-        totalPages: Math.ceil(total / take),
-        currentPage: Math.floor(skip / take) + 1,
-      },
+      totalItems: total,
     };
   },
 
