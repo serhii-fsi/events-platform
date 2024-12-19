@@ -9,7 +9,8 @@ import relationsData from './data/dev/relations';
 export const seed = async () => {
   try {
     // Insert users
-    await db.insert(users).values(usersData);
+    // eslint-disable-next-line
+    await db.insert(users).values(usersData as any);
     // Reset the sequence for the events table
     await db.execute(
       sql`SELECT setval(pg_get_serial_sequence('users', 'id'), coalesce(max(id), 1) + 1, false) FROM users`

@@ -25,7 +25,7 @@ export const users = pgTable('users', {
   id: serial('id').primaryKey(),
   name: varchar('name', { length: 50 }).notNull(),
   email: varchar('email', { length: 50 }).notNull().unique(),
-  role: userRoleEnum('role').default('user').notNull(),
+  role: userRoleEnum('role').notNull(),
   createdAt: timestamp('created_at').defaultNow().notNull(),
   updatedAt: timestamp('updated_at').defaultNow().notNull(),
 });
