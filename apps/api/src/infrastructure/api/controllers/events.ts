@@ -7,10 +7,13 @@ import {
   CreateEventRequestDto,
   EventsListResponseDto,
   DetailedEventResponseDto,
+  EventIdPath,
+  EventIdPathDto,
 } from '../types/dto';
 import { eventsService } from '../../../domain/services/events';
 import { BaseEventEntity, DetailedEventEntity } from '../../../domain/types';
 import { PAGINATION } from '../../../domain/constants';
+import { log } from 'console';
 
 const mapBaseEventToDto = (event: BaseEventEntity): BaseEventDto => ({
   id: event.id,
@@ -51,6 +54,25 @@ export const eventsController = {
             totalPages: pagination.totalPages,
             currentPage: pagination.currentPage,
           },
+        },
+      });
+    } catch (error) {
+      next(error);
+    }
+  },
+
+  getById: async (
+    req: Request<EventIdPathDto, DetailedEventResponseDto>,
+    res: Response<DetailedEventResponseDto>,
+    next: NextFunction
+  ) => {
+    try {
+      const eventId: EventIdPath = Number(req.params.eventId);
+      const event = await eventsService.getById(eventId);
+
+      return res.status(200).json({
+        data: {
+          event: mapDetailedEventToDto(event),
         },
       });
     } catch (error) {

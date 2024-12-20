@@ -22,11 +22,8 @@ router.get(
 );
 
 // Events
-router.get(
-  '/api/events',
-  // Public endpoint, no need auth middleware
-  eventsController.getMany
-);
+// Public endpoint, no need auth middleware
+router.get('/api/events', eventsController.getMany);
 
 router.post(
   '/api/events',
@@ -40,5 +37,7 @@ router.post(
   }),
   eventsController.create
 );
+
+router.get('/api/events/:eventId', eventsController.getById);
 
 export default router;

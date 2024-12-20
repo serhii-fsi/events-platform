@@ -6,7 +6,14 @@ import { UserEntity } from '../../domain/types';
 export const usersRepository = {
   findUserByEmail: async (email: string): Promise<UserEntity | null> => {
     const [user] = await db
-      .select()
+      .select({
+        id: users.id,
+        name: users.name,
+        email: users.email,
+        role: users.role,
+        createdAt: users.createdAt,
+        updatedAt: users.updatedAt,
+      })
       .from(users)
       .where(eq(users.email, email))
       .limit(1);

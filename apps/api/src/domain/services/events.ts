@@ -1,9 +1,10 @@
-import { InternalServerError, BadRequestError } from '../errors';
+import { InternalServerError, BadRequestError, NotFoundError } from '../errors';
 import eventsRepository from '../../infrastructure/repositories/events';
 import {
   BaseEventEntity,
   DetailedEventEntity,
   PaginatedResult,
+  EventId,
 } from '../types';
 import { AppError } from '../errors';
 import { ERRORS } from '../constants';
@@ -63,6 +64,33 @@ export const eventsService = {
           ERRORS.FETCH_EVENTS,
           error as Error // Add unexpected error as a cause to inform about a problem
         );
+      }
+    }
+  },
+
+  getById: async (id: EventId): Promise<DetailedEventEntity> => {
+    try {
+      const event = await eventsRepository.findById(id);
+
+      if (!event) {
+        throw new NotFoundError(ERRORS.EVENT_NOT_FOUND);
+      }
+
+      if (!eventValidator.validateDateRange(event)) {
+        throw new InternalServerError(
+          ERRORS.INVALID_DATE_RANGE,
+          new Error(
+            'Database consistency error. Event:' + JSON.stringify(event)
+          )
+        );
+      }
+
+      return event;
+    } catch (error) {
+      if (error instanceof AppError) {
+        throw error;
+      } else {
+        throw new InternalServerError(ERRORS.FETCH_EVENTS, error as Error);
       }
     }
   },

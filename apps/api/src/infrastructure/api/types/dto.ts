@@ -1,4 +1,5 @@
 import { components } from '../openapi/schema';
+import * as schema from '../openapi/schema';
 
 // Basic component types
 export type UserDto = components['schemas']['User'];
@@ -70,3 +71,17 @@ export type LimitQuery = components['parameters']['LimitQuery'];
 export type EventIdPath = components['parameters']['EventIdPath'];
 export type UserIdPath = components['parameters']['UserIdPath'];
 export type SearchQuery = components['parameters']['SearchQuery'];
+
+// Parameter DTOs
+export type EventIdPathDto =
+  schema.paths['/api/events/{eventId}']['get']['parameters']['path'];
+export type UserIdPathDto =
+  schema.paths['/api/users/{userId}/profile']['get']['parameters']['path'];
+export type PageQueryDto =
+  schema.paths['/api/events']['get']['parameters']['query'];
+export type SearchQueryDto =
+  schema.paths['/api/users']['get']['parameters']['query'];
+export type AttendanceStatusPathDto =
+  schema.paths['/api/users/{userId}/events/{eventId}/attendance-status']['get']['parameters']['path'];
+export type CalendarStatusPathDto =
+  schema.paths['/api/users/{userId}/events/{eventId}/calendar-status']['get']['parameters']['path'];

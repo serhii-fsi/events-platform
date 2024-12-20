@@ -1,11 +1,12 @@
 import { db } from '../db/connection';
 import { events } from '../db/schema';
-import { desc, sql } from 'drizzle-orm';
+import { desc, sql, eq } from 'drizzle-orm';
 import {
   BaseEventEntity,
   DetailedEventEntity,
   PaginationParams,
   ItemsWithTotalResult,
+  EventId,
 } from '../../domain/types';
 
 const eventsRepository = {
@@ -38,6 +39,25 @@ const eventsRepository = {
       items: eventsResult,
       totalItems: total,
     };
+  },
+
+  findById: async (id: EventId): Promise<DetailedEventEntity | null> => {
+    const [event] = await db
+      .select({
+        id: events.id,
+        title: events.title,
+        description: events.description,
+        startAt: events.startAt,
+        endAt: events.endAt,
+        location: events.location,
+        createdAt: events.createdAt,
+        updatedAt: events.updatedAt,
+      })
+      .from(events)
+      .where(eq(events.id, id))
+      .limit(1);
+
+    return event || null;
   },
 
   create: async (event: DetailedEventEntity): Promise<DetailedEventEntity> => {
