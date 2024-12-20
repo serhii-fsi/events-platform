@@ -97,7 +97,11 @@ paths:
               $ref: '#/components/schemas/UpdateEventRequest'
       responses:
         '200':
-          $ref: '#/components/schemas/DetailedEventResponse'
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DetailedEventResponse'
         '400':
           $ref: '#/components/responses/ErrorBadRequest'
         '401':
@@ -320,6 +324,7 @@ components:
     BaseEvent:
       type: object
       required: [id, title, startAt, endAt, location, createdAt, updatedAt]
+      additionalProperties: false
       properties:
         id:
           type: integer
@@ -349,6 +354,7 @@ components:
     User:
       type: object
       required: [id, name, email, role, createdAt, updatedAt]
+      additionalProperties: false
       properties:
         id:
           type: integer
@@ -376,6 +382,7 @@ components:
     Pagination:
       type: object
       required: [totalPages, currentPage]
+      additionalProperties: false
       properties:
         totalPages:
           type: integer
@@ -390,6 +397,7 @@ components:
       type: object
       required:
         [id, title, description, startAt, endAt, location, createdAt, updatedAt]
+      additionalProperties: false
       properties:
         id:
           type: integer
@@ -423,6 +431,7 @@ components:
     AttendanceStatus:
       type: object
       required: [status, createdAt, updatedAt]
+      additionalProperties: false
       properties:
         status:
           type: string
@@ -438,6 +447,7 @@ components:
     CalendarStatus:
       type: object
       required: [status, createdAt, updatedAt]
+      additionalProperties: false
       properties:
         status:
           type: string
@@ -453,10 +463,12 @@ components:
     AuthStatusResponse:
       type: object
       required: [data]
+      additionalProperties: false
       properties:
         data:
           type: object
           required: [user]
+          additionalProperties: false
           properties:
             user:
               $ref: '#/components/schemas/User'
@@ -464,10 +476,12 @@ components:
     EventsListResponse:
       type: object
       required: [data, meta]
+      additionalProperties: false
       properties:
         data:
           type: object
           required: [events]
+          additionalProperties: false
           properties:
             events:
               type: array
@@ -476,6 +490,7 @@ components:
         meta:
           type: object
           required: [pagination]
+          additionalProperties: false
           properties:
             pagination:
               $ref: '#/components/schemas/Pagination'
@@ -483,6 +498,7 @@ components:
     CreateEventRequest:
       type: object
       required: [title, description, startAt, endAt, location]
+      additionalProperties: false
       properties:
         title:
           type: string
@@ -506,16 +522,19 @@ components:
     DetailedEventResponse:
       type: object
       required: [data]
+      additionalProperties: false
       properties:
         data:
           type: object
           required: [event]
+          additionalProperties: false
           properties:
             event:
               $ref: '#/components/schemas/DetailedEvent'
 
     UpdateEventRequest:
       type: object
+      additionalProperties: false
       properties:
         title:
           type: string
@@ -539,10 +558,12 @@ components:
     AttendanceStatusResponse:
       type: object
       required: [data]
+      additionalProperties: false
       properties:
         data:
           type: object
           required: [attendanceStatus]
+          additionalProperties: false
           properties:
             attendanceStatus:
               $ref: '#/components/schemas/AttendanceStatus'
@@ -550,6 +571,7 @@ components:
     UpdateAttendanceStatusRequest:
       type: object
       required: [attendanceStatus]
+      additionalProperties: false
       properties:
         attendanceStatus:
           type: string
@@ -559,10 +581,12 @@ components:
     CalendarStatusResponse:
       type: object
       required: [data]
+      additionalProperties: false
       properties:
         data:
           type: object
           required: [calendarStatus]
+          additionalProperties: false
           properties:
             calendarStatus:
               $ref: '#/components/schemas/CalendarStatus'
@@ -570,6 +594,7 @@ components:
     UpdateCalendarStatusRequest:
       type: object
       required: [calendarStatus]
+      additionalProperties: false
       properties:
         calendarStatus:
           type: string
@@ -579,16 +604,19 @@ components:
     UserProfileResponse:
       type: object
       required: [data]
+      additionalProperties: false
       properties:
         data:
           type: object
           required: [user]
+          additionalProperties: false
           properties:
             user:
               $ref: '#/components/schemas/User'
 
     UpdateUserProfileRequest:
       type: object
+      additionalProperties: false
       properties:
         name:
           type: string
@@ -598,10 +626,12 @@ components:
     SearchUsersResponse:
       type: object
       required: [data]
+      additionalProperties: false
       properties:
         data:
           type: object
           required: [users]
+          additionalProperties: false
           properties:
             users:
               type: array
@@ -611,6 +641,7 @@ components:
     UpdateUserRoleRequest:
       type: object
       required: [role]
+      additionalProperties: false
       properties:
         role:
           type: string
