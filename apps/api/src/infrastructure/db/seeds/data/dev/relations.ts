@@ -21,7 +21,7 @@ export default [
     userId: 19,
     eventId: 67,
     attendance: 'declined',
-    calendar: null,
+    calendar: 'unset',
   },
   {
     userId: 4,
@@ -57,13 +57,13 @@ export default [
     userId: 10,
     eventId: 6,
     attendance: 'attending',
-    calendar: null,
+    calendar: 'unset',
   },
   {
     userId: 8,
     eventId: 77,
     attendance: 'declined',
-    calendar: null,
+    calendar: 'unset',
   },
   {
     userId: 9,
@@ -99,7 +99,7 @@ export default [
     userId: 15,
     eventId: 23,
     attendance: 'attending',
-    calendar: null,
+    calendar: 'unset',
   },
   {
     userId: 13,
@@ -117,13 +117,13 @@ export default [
     userId: 8,
     eventId: 72,
     attendance: 'declined',
-    calendar: null,
+    calendar: 'unset',
   },
   {
     userId: 8,
     eventId: 86,
     attendance: 'attending',
-    calendar: null,
+    calendar: 'unset',
   },
   {
     userId: 10,
@@ -140,8 +140,8 @@ export default [
   {
     userId: 17,
     eventId: 13,
-    attendance: null,
-    calendar: null,
+    attendance: 'unset',
+    calendar: 'unset',
   },
   {
     userId: 16,
@@ -194,38 +194,38 @@ export default [
   {
     userId: 5,
     eventId: 9,
-    attendance: null,
-    calendar: null,
+    attendance: 'unset',
+    calendar: 'unset',
   },
   {
     userId: 19,
     eventId: 76,
     attendance: 'attending',
-    calendar: null,
+    calendar: 'unset',
   },
   {
     userId: 5,
     eventId: 95,
     attendance: 'attending',
-    calendar: null,
+    calendar: 'unset',
   },
   {
     userId: 9,
     eventId: 14,
     attendance: 'attending',
-    calendar: null,
+    calendar: 'unset',
   },
   {
     userId: 7,
     eventId: 78,
     attendance: 'attending',
-    calendar: null,
+    calendar: 'unset',
   },
   {
     userId: 9,
     eventId: 90,
     attendance: 'declined',
-    calendar: null,
+    calendar: 'unset',
   },
   {
     userId: 1,
@@ -284,8 +284,8 @@ export default [
   {
     userId: 10,
     eventId: 4,
-    attendance: null,
-    calendar: null,
+    attendance: 'unset',
+    calendar: 'unset',
   },
   {
     userId: 12,
@@ -296,14 +296,14 @@ export default [
   {
     userId: 17,
     eventId: 6,
-    attendance: null,
-    calendar: null,
+    attendance: 'unset',
+    calendar: 'unset',
   },
   {
     userId: 4,
     eventId: 90,
     attendance: 'attending',
-    calendar: null,
+    calendar: 'unset',
   },
   {
     userId: 3,
@@ -320,20 +320,20 @@ export default [
   {
     userId: 3,
     eventId: 27,
-    attendance: null,
-    calendar: null,
+    attendance: 'unset',
+    calendar: 'unset',
   },
   {
     userId: 16,
     eventId: 77,
     attendance: 'attending',
-    calendar: null,
+    calendar: 'unset',
   },
   {
     userId: 7,
     eventId: 44,
-    attendance: null,
-    calendar: null,
+    attendance: 'unset',
+    calendar: 'unset',
   },
   {
     userId: 12,
@@ -345,13 +345,13 @@ export default [
     userId: 3,
     eventId: 64,
     attendance: 'declined',
-    calendar: null,
+    calendar: 'unset',
   },
   {
     userId: 7,
     eventId: 84,
-    attendance: null,
-    calendar: null,
+    attendance: 'unset',
+    calendar: 'unset',
   },
   {
     userId: 6,
@@ -410,8 +410,8 @@ export default [
   {
     userId: 16,
     eventId: 47,
-    attendance: null,
-    calendar: null,
+    attendance: 'unset',
+    calendar: 'unset',
   },
   {
     userId: 18,
@@ -483,7 +483,7 @@ export default [
     userId: 15,
     eventId: 1,
     attendance: 'declined',
-    calendar: null,
+    calendar: 'unset',
   },
   {
     userId: 13,
@@ -500,8 +500,8 @@ export default [
   {
     userId: 6,
     eventId: 98,
-    attendance: null,
-    calendar: null,
+    attendance: 'unset',
+    calendar: 'unset',
   },
   {
     userId: 3,
@@ -519,7 +519,7 @@ export default [
     userId: 11,
     eventId: 37,
     attendance: 'declined',
-    calendar: null,
+    calendar: 'unset',
   },
   {
     userId: 3,
@@ -549,7 +549,7 @@ export default [
     userId: 1,
     eventId: 48,
     attendance: 'attending',
-    calendar: null,
+    calendar: 'unset',
   },
   {
     userId: 11,
@@ -590,8 +590,8 @@ export default [
   {
     userId: 12,
     eventId: 73,
-    attendance: null,
-    calendar: null,
+    attendance: 'unset',
+    calendar: 'unset',
   },
   {
     userId: 5,
@@ -608,26 +608,26 @@ export default [
   {
     userId: 8,
     eventId: 33,
-    attendance: null,
-    calendar: null,
+    attendance: 'unset',
+    calendar: 'unset',
   },
   {
     userId: 19,
     eventId: 80,
     attendance: 'declined',
-    calendar: null,
+    calendar: 'unset',
   },
   {
     userId: 5,
     eventId: 31,
     attendance: 'attending',
-    calendar: null,
+    calendar: 'unset',
   },
   {
     userId: 3,
     eventId: 87,
-    attendance: null,
-    calendar: null,
+    attendance: 'unset',
+    calendar: 'unset',
   },
   {
     userId: 4,
@@ -639,7 +639,7 @@ export default [
     userId: 14,
     eventId: 89,
     attendance: 'declined',
-    calendar: null,
+    calendar: 'unset',
   },
   {
     userId: 10,
@@ -651,13 +651,13 @@ export default [
     userId: 7,
     eventId: 8,
     attendance: 'declined',
-    calendar: null,
+    calendar: 'unset',
   },
   {
     userId: 7,
     eventId: 47,
     attendance: 'attending',
-    calendar: null,
+    calendar: 'unset',
   },
   {
     userId: 6,
@@ -693,13 +693,13 @@ export default [
     userId: 3,
     eventId: 84,
     attendance: 'attending',
-    calendar: null,
+    calendar: 'unset',
   },
   {
     userId: 15,
     eventId: 40,
     attendance: 'attending',
-    calendar: null,
+    calendar: 'unset',
   },
   {
     userId: 7,
@@ -710,14 +710,14 @@ export default [
   {
     userId: 13,
     eventId: 37,
-    attendance: null,
-    calendar: null,
+    attendance: 'unset',
+    calendar: 'unset',
   },
   {
     userId: 4,
     eventId: 7,
     attendance: 'declined',
-    calendar: null,
+    calendar: 'unset',
   },
   {
     userId: 7,
@@ -734,26 +734,26 @@ export default [
   {
     userId: 9,
     eventId: 59,
-    attendance: null,
-    calendar: null,
+    attendance: 'unset',
+    calendar: 'unset',
   },
   {
     userId: 12,
     eventId: 30,
     attendance: 'declined',
-    calendar: null,
+    calendar: 'unset',
   },
   {
     userId: 5,
     eventId: 86,
-    attendance: null,
-    calendar: null,
+    attendance: 'unset',
+    calendar: 'unset',
   },
   {
     userId: 13,
     eventId: 21,
     attendance: 'declined',
-    calendar: null,
+    calendar: 'unset',
   },
   {
     userId: 18,
@@ -789,7 +789,7 @@ export default [
     userId: 12,
     eventId: 71,
     attendance: 'declined',
-    calendar: null,
+    calendar: 'unset',
   },
   {
     userId: 2,
@@ -843,19 +843,19 @@ export default [
     userId: 11,
     eventId: 98,
     attendance: 'declined',
-    calendar: null,
+    calendar: 'unset',
   },
   {
     userId: 13,
     eventId: 5,
-    attendance: null,
-    calendar: null,
+    attendance: 'unset',
+    calendar: 'unset',
   },
   {
     userId: 16,
     eventId: 62,
-    attendance: null,
-    calendar: null,
+    attendance: 'unset',
+    calendar: 'unset',
   },
   {
     userId: 1,
@@ -867,7 +867,7 @@ export default [
     userId: 10,
     eventId: 83,
     attendance: 'declined',
-    calendar: null,
+    calendar: 'unset',
   },
   {
     userId: 4,
@@ -885,19 +885,19 @@ export default [
     userId: 18,
     eventId: 41,
     attendance: 'declined',
-    calendar: null,
+    calendar: 'unset',
   },
   {
     userId: 7,
     eventId: 56,
     attendance: 'attending',
-    calendar: null,
+    calendar: 'unset',
   },
   {
     userId: 7,
     eventId: 96,
-    attendance: null,
-    calendar: null,
+    attendance: 'unset',
+    calendar: 'unset',
   },
   {
     userId: 6,
@@ -915,7 +915,7 @@ export default [
     userId: 10,
     eventId: 73,
     attendance: 'declined',
-    calendar: null,
+    calendar: 'unset',
   },
   {
     userId: 9,
@@ -933,7 +933,7 @@ export default [
     userId: 3,
     eventId: 45,
     attendance: 'declined',
-    calendar: null,
+    calendar: 'unset',
   },
   {
     userId: 10,
@@ -951,7 +951,7 @@ export default [
     userId: 2,
     eventId: 56,
     attendance: 'declined',
-    calendar: null,
+    calendar: 'unset',
   },
   {
     userId: 10,
@@ -987,7 +987,7 @@ export default [
     userId: 18,
     eventId: 62,
     attendance: 'declined',
-    calendar: null,
+    calendar: 'unset',
   },
   {
     userId: 20,
@@ -1022,14 +1022,14 @@ export default [
   {
     userId: 13,
     eventId: 14,
-    attendance: null,
-    calendar: null,
+    attendance: 'unset',
+    calendar: 'unset',
   },
   {
     userId: 6,
     eventId: 20,
     attendance: 'attending',
-    calendar: null,
+    calendar: 'unset',
   },
   {
     userId: 13,
@@ -1047,19 +1047,19 @@ export default [
     userId: 18,
     eventId: 20,
     attendance: 'declined',
-    calendar: null,
+    calendar: 'unset',
   },
   {
     userId: 18,
     eventId: 36,
     attendance: 'declined',
-    calendar: null,
+    calendar: 'unset',
   },
   {
     userId: 6,
     eventId: 19,
     attendance: 'declined',
-    calendar: null,
+    calendar: 'unset',
   },
   {
     userId: 2,
@@ -1095,7 +1095,7 @@ export default [
     userId: 15,
     eventId: 83,
     attendance: 'attending',
-    calendar: null,
+    calendar: 'unset',
   },
   {
     userId: 14,
@@ -1106,8 +1106,8 @@ export default [
   {
     userId: 20,
     eventId: 96,
-    attendance: null,
-    calendar: null,
+    attendance: 'unset',
+    calendar: 'unset',
   },
   {
     userId: 13,
@@ -1124,8 +1124,8 @@ export default [
   {
     userId: 11,
     eventId: 85,
-    attendance: null,
-    calendar: null,
+    attendance: 'unset',
+    calendar: 'unset',
   },
   {
     userId: 7,
@@ -1136,8 +1136,8 @@ export default [
   {
     userId: 6,
     eventId: 73,
-    attendance: null,
-    calendar: null,
+    attendance: 'unset',
+    calendar: 'unset',
   },
   {
     userId: 19,
@@ -1149,7 +1149,7 @@ export default [
     userId: 14,
     eventId: 16,
     attendance: 'declined',
-    calendar: null,
+    calendar: 'unset',
   },
   {
     userId: 1,
@@ -1167,7 +1167,7 @@ export default [
     userId: 9,
     eventId: 32,
     attendance: 'attending',
-    calendar: null,
+    calendar: 'unset',
   },
   {
     userId: 7,

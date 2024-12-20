@@ -77,11 +77,15 @@ export interface UserEntity {
 export interface Attendance {
   userId: UserId;
   eventId: EventId;
-  status: AttendanceStatus | null;
+  status: AttendanceStatus;
+  createdAt?: Date;
+  updatedAt?: Date;
 }
 
 export interface Calendar {
   userId: UserId;
   eventId: EventId;
-  status: CalendarStatus | null;
+  status: CalendarStatus;
+  createdAt?: Date;
+  updatedAt?: Date;
 }

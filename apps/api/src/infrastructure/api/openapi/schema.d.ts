@@ -258,7 +258,15 @@ export interface paths {
                 };
             };
             responses: {
-                200: components["schemas"]["AttendanceStatusResponse"];
+                /** @description Successful response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["AttendanceStatusResponse"];
+                    };
+                };
                 400: components["responses"]["ErrorBadRequest"];
                 401: components["responses"]["ErrorUnauthorized"];
                 403: components["responses"]["ErrorForbidden"];
@@ -325,7 +333,15 @@ export interface paths {
                 };
             };
             responses: {
-                200: components["schemas"]["CalendarStatusResponse"];
+                /** @description Successful response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["CalendarStatusResponse"];
+                    };
+                };
                 400: components["responses"]["ErrorBadRequest"];
                 401: components["responses"]["ErrorUnauthorized"];
                 403: components["responses"]["ErrorForbidden"];
@@ -390,7 +406,15 @@ export interface paths {
                 };
             };
             responses: {
-                200: components["schemas"]["UserProfileResponse"];
+                /** @description Successful response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["UserProfileResponse"];
+                    };
+                };
                 400: components["responses"]["ErrorBadRequest"];
                 401: components["responses"]["ErrorUnauthorized"];
                 403: components["responses"]["ErrorForbidden"];
@@ -470,7 +494,15 @@ export interface paths {
                 };
             };
             responses: {
-                200: components["schemas"]["UserProfileResponse"];
+                /** @description Successful response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["UserProfileResponse"];
+                    };
+                };
                 400: components["responses"]["ErrorBadRequest"];
                 401: components["responses"]["ErrorUnauthorized"];
                 403: components["responses"]["ErrorForbidden"];
@@ -528,16 +560,16 @@ export interface components {
             updatedAt: string;
         };
         AttendanceStatus: {
-            /** @enum {string|null} */
-            status: "attending" | "declined" | null;
+            /** @enum {string} */
+            status: "attending" | "declined" | "unset";
             /** Format: date-time */
             createdAt: string;
             /** Format: date-time */
             updatedAt: string;
         };
         CalendarStatus: {
-            /** @enum {string|null} */
-            status: "added" | "removed" | null;
+            /** @enum {string} */
+            status: "added" | "removed" | "unset";
             /** Format: date-time */
             createdAt: string;
             /** Format: date-time */
@@ -585,8 +617,8 @@ export interface components {
             };
         };
         UpdateAttendanceStatusRequest: {
-            /** @enum {string|null} */
-            attendanceStatus: "attending" | "declined" | null;
+            /** @enum {string} */
+            attendanceStatus: "attending" | "declined" | "unset";
         };
         CalendarStatusResponse: {
             data: {
@@ -594,8 +626,8 @@ export interface components {
             };
         };
         UpdateCalendarStatusRequest: {
-            /** @enum {string|null} */
-            calendarStatus: "added" | "removed" | null;
+            /** @enum {string} */
+            calendarStatus: "added" | "removed" | "unset";
         };
         UserProfileResponse: {
             data: {

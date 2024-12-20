@@ -8,11 +8,13 @@ export enum Role {
 export enum AttendanceStatus {
   ATTENDING = 'attending',
   DECLINED = 'declined',
+  UNSET = 'unset',
 }
 
 export enum CalendarStatus {
   ADDED = 'added',
   REMOVED = 'removed',
+  UNSET = 'unset',
 }
 
 // Business rule constants
@@ -46,4 +48,7 @@ export const ERRORS = {
   UPDATE_EVENT: 'Failed to update event',
   INVALID_DATE_RANGE: 'End date must be after start date',
   DELETE_EVENT: 'Failed to delete event',
+  // Attendance errors
+  ATTENDANCE_NOT_FOUND: 'Attendance status not found',
+  FETCH_ATTENDANCE: 'Failed to fetch attendance status',
 } as const;

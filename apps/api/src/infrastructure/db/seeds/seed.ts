@@ -1,6 +1,8 @@
 import { db } from '../connection';
 import { sql } from 'drizzle-orm';
 import { users, events, attendance, calendar } from '../schema';
+import { AttendanceStatus, CalendarStatus } from '../../../domain/constants';
+import { UserEntity } from '../../../domain/types';
 
 import usersData from './data/dev/users';
 import eventsData from './data/dev/events';
@@ -9,8 +11,7 @@ import relationsData from './data/dev/relations';
 export const seed = async () => {
   try {
     // Insert users
-    // eslint-disable-next-line
-    await db.insert(users).values(usersData as any);
+    await db.insert(users).values(usersData as UserEntity[]);
     // Reset the sequence for the events table
     await db.execute(
       sql`SELECT setval(pg_get_serial_sequence('users', 'id'), coalesce(max(id), 1) + 1, false) FROM users`
@@ -32,7 +33,7 @@ export const seed = async () => {
     const attendanceData = relationsData.map((relation) => ({
       userId: relation.userId,
       eventId: relation.eventId,
-      status: relation.attendance,
+      status: relation.attendance as AttendanceStatus,
     }));
     await db.insert(attendance).values(attendanceData);
 
@@ -40,7 +41,7 @@ export const seed = async () => {
     const calendarData = relationsData.map((relation) => ({
       userId: relation.userId,
       eventId: relation.eventId,
-      status: relation.calendar,
+      status: relation.calendar as CalendarStatus,
     }));
     await db.insert(calendar).values(calendarData);
 

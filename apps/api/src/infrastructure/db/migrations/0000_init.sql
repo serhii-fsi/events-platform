@@ -1,10 +1,10 @@
-CREATE TYPE "public"."attendance_status" AS ENUM('attending', 'declined');--> statement-breakpoint
-CREATE TYPE "public"."calendar_status" AS ENUM('added', 'removed');--> statement-breakpoint
+CREATE TYPE "public"."attendance_status" AS ENUM('attending', 'declined', 'unset');--> statement-breakpoint
+CREATE TYPE "public"."calendar_status" AS ENUM('added', 'removed', 'unset');--> statement-breakpoint
 CREATE TYPE "public"."user_role" AS ENUM('user', 'editor', 'admin');--> statement-breakpoint
 CREATE TABLE "attendance" (
 	"user_id" integer NOT NULL,
 	"event_id" integer NOT NULL,
-	"status" "attendance_status",
+	"status" "attendance_status" NOT NULL,
 	"created_at" timestamp DEFAULT now() NOT NULL,
 	"updated_at" timestamp DEFAULT now() NOT NULL
 );
@@ -12,7 +12,7 @@ CREATE TABLE "attendance" (
 CREATE TABLE "calendar" (
 	"user_id" integer NOT NULL,
 	"event_id" integer NOT NULL,
-	"status" "calendar_status",
+	"status" "calendar_status" NOT NULL,
 	"created_at" timestamp DEFAULT now() NOT NULL,
 	"updated_at" timestamp DEFAULT now() NOT NULL
 );

@@ -164,7 +164,11 @@ paths:
               $ref: '#/components/schemas/UpdateAttendanceStatusRequest'
       responses:
         '200':
-          $ref: '#/components/schemas/AttendanceStatusResponse'
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AttendanceStatusResponse'
         '400':
           $ref: '#/components/responses/ErrorBadRequest'
         '401':
@@ -212,7 +216,11 @@ paths:
               $ref: '#/components/schemas/UpdateCalendarStatusRequest'
       responses:
         '200':
-          $ref: '#/components/schemas/CalendarStatusResponse'
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CalendarStatusResponse'
         '400':
           $ref: '#/components/responses/ErrorBadRequest'
         '401':
@@ -258,7 +266,11 @@ paths:
               $ref: '#/components/schemas/UpdateUserProfileRequest'
       responses:
         '200':
-          $ref: '#/components/schemas/UserProfileResponse'
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserProfileResponse'
         '400':
           $ref: '#/components/responses/ErrorBadRequest'
         '401':
@@ -306,7 +318,11 @@ paths:
               $ref: '#/components/schemas/UpdateUserRoleRequest'
       responses:
         '200':
-          $ref: '#/components/schemas/UserProfileResponse'
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserProfileResponse'
         '400':
           $ref: '#/components/responses/ErrorBadRequest'
         '401':
@@ -435,8 +451,7 @@ components:
       properties:
         status:
           type: string
-          nullable: true
-          enum: [attending, declined]
+          enum: [attending, declined, unset]
         createdAt:
           type: string
           format: date-time
@@ -451,8 +466,7 @@ components:
       properties:
         status:
           type: string
-          nullable: true
-          enum: [added, removed]
+          enum: [added, removed, unset]
         createdAt:
           type: string
           format: date-time
@@ -575,8 +589,7 @@ components:
       properties:
         attendanceStatus:
           type: string
-          nullable: true
-          enum: [attending, declined]
+          enum: [attending, declined, unset]
 
     CalendarStatusResponse:
       type: object
@@ -598,8 +611,7 @@ components:
       properties:
         calendarStatus:
           type: string
-          nullable: true
-          enum: [added, removed]
+          enum: [added, removed, unset]
 
     UserProfileResponse:
       type: object

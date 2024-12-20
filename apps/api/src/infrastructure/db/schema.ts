@@ -14,10 +14,12 @@ export const userRoleEnum = pgEnum('user_role', ['user', 'editor', 'admin']);
 export const attendanceStatusEnum = pgEnum('attendance_status', [
   'attending',
   'declined',
+  'unset',
 ]);
 export const calendarStatusEnum = pgEnum('calendar_status', [
   'added',
   'removed',
+  'unset',
 ]);
 
 // Users table
@@ -52,7 +54,7 @@ export const attendance = pgTable(
     eventId: integer('event_id')
       .references(() => events.id, { onDelete: 'cascade' })
       .notNull(),
-    status: attendanceStatusEnum('status'), // null default
+    status: attendanceStatusEnum('status').notNull(),
     createdAt: timestamp('created_at').defaultNow().notNull(),
     updatedAt: timestamp('updated_at').defaultNow().notNull(),
   },
@@ -71,7 +73,7 @@ export const calendar = pgTable(
     eventId: integer('event_id')
       .references(() => events.id, { onDelete: 'cascade' })
       .notNull(),
-    status: calendarStatusEnum('status'), // null default
+    status: calendarStatusEnum('status').notNull(),
     createdAt: timestamp('created_at').defaultNow().notNull(),
     updatedAt: timestamp('updated_at').defaultNow().notNull(),
   },
