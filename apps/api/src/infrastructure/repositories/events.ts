@@ -96,6 +96,10 @@ const eventsRepository = {
 
     return updated;
   },
+
+  delete: async (id: EventId): Promise<void> => {
+    await db.delete(events).where(eq(events.id, id));
+  },
 };
 
 export default eventsRepository;

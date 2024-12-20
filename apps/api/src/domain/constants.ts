@@ -45,4 +45,5 @@ export const ERRORS = {
   CREATE_EVENT: 'Failed to create event',
   UPDATE_EVENT: 'Failed to update event',
   INVALID_DATE_RANGE: 'End date must be after start date',
+  DELETE_EVENT: 'Failed to delete event',
 } as const;

@@ -142,4 +142,22 @@ export const eventsController = {
       next(error);
     }
   },
+
+  delete: async (
+    req: Request<EventIdPathDto>,
+    res: Response,
+    next: NextFunction
+  ) => {
+    try {
+      const eventId: EventIdPath = Number(req.params.eventId);
+      await eventsService.delete(eventId);
+
+      return res.status(200).json({
+        status: 200,
+        success: true,
+      });
+    } catch (error) {
+      next(error);
+    }
+  },
 };

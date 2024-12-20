@@ -220,4 +220,74 @@ describe('Event API', () => {
       });
     });
   });
+
+  describe('DELETE /api/events/{eventId}', () => {
+    describe('happy path scenarios', () => {
+      ['EDITOR Rachel', 'ADMIN David'].forEach((user) => {
+        it(`should allow ${user} to delete an event`, async () => {
+          const createResponse = await request('post', '/api/events', {
+            data: SAMPLE_EVENT,
+            token: USERS['EDITOR Rachel'].token,
+          });
+          const newEventId = createResponse.data.data.event.id;
+
+          const response = await request(
+            'delete',
+            `/api/events/${newEventId}`,
+            {
+              token: USERS[user].token,
+            }
+          );
+
+          expect(response.status).toBe(200);
+
+          const getResponse = await request('get', `/api/events/${newEventId}`);
+          expect(getResponse.status).toBe(404);
+        });
+      });
+    });
+
+    describe('error scenarios', () => {
+      it('should return 401 for unauthenticated users', async () => {
+        const response = await request('delete', `/api/events/${eventId}`, {
+          token: USERS['VISITOR Sam'].token,
+        });
+
+        expect(response.status).toBe(401);
+        expect(response.data).toMatchObject({
+          status: 401,
+          error: DOMAIN.ERRORS.AUTHENTICATION,
+        });
+      });
+
+      it('should return 403 for regular users', async () => {
+        const response = await request('delete', `/api/events/${eventId}`, {
+          token: USERS['USER Carol'].token,
+        });
+
+        expect(response.status).toBe(403);
+        expect(response.data).toMatchObject({
+          status: 403,
+          error: DOMAIN.ERRORS.AUTHORIZATION,
+        });
+      });
+
+      it('should return 404 when event does not exist', async () => {
+        const nonExistentId = 99999;
+        const response = await request(
+          'delete',
+          `/api/events/${nonExistentId}`,
+          {
+            token: USERS['EDITOR Rachel'].token,
+          }
+        );
+
+        expect(response.status).toBe(404);
+        expect(response.data).toMatchObject({
+          status: 404,
+          error: DOMAIN.ERRORS.EVENT_NOT_FOUND,
+        });
+      });
+    });
+  });
 });

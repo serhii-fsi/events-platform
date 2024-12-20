@@ -6,6 +6,15 @@ import { eventsController } from '../controllers/events';
 
 const router = express.Router();
 
+const authEditorsAndAdmins = auth((req, authenticatedUser, storedUser) => {
+  if (
+    authenticatedUser &&
+    (storedUser?.role === Role.EDITOR || storedUser?.role === Role.ADMIN)
+  )
+    return true;
+  else return false;
+});
+
 router.get(
   '/api/auth/status',
   auth((req, authenticatedUser, storedUser) => {
@@ -25,32 +34,20 @@ router.get(
 // Public endpoint, no need auth middleware
 router.get('/api/events', eventsController.getMany);
 
-router.post(
-  '/api/events',
-  auth((req, authenticatedUser, storedUser) => {
-    if (
-      authenticatedUser &&
-      (storedUser?.role === Role.EDITOR || storedUser?.role === Role.ADMIN)
-    )
-      return true;
-    else return false;
-  }),
-  eventsController.create
-);
+router.post('/api/events', authEditorsAndAdmins, eventsController.create);
 
 router.get('/api/events/:eventId', eventsController.getById);
 
 router.patch(
   '/api/events/:eventId',
-  auth((req, authenticatedUser, storedUser) => {
-    if (
-      authenticatedUser &&
-      (storedUser?.role === Role.EDITOR || storedUser?.role === Role.ADMIN)
-    )
-      return true;
-    else return false;
-  }),
+  authEditorsAndAdmins,
   eventsController.update
+);
+
+router.delete(
+  '/api/events/:eventId',
+  authEditorsAndAdmins,
+  eventsController.delete
 );
 
 export default router;

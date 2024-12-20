@@ -146,4 +146,22 @@ export const eventsService = {
       }
     }
   },
+
+  delete: async (id: EventId): Promise<void> => {
+    try {
+      const event = await eventsRepository.findById(id);
+
+      if (!event) {
+        throw new NotFoundError(ERRORS.EVENT_NOT_FOUND);
+      }
+
+      await eventsRepository.delete(id);
+    } catch (error) {
+      if (error instanceof AppError) {
+        throw error;
+      } else {
+        throw new InternalServerError(ERRORS.DELETE_EVENT, error as Error);
+      }
+    }
+  },
 };
