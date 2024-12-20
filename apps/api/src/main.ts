@@ -1,4 +1,5 @@
 import express from 'express';
+import cors from 'cors';
 import validator from './infrastructure/api/openapi/validator/middleware';
 import { setupSwagger } from './infrastructure/api/openapi/swagger';
 import { setupDb } from './infrastructure/db/setupDb';
@@ -7,6 +8,7 @@ import { auth } from 'express-openid-connect';
 const app = express();
 
 // Middleware
+app.use(cors());
 app.use(express.json());
 // - Swagger
 setupSwagger(app);
