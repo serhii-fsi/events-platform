@@ -3,6 +3,7 @@ import { auth } from '../middleware/auth';
 import { Role } from '../../../domain/constants';
 import { authController } from '../controllers/auth';
 import { eventsController } from '../controllers/events';
+import { attendanceController } from '../controllers/attendance';
 
 const router = express.Router();
 
@@ -48,6 +49,21 @@ router.delete(
   '/api/events/:eventId',
   authEditorsAndAdmins,
   eventsController.delete
+);
+
+router.get(
+  '/api/users/:userId/events/:eventId/attendance-status',
+  auth((req, authenticatedUser, storedUser) => {
+    if (!authenticatedUser) return false;
+    if (storedUser?.role === Role.USER || storedUser?.role === Role.EDITOR) {
+      return storedUser.id === Number(req.params.userId);
+    } else if (storedUser?.role === Role.ADMIN) {
+      return true;
+    } else {
+      return false;
+    }
+  }),
+  attendanceController.getStatus
 );
 
 export default router;
