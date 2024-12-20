@@ -5,6 +5,7 @@ import {
   DetailedEventEntity,
   PaginatedResult,
   EventId,
+  UpdateEventEntity,
 } from '../types';
 import { AppError } from '../errors';
 import { ERRORS } from '../constants';
@@ -110,6 +111,38 @@ export const eventsService = {
           ERRORS.CREATE_EVENT,
           error as Error // Add unexpected error as a cause to inform about a problem
         );
+      }
+    }
+  },
+
+  update: async (
+    id: EventId,
+    event: UpdateEventEntity
+  ): Promise<DetailedEventEntity> => {
+    try {
+      const existingEvent = await eventsRepository.findById(id);
+
+      if (!existingEvent) {
+        throw new NotFoundError(ERRORS.EVENT_NOT_FOUND);
+      }
+
+      delete existingEvent.createdAt;
+      delete existingEvent.updatedAt;
+      const eventToValidate = {
+        ...existingEvent,
+        ...event,
+      };
+
+      if (!eventValidator.validateDateRange(eventToValidate)) {
+        throw new BadRequestError(ERRORS.INVALID_DATE_RANGE);
+      }
+
+      return await eventsRepository.update(id, event);
+    } catch (error) {
+      if (error instanceof AppError) {
+        throw error;
+      } else {
+        throw new InternalServerError(ERRORS.UPDATE_EVENT, error as Error);
       }
     }
   },

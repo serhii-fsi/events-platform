@@ -9,11 +9,15 @@ import {
   DetailedEventResponseDto,
   EventIdPath,
   EventIdPathDto,
+  UpdateEventRequestDto,
 } from '../types/dto';
 import { eventsService } from '../../../domain/services/events';
-import { BaseEventEntity, DetailedEventEntity } from '../../../domain/types';
+import {
+  BaseEventEntity,
+  DetailedEventEntity,
+  UpdateEventEntity,
+} from '../../../domain/types';
 import { PAGINATION } from '../../../domain/constants';
-import { log } from 'console';
 
 const mapBaseEventToDto = (event: BaseEventEntity): BaseEventDto => ({
   id: event.id,
@@ -97,6 +101,39 @@ export const eventsController = {
       const event = await eventsService.create(detailedEventEntity);
 
       return res.status(201).json({
+        data: {
+          event: mapDetailedEventToDto(event),
+        },
+      });
+    } catch (error) {
+      next(error);
+    }
+  },
+
+  update: async (
+    req: Request<
+      EventIdPathDto,
+      DetailedEventResponseDto,
+      UpdateEventRequestDto
+    >,
+    res: Response<DetailedEventResponseDto>,
+    next: NextFunction
+  ) => {
+    try {
+      const eventId: EventIdPath = Number(req.params.eventId);
+      const requestDto = req.body;
+
+      const eventToUpdate: UpdateEventEntity = {};
+      Object.keys(requestDto).map((key) => {
+        if (requestDto[key] !== undefined)
+          eventToUpdate[key] = ['startAt', 'endAt'].includes(key)
+            ? new Date(requestDto[key])
+            : requestDto[key];
+      });
+
+      const event = await eventsService.update(eventId, eventToUpdate);
+
+      return res.status(200).json({
         data: {
           event: mapDetailedEventToDto(event),
         },

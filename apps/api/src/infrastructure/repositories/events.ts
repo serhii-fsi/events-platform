@@ -7,6 +7,7 @@ import {
   PaginationParams,
   ItemsWithTotalResult,
   EventId,
+  UpdateEventEntity,
 } from '../../domain/types';
 
 const eventsRepository = {
@@ -73,6 +74,27 @@ const eventsRepository = {
       .returning();
 
     return created;
+  },
+
+  update: async (
+    id: EventId,
+    event: UpdateEventEntity
+  ): Promise<DetailedEventEntity> => {
+    const [updated] = await db
+      .update(events)
+      .set(
+        ['title', 'description', 'startAt', 'endAt', 'location'].reduce(
+          (acc, field) => {
+            if (event[field] !== undefined) acc[field] = event[field];
+            return acc;
+          },
+          {} as Partial<DetailedEventEntity>
+        )
+      )
+      .where(eq(events.id, id))
+      .returning();
+
+    return updated;
   },
 };
 

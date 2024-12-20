@@ -40,4 +40,17 @@ router.post(
 
 router.get('/api/events/:eventId', eventsController.getById);
 
+router.patch(
+  '/api/events/:eventId',
+  auth((req, authenticatedUser, storedUser) => {
+    if (
+      authenticatedUser &&
+      (storedUser?.role === Role.EDITOR || storedUser?.role === Role.ADMIN)
+    )
+      return true;
+    else return false;
+  }),
+  eventsController.update
+);
+
 export default router;

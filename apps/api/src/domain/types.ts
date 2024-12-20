@@ -44,6 +44,11 @@ export interface UserFilters {
   searchTerm?: string;
 }
 
+// Domain update types
+export type UpdateEventEntity = Partial<
+  Omit<DetailedEventEntity, 'id' | 'createdAt' | 'updatedAt'>
+>;
+
 // Entities
 export interface BaseEventEntity {
   id?: EventId;

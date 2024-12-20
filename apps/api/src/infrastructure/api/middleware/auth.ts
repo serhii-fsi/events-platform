@@ -18,7 +18,7 @@ export const auth =
       storedUser: UserEntity | null
     ) => boolean
   ) =>
-  async (req: Request, res: Response, next: NextFunction) => {
+  async (req, res: Response, next: NextFunction) => {
     // ----------- TEST MODE -----------
     if (TEST_MODE) {
       const authHeader = req.header('TestAuthorization');
