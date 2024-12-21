@@ -4,6 +4,7 @@ import { Role } from '../../../domain/constants';
 import { authController } from '../controllers/auth';
 import { eventsController } from '../controllers/events';
 import { attendanceController } from '../controllers/attendance';
+import { calendarController } from '../controllers/calendar';
 
 const router = express.Router();
 
@@ -64,6 +65,21 @@ router.get(
     }
   }),
   attendanceController.getStatus
+);
+
+router.get(
+  '/api/users/:userId/events/:eventId/calendar-status',
+  auth((req, authenticatedUser, storedUser) => {
+    if (!authenticatedUser) return false;
+    if (storedUser?.role === Role.USER || storedUser?.role === Role.EDITOR) {
+      return storedUser.id === Number(req.params.userId);
+    } else if (storedUser?.role === Role.ADMIN) {
+      return true;
+    } else {
+      return false;
+    }
+  }),
+  calendarController.getStatus
 );
 
 export default router;
