@@ -3,8 +3,14 @@ info:
   title: API Documentation
   version: 1.0.0
 servers:
+  - url: 'http://localhost:3000'
+    description: For compose.prod.yml
+  - url: 'http://localhost:3001'
+    description: For compose.dev.yml
   - url: 'http://localhost:3002'
-    description: Local development server
+    description: For compose.api-e2e.yml
+  - url: 'http://localhost:3003'
+    description: For compose.client-e2e.yml
 paths:
   #================= /api/auth/status =================
   /api/auth/status:
