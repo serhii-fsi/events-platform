@@ -67,6 +67,23 @@ router.get(
   attendanceController.getStatus
 );
 
+router.patch(
+  '/api/users/:userId/events/:eventId/attendance-status',
+  auth((req, authenticatedUser, storedUser) => {
+    if (!authenticatedUser) return false;
+    if (
+      storedUser?.role === Role.USER ||
+      storedUser?.role === Role.EDITOR ||
+      storedUser?.role === Role.ADMIN
+    ) {
+      return storedUser.id === Number(req.params.userId);
+    } else {
+      return false;
+    }
+  }),
+  attendanceController.setStatus
+);
+
 router.get(
   '/api/users/:userId/events/:eventId/calendar-status',
   auth((req, authenticatedUser, storedUser) => {

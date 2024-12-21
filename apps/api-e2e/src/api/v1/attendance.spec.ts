@@ -169,4 +169,126 @@ describe('Attendance API', () => {
       });
     });
   });
+
+  describe('PATCH /api/users/{userId}/events/{eventId}/attendance-status', () => {
+    describe('happy path scenarios', () => {
+      [
+        USERS['USER Robert'],
+        USERS['EDITOR Rachel'],
+        USERS['ADMIN David'],
+      ].forEach((user) => {
+        it(`${user.role} should be able to update their attendance status`, async () => {
+          const { relation, event } = findUserEventData(user.id);
+          const currentStatus = relation.attendance;
+          const newStatus =
+            currentStatus === 'attending' ? 'declined' : 'attending';
+
+          const response = await request(
+            'patch',
+            `/api/users/${user.id}/events/${event.id}/attendance-status`,
+            {
+              token: user.token,
+              data: { attendanceStatus: newStatus },
+            }
+          );
+
+          expect(response.status).toBe(200);
+          expect(response.data).toMatchObject({
+            data: {
+              attendanceStatus: {
+                status: newStatus,
+                createdAt: expect.any(String),
+                updatedAt: expect.any(String),
+              },
+            },
+          });
+
+          const getResponse = await request(
+            'get',
+            `/api/users/${user.id}/events/${event.id}/attendance-status`,
+            {
+              token: user.token,
+            }
+          );
+
+          expect(getResponse.status).toBe(200);
+          expect(getResponse.data.data.attendanceStatus.status).toBe(newStatus);
+        });
+      });
+    });
+
+    describe('error scenarios', () => {
+      it('should return 401 for unauthenticated users', async () => {
+        const { relation, event } = findUserEventData(USERS['USER Robert'].id);
+
+        const response = await request(
+          'patch',
+          `/api/users/${relation.userId}/events/${event.id}/attendance-status`,
+          {
+            token: USERS['VISITOR Sam'].token,
+            data: { attendanceStatus: 'attending' },
+          }
+        );
+
+        expect(response.status).toBe(401);
+        expect(response.data).toMatchObject({
+          status: 401,
+          error: DOMAIN.ERRORS.AUTHENTICATION,
+        });
+      });
+
+      // Test that users cannot update others' attendance status
+      [
+        USERS['USER Carol'],
+        USERS['EDITOR Rachel'],
+        USERS['ADMIN EMMA'],
+      ].forEach((requestingUser) => {
+        [
+          USERS['USER Robert'],
+          USERS['EDITOR Thomas'],
+          USERS['ADMIN David'],
+        ].forEach((targetUser) => {
+          if (targetUser.id !== requestingUser.id) {
+            it(`${requestingUser.role} should not be able to update attendance status for other ${targetUser.role}`, async () => {
+              const { event } = findUserEventData(targetUser.id);
+
+              const response = await request(
+                'patch',
+                `/api/users/${targetUser.id}/events/${event.id}/attendance-status`,
+                {
+                  token: requestingUser.token,
+                  data: { attendanceStatus: 'attending' },
+                }
+              );
+
+              expect(response.status).toBe(403);
+              expect(response.data).toMatchObject({
+                status: 403,
+                error: DOMAIN.ERRORS.AUTHORIZATION,
+              });
+            });
+          }
+        });
+      });
+
+      it('should return 404 when event does not exist', async () => {
+        const user = USERS['USER Robert'];
+
+        const response = await request(
+          'patch',
+          `/api/users/${user.id}/events/999999/attendance-status`,
+          {
+            token: user.token,
+            data: { attendanceStatus: 'attending' },
+          }
+        );
+
+        expect(response.status).toBe(404);
+        expect(response.data).toMatchObject({
+          status: 404,
+          error: DOMAIN.ERRORS.EVENT_NOT_FOUND,
+        });
+      });
+    });
+  });
 });

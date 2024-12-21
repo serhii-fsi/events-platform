@@ -91,7 +91,7 @@ export const eventsService = {
       if (error instanceof AppError) {
         throw error;
       } else {
-        throw new InternalServerError(ERRORS.FETCH_EVENTS, error as Error);
+        throw new InternalServerError(ERRORS.FETCH_EVENT, error as Error);
       }
     }
   },

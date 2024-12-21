@@ -419,4 +419,10 @@ export default [
     email: 'gerald.coleman@gmail.com',
     role: 'user',
   },
+  {
+    id: 71,
+    name: 'The Creator',
+    email: 'fsitmp@gmail.com',
+    role: 'admin',
+  },
 ];

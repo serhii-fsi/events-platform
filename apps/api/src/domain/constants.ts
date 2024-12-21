@@ -44,6 +44,7 @@ export const ERRORS = {
   // Event validation errors
   EVENT_NOT_FOUND: 'Event not found',
   FETCH_EVENTS: 'Failed to fetch events',
+  FETCH_EVENT: 'Failed to fetch event',
   CREATE_EVENT: 'Failed to create event',
   UPDATE_EVENT: 'Failed to update event',
   INVALID_DATE_RANGE: 'End date must be after start date',
@@ -51,4 +52,6 @@ export const ERRORS = {
   // Attendance errors
   ATTENDANCE_NOT_FOUND: 'Attendance status not found',
   FETCH_ATTENDANCE: 'Failed to fetch attendance status',
+  CREATE_ATTENDANCE: 'Failed to create attendance status',
+  UPDATE_ATTENDANCE: 'Failed to update attendance status',
 } as const;
