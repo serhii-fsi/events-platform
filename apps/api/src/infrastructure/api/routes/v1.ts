@@ -99,4 +99,21 @@ router.get(
   calendarController.getStatus
 );
 
+router.patch(
+  '/api/users/:userId/events/:eventId/calendar-status',
+  auth((req, authenticatedUser, storedUser) => {
+    if (!authenticatedUser) return false;
+    if (
+      storedUser?.role === Role.USER ||
+      storedUser?.role === Role.EDITOR ||
+      storedUser?.role === Role.ADMIN
+    ) {
+      return storedUser.id === Number(req.params.userId);
+    } else {
+      return false;
+    }
+  }),
+  calendarController.setStatus
+);
+
 export default router;
