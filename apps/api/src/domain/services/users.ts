@@ -39,4 +39,22 @@ export const usersService = {
       }
     }
   },
+
+  getById: async (id: UserId): Promise<UserEntity> => {
+    try {
+      const user = await usersRepository.findById(id);
+
+      if (!user) {
+        throw new NotFoundError(ERRORS.USER_NOT_FOUND);
+      }
+
+      return user;
+    } catch (error) {
+      if (error instanceof AppError) {
+        throw error;
+      } else {
+        throw new InternalServerError(ERRORS.FETCH_USER, error as Error);
+      }
+    }
+  },
 };

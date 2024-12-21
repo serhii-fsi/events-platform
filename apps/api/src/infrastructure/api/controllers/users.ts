@@ -66,4 +66,23 @@ export const usersController = {
       next(error);
     }
   },
+
+  getProfile: async (
+    req: Request<UserIdPathDto, UserProfileResponseDto>,
+    res: Response<UserProfileResponseDto>,
+    next: NextFunction
+  ) => {
+    try {
+      const userId: UserIdPath = Number(req.params.userId);
+      const user = await usersService.getById(userId);
+
+      return res.status(200).json({
+        data: {
+          user: mapUserToDto(user),
+        },
+      });
+    } catch (error) {
+      next(error);
+    }
+  },
 };

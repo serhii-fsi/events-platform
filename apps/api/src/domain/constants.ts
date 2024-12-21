@@ -58,5 +58,6 @@ export const ERRORS = {
   FETCH_USERS: 'Failed to fetch users',
   USERS_NOT_FOUND: 'Users not found',
   USER_NOT_FOUND: 'User not found',
+  FETCH_USER: 'Failed to fetch user',
   UPDATE_USER: 'Failed to update user',
 } as const;

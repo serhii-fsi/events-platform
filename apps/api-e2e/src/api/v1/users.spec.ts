@@ -152,4 +152,128 @@ describe('Users API', () => {
       });
     });
   });
+
+  describe('GET /api/users/{userId}/profile', () => {
+    describe('happy path scenarios', () => {
+      [
+        USERS['USER Robert'],
+        USERS['EDITOR Rachel'],
+        USERS['ADMIN David'],
+      ].forEach((user) => {
+        it(`${user.role} should be able to get their own profile`, async () => {
+          const response = await request(
+            'get',
+            `/api/users/${user.id}/profile`,
+            {
+              token: user.token,
+            }
+          );
+
+          expect(response.status).toBe(200);
+          expect(response.data).toMatchObject({
+            data: {
+              user: {
+                id: user.id,
+                name: user.name,
+                email: user.email,
+                role: user.role,
+                createdAt: expect.any(String),
+                updatedAt: expect.any(String),
+              },
+            },
+          });
+        });
+      });
+
+      [
+        USERS['USER Robert'],
+        USERS['EDITOR Rachel'],
+        USERS['ADMIN David'],
+      ].forEach((targetUser) => {
+        it(`admin should be able to get profile for other ${targetUser.role}`, async () => {
+          const response = await request(
+            'get',
+            `/api/users/${targetUser.id}/profile`,
+            {
+              token: USERS['ADMIN EMMA'].token,
+            }
+          );
+
+          expect(response.status).toBe(200);
+          expect(response.data).toMatchObject({
+            data: {
+              user: {
+                id: targetUser.id,
+                name: targetUser.name,
+                email: targetUser.email,
+                role: targetUser.role,
+                createdAt: expect.any(String),
+                updatedAt: expect.any(String),
+              },
+            },
+          });
+        });
+      });
+    });
+
+    describe('error scenarios', () => {
+      it('should return 401 for unauthenticated users', async () => {
+        const targetUser = USERS['USER Robert'];
+
+        const response = await request(
+          'get',
+          `/api/users/${targetUser.id}/profile`,
+          {
+            token: USERS['VISITOR Sam'].token,
+          }
+        );
+
+        expect(response.status).toBe(401);
+        expect(response.data).toMatchObject({
+          status: 401,
+          error: DOMAIN.ERRORS.AUTHENTICATION,
+        });
+      });
+
+      [USERS['USER Carol'], USERS['EDITOR Rachel']].forEach(
+        (requestingUser) => {
+          [
+            USERS['USER Robert'],
+            USERS['EDITOR Thomas'],
+            USERS['ADMIN David'],
+          ].forEach((targetUser) => {
+            if (targetUser.id !== requestingUser.id) {
+              it(`${requestingUser.role} should not be able to get profile of other ${targetUser.role}`, async () => {
+                const response = await request(
+                  'get',
+                  `/api/users/${targetUser.id}/profile`,
+                  {
+                    token: requestingUser.token,
+                  }
+                );
+
+                expect(response.status).toBe(403);
+                expect(response.data).toMatchObject({
+                  status: 403,
+                  error: DOMAIN.ERRORS.AUTHORIZATION,
+                });
+              });
+            }
+          });
+        }
+      );
+
+      it('should return 404 when user does not exist', async () => {
+        const response = await request('get', `/api/users/99999/profile`, {
+          token: USERS['ADMIN EMMA'].token,
+        });
+
+        expect(response.status).toBe(404);
+        expect(response.data).toMatchObject({
+          status: 404,
+          error: DOMAIN.ERRORS.USER_NOT_FOUND,
+        });
+      });
+    });
+  });
 });

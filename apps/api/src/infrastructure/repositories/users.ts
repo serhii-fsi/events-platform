@@ -75,7 +75,7 @@ export const usersRepository = {
 
     return (user || null) as UserEntity | null;
   },
-  //
+
   update: async (
     id: UserId,
     user: Partial<UserEntity>
