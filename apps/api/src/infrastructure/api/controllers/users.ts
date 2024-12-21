@@ -1,10 +1,15 @@
 import { Request, Response, NextFunction } from 'express';
 import { UserEntity } from '../../../domain/types';
+import { Role } from '../../../domain/constants';
 import {
   UserDto,
   SearchQuery,
   SearchQueryDto,
   SearchUsersResponseDto,
+  UserIdPath,
+  UserIdPathDto,
+  UpdateUserRoleRequestDto,
+  UserProfileResponseDto,
 } from '../types/dto';
 import { usersService } from '../../../domain/services/users';
 
@@ -30,6 +35,31 @@ export const usersController = {
       return res.status(200).json({
         data: {
           users: users.map(mapUserToDto),
+        },
+      });
+    } catch (error) {
+      next(error);
+    }
+  },
+
+  updateRole: async (
+    req: Request<
+      UserIdPathDto,
+      UserProfileResponseDto,
+      UpdateUserRoleRequestDto
+    >,
+    res: Response<UserProfileResponseDto>,
+    next: NextFunction
+  ) => {
+    try {
+      const userId: UserIdPath = Number(req.params.userId);
+      const role = req.body.role as Role;
+
+      const user = await usersService.update(userId, { role });
+
+      return res.status(200).json({
+        data: {
+          user: mapUserToDto(user),
         },
       });
     } catch (error) {

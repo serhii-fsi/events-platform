@@ -1,7 +1,7 @@
 import { db } from '../db/connection';
 import { users } from '../db/schema';
 import { eq, ilike, or } from 'drizzle-orm';
-import { UserEntity } from '../../domain/types';
+import { UserEntity, UserId } from '../../domain/types';
 
 export const usersRepository = {
   findUserByEmail: async (email: string): Promise<UserEntity | null> => {
@@ -57,5 +57,35 @@ export const usersRepository = {
       .limit(limit);
 
     return usersResult as UserEntity[];
+  },
+
+  findById: async (id: UserId): Promise<UserEntity | null> => {
+    const [user] = await db
+      .select({
+        id: users.id,
+        name: users.name,
+        email: users.email,
+        role: users.role,
+        createdAt: users.createdAt,
+        updatedAt: users.updatedAt,
+      })
+      .from(users)
+      .where(eq(users.id, id))
+      .limit(1);
+
+    return (user || null) as UserEntity | null;
+  },
+  //
+  update: async (
+    id: UserId,
+    user: Partial<UserEntity>
+  ): Promise<UserEntity> => {
+    const [updated] = await db
+      .update(users)
+      .set(user)
+      .where(eq(users.id, id))
+      .returning();
+
+    return updated as UserEntity;
   },
 };

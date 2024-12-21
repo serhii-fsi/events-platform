@@ -125,4 +125,12 @@ router.get(
   usersController.search
 );
 
+router.patch(
+  '/api/users/:userId/role',
+  auth((req, authenticatedUser, storedUser) => {
+    return authenticatedUser && storedUser?.role === Role.ADMIN;
+  }),
+  usersController.updateRole
+);
+
 export default router;

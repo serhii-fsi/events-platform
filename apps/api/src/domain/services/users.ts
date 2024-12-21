@@ -1,6 +1,6 @@
-import { UserEntity } from '../types';
+import { UserEntity, UserId } from '../types';
 import { ERRORS } from '../constants';
-import { AppError, InternalServerError } from '../errors';
+import { AppError, InternalServerError, NotFoundError } from '../errors';
 import { usersRepository } from '../../infrastructure/repositories/users';
 
 export const usersService = {
@@ -15,6 +15,27 @@ export const usersService = {
         throw error;
       } else {
         throw new InternalServerError(ERRORS.FETCH_USERS, error as Error);
+      }
+    }
+  },
+
+  update: async (
+    id: UserId,
+    updates: Partial<UserEntity>
+  ): Promise<UserEntity> => {
+    try {
+      const existingUser = await usersRepository.findById(id);
+
+      if (!existingUser) {
+        throw new NotFoundError(ERRORS.USER_NOT_FOUND);
+      }
+
+      return await usersRepository.update(id, updates);
+    } catch (error) {
+      if (error instanceof AppError) {
+        throw error;
+      } else {
+        throw new InternalServerError(ERRORS.UPDATE_USER, error as Error);
       }
     }
   },
