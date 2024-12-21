@@ -1,6 +1,6 @@
 import { db } from '../db/connection';
 import { users } from '../db/schema';
-import { eq } from 'drizzle-orm';
+import { eq, ilike, or } from 'drizzle-orm';
 import { UserEntity } from '../../domain/types';
 
 export const usersRepository = {
@@ -32,5 +32,30 @@ export const usersRepository = {
       .returning();
 
     return created as UserEntity;
+  },
+
+  findMany: async (
+    searchTerm: string,
+    limit: number
+  ): Promise<UserEntity[]> => {
+    const usersResult = await db
+      .select({
+        id: users.id,
+        name: users.name,
+        email: users.email,
+        role: users.role,
+        createdAt: users.createdAt,
+        updatedAt: users.updatedAt,
+      })
+      .from(users)
+      .where(
+        or(
+          ilike(users.name, `%${searchTerm}%`),
+          ilike(users.email, `%${searchTerm}%`)
+        )
+      )
+      .limit(limit);
+
+    return usersResult as UserEntity[];
   },
 };

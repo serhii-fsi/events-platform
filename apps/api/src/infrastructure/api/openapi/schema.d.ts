@@ -434,8 +434,8 @@ export interface paths {
         /** Search users */
         get: {
             parameters: {
-                query?: {
-                    search?: components["parameters"]["SearchQuery"];
+                query: {
+                    search: components["parameters"]["SearchQuery"];
                 };
                 header?: never;
                 path?: never;

@@ -54,4 +54,7 @@ export const ERRORS = {
   FETCH_ATTENDANCE: 'Failed to fetch attendance status',
   CREATE_ATTENDANCE: 'Failed to create attendance status',
   UPDATE_ATTENDANCE: 'Failed to update attendance status',
+  // User errors
+  FETCH_USERS: 'Failed to fetch users',
+  USERS_NOT_FOUND: 'Users not found',
 } as const;

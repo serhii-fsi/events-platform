@@ -5,6 +5,7 @@ import { authController } from '../controllers/auth';
 import { eventsController } from '../controllers/events';
 import { attendanceController } from '../controllers/attendance';
 import { calendarController } from '../controllers/calendar';
+import { usersController } from '../controllers/users';
 
 const router = express.Router();
 
@@ -114,6 +115,14 @@ router.patch(
     }
   }),
   calendarController.setStatus
+);
+
+router.get(
+  '/api/users',
+  auth((req, authenticatedUser, storedUser) => {
+    return authenticatedUser && storedUser?.role === Role.ADMIN;
+  }),
+  usersController.search
 );
 
 export default router;
