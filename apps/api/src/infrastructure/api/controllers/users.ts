@@ -10,6 +10,7 @@ import {
   UserIdPathDto,
   UpdateUserRoleRequestDto,
   UserProfileResponseDto,
+  UpdateUserProfileRequestDto,
 } from '../types/dto';
 import { usersService } from '../../../domain/services/users';
 
@@ -75,6 +76,31 @@ export const usersController = {
     try {
       const userId: UserIdPath = Number(req.params.userId);
       const user = await usersService.getById(userId);
+
+      return res.status(200).json({
+        data: {
+          user: mapUserToDto(user),
+        },
+      });
+    } catch (error) {
+      next(error);
+    }
+  },
+
+  updateProfile: async (
+    req: Request<
+      UserIdPathDto,
+      UserProfileResponseDto,
+      UpdateUserProfileRequestDto
+    >,
+    res: Response<UserProfileResponseDto>,
+    next: NextFunction
+  ) => {
+    try {
+      const userId: UserIdPath = Number(req.params.userId);
+      const updates = req.body as UpdateUserProfileRequestDto;
+
+      const user = await usersService.update(userId, updates);
 
       return res.status(200).json({
         data: {

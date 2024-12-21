@@ -149,4 +149,19 @@ router.get(
   usersController.getProfile
 );
 
+router.patch(
+  '/api/users/:userId/profile',
+  auth((req, authenticatedUser, storedUser) => {
+    if (!authenticatedUser) return false;
+    if (storedUser?.role === Role.USER || storedUser?.role === Role.EDITOR) {
+      return storedUser.id === Number(req.params.userId);
+    } else if (storedUser?.role === Role.ADMIN) {
+      return true;
+    } else {
+      return false;
+    }
+  }),
+  usersController.updateProfile
+);
+
 export default router;
