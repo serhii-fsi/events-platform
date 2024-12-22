@@ -4,10 +4,10 @@ import * as React from 'react';
 import { format } from 'date-fns';
 import { CalendarIcon } from 'lucide-react';
 
-import { cn } from '@/utils';
-import { Button } from '@/components/button';
-import { Calendar } from '@/components/calendar';
-import { Popover, PopoverContent, PopoverTrigger } from '@/components/popover';
+import { cn } from '@/shadcnui/utils';
+import { Button } from '@/shadcnui/button';
+import { Calendar } from '@/shadcnui/calendar';
+import { Popover, PopoverContent, PopoverTrigger } from '@/shadcnui/popover';
 
 export function DatePicker() {
   const [date, setDate] = React.useState<Date>();

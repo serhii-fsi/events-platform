@@ -67,6 +67,9 @@ services:
       # App
       - HOST=${DEV_CLIENT_HOST}
       - PORT=${DEV_CLIENT_PORT}
+      - API_PROTOCOL=http # Service name to reach the "api" container
+      - API_HOST=dev-api # Service name to reach the "api" container
+      - API_PORT=${DEV_API_PORT}
       # Enable the Nx Daemon for development
       - NX_DAEMON=true
     ports:
