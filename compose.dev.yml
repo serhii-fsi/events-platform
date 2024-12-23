@@ -60,15 +60,15 @@ services:
     command: >
       sh -c "
         cp -r /app/.vscode/tmp_docker/node_modules/@nx /app/node_modules/ &&
-        npx nx dev client
+        npx nx dev client --verbose
       "
     environment:
       - NODE_ENV=development
       # App
       - HOST=${DEV_CLIENT_HOST}
       - PORT=${DEV_CLIENT_PORT}
-      - API_PROTOCOL=http # Service name to reach the "api" container
       - API_HOST=dev-api # Service name to reach the "api" container
+      - API_PROTOCOL=http
       - API_PORT=${DEV_API_PORT}
       # Enable the Nx Daemon for development
       - NX_DAEMON=true

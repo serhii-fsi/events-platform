@@ -57,13 +57,17 @@ services:
     command: >
       sh -c "
         cp -r /app/.vscode/tmp_docker/node_modules/@nx /app/node_modules/ &&
-        npx nx start client
+        npx nx start client --verbose
       "
     environment:
       - NODE_ENV=production
       # App
       - HOST=${PROD_CLIENT_HOST}
       - PORT=${PROD_CLIENT_PORT}
+      - API_HOST=prod-api # Service name to reach the "api" container
+      - API_PROTOCOL=http
+      - API_PORT=${PROD_API_PORT}
+      # Disable the Nx Daemon for production
       - NX_DAEMON=false
     ports:
       - '${PROD_CLIENT_PORT}:${PROD_CLIENT_PORT}'
