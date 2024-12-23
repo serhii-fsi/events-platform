@@ -404,25 +404,19 @@ export default [
   {
     id: 68,
     name: 'Jonathan Ross',
-    email: 'jonathan.ross@gmail.com',
-    role: 'user',
+    email: 'me3dyraa4v@zlorkun.com',
+    role: 'admin',
   },
   {
     id: 69,
     name: 'Louise Henderson',
-    email: 'louise.henderson@yahoo.com',
-    role: 'user',
+    email: 'louisehenderson@ibolinva.com',
+    role: 'editor',
   },
   {
     id: 70,
     name: 'Gerald Coleman',
-    email: 'gerald.coleman@gmail.com',
+    email: 'geraldcoleman@qacmjeq.com',
     role: 'user',
-  },
-  {
-    id: 71,
-    name: 'The Creator',
-    email: 'fsitmp@gmail.com',
-    role: 'admin',
   },
 ];
