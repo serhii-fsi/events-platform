@@ -1,14 +1,36 @@
 import { formatDate } from '@/utils/formatDate';
+import { formatEventTime } from '@/utils/formatEventTime';
 import Link from 'next/link';
 
-export const EventCard = async ({ id, title, startAt, location }: any) => {
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from '@/shadcnui/card';
+
+export const EventCard = async ({
+  id,
+  title,
+  startAt,
+  endAt,
+  location,
+}: any) => {
   return (
     <Link href={`/events/${id}`}>
-      <div className="p-4 border-b border-gray-300">
-        <h2 className="text-lg font-bold">{title}</h2>
-        <p className="text-sm text-gray-600">{formatDate(startAt)}</p>
-        <p className="text-sm text-gray-600">{location}</p>
-      </div>
+      <Card>
+        <CardHeader>
+          <CardTitle className="text-text2">{title}</CardTitle>
+          <CardDescription>{formatDate(startAt)}</CardDescription>
+          <CardDescription>{formatEventTime(startAt, endAt)}</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <p className="text-text1">{location}</p>
+        </CardContent>
+        <CardFooter></CardFooter>
+      </Card>
     </Link>
   );
 };

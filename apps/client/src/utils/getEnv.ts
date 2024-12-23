@@ -71,6 +71,10 @@ export const config = {
 
   API_URL: process.env.API_URL as string,
   CLIENT_URL: process.env.CLIENT_URL as string,
+
+  API_PROTOCOL: process.env.API_PROTOCOL as string,
+  API_HOST: process.env.API_HOST as string,
+  API_PORT: process.env.API_PORT as string,
 } as const;
 
 // Type-safe environment variables

@@ -1,23 +1,26 @@
 import { headers } from 'next/headers';
-import * as CONFIG from '@/utils/getConfig';
+import env from '@/utils/getEnv';
 
 export const fetchApi = async (path: string, options = {} as RequestInit) => {
+  if (!options.cache) options.cache = 'no-store';
+
+  if (!options.headers) options.headers = {};
+
+  // https://stackoverflow.com/questions/76285120/error-dynamic-server-usage-headers-on-next-13-4
+  const requestHeaders = headers();
+  const cookie = requestHeaders.get('cookie');
+  if (cookie) {
+    options.headers = {
+      ...options.headers,
+      cookie,
+    } as HeadersInit;
+  }
+
   try {
-    if (!options.cache) options.cache = 'no-store';
-
-    if (!options.headers) options.headers = {};
-    const requestHeaders = headers();
-    const cookie = requestHeaders.get('cookie');
-
-    if (cookie) {
-      options.headers = {
-        ...options.headers,
-        cookie,
-      } as HeadersInit;
-    }
+    console.log(`${env.API_PROTOCOL}://${env.API_HOST}:${env.API_PORT}${path}`);
 
     const res = await fetch(
-      `${CONFIG.API_PROTOCOL}://${CONFIG.API_HOST}:${CONFIG.API_PORT}${path}`,
+      `${env.API_PROTOCOL}://${env.API_HOST}:${env.API_PORT}${path}`,
       options
     );
 

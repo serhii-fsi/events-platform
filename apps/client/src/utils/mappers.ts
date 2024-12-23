@@ -15,3 +15,8 @@ export const mapDtoToBaseEvent = (dto: any) => ({
   createdAt: new Date(dto.createdAt),
   updatedAt: new Date(dto.updatedAt),
 });
+
+export const mapDtoToDetailedEvent = (dto: any) => ({
+  ...mapDtoToBaseEvent(dto),
+  description: dto.description,
+});

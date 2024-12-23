@@ -28,7 +28,7 @@ export const Header = async () => {
       <div>
         <AuthStaus />
       </div>
-      <div>
+      <div className="w-[191px] flex justify-end ">
         <Menu />
       </div>
     </header>

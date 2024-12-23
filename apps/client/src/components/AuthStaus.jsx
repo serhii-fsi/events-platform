@@ -1,22 +1,21 @@
+import { fetchApi } from '@/utils/fetchApi';
 import Link from 'next/link';
 
 export const AuthStaus = async () => {
+  const json = await fetchApi('/api/auth/status');
+  const user = json?.data?.user;
+
   return (
-    <div className="flex gap-4">
-      <div>
-        <Link href="/profile">Profile</Link>
-      </div>
-      <div>
-        {/* <img src={session.user.picture} alt={session.user.name} />
-          <h2>{session.user.name}</h2>
-          <p>{session.user.email}</p> */}
-      </div>
-      <div>
-        <a href="http://localhost:3001/login">Login</a>
-      </div>
-      <div>
-        <a href="http://localhost:3001/logout">Logout</a>
-      </div>
+    <div className="flex gap-gap1 items-center">
+      {user ? (
+        <div>
+          <div>
+            <Link href="/profile" className="text-text1 underline">
+              {user.name}
+            </Link>
+          </div>
+        </div>
+      ) : null}
     </div>
   );
 };

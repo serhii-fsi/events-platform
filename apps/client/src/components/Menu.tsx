@@ -39,12 +39,12 @@ export const Menu = async () => {
               </Link>
             </DrawerClose>
             <DrawerClose asChild>
-              <Link
+              <a
                 href={env.API_URL + env.AUTH0_LOGIN_PATH}
                 className="text-xl hover:text-gray-600 underline"
               >
                 Login / Sign up
-              </Link>
+              </a>
             </DrawerClose>
             <DrawerClose asChild>
               <Link
@@ -71,12 +71,12 @@ export const Menu = async () => {
               </Link>
             </DrawerClose>
             <DrawerClose asChild>
-              <Link
+              <a
                 href={env.API_URL + env.AUTH0_LOGOUT_PATH}
                 className="text-xl hover:text-gray-600 underline"
               >
                 Log Out
-              </Link>
+              </a>
             </DrawerClose>
           </div>
         </DrawerHeader>
