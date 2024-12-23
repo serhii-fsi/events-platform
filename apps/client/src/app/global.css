@@ -23,7 +23,92 @@
     --destructive: 0 100% 50%;
     --destructive-foreground: 210 40% 98%;
     --ring: 215 20.2% 65.1%;
-    --radius: 0.5rem;
+    --radius: 8px;
+
+    /* Gap tokens */
+    --gap1: 8px;
+    --gap2: 16px;
+    --gap3: 24px;
+    --gap4: 32px;
+    --gap5: 40px;
+
+    /* Text size tokens */
+    --text1: 12px;
+    --text2: 14px;
+    --text3: 16px;
+    --text4: 18px;
+    --text5: 20px;
+
+    /* Color tokens */
+    --color1: #ffffff;
+    --color2: #cccccc;
+    --color3: #999999;
+    --color4: #666666;
+    --color5: #000000;
+  }
+
+  @media (min-width: 640px) {
+    :root {
+      --gap1: 10px;
+      --gap2: 20px;
+      --gap3: 30px;
+      --gap4: 40px;
+      --gap5: 50px;
+
+      --text1: 14px;
+      --text2: 16px;
+      --text3: 18px;
+      --text4: 20px;
+      --text5: 22px;
+    }
+  }
+
+  @media (min-width: 768px) {
+    :root {
+      --gap1: 12px;
+      --gap2: 24px;
+      --gap3: 36px;
+      --gap4: 48px;
+      --gap5: 60px;
+
+      --text1: 16px;
+      --text2: 18px;
+      --text3: 20px;
+      --text4: 22px;
+      --text5: 24px;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    :root {
+      --gap1: 14px;
+      --gap2: 28px;
+      --gap3: 42px;
+      --gap4: 56px;
+      --gap5: 70px;
+
+      --text1: 18px;
+      --text2: 20px;
+      --text3: 22px;
+      --text4: 24px;
+      --text5: 26px;
+    }
+  }
+
+  @media (min-width: 1280px) {
+    :root {
+      --gap1: 16px;
+      --gap2: 32px;
+      --gap3: 48px;
+      --gap4: 64px;
+      --gap5: 80px;
+
+      --text1: 20px;
+      --text2: 22px;
+      --text3: 24px;
+      --text4: 26px;
+      --text5: 28px;
+    }
   }
 
   .dark {

@@ -15,7 +15,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <div className="min-h-screen flex flex-col">
+        <div className="px-gap5 py-gap1 min-h-screen flex flex-col">
           <Header />
           <main className="flex-grow">{children}</main>
           <Footer />

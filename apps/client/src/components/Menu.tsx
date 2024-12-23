@@ -16,12 +16,22 @@ import {
 export const Menu = async () => {
   return (
     <Drawer>
-      <DrawerTrigger className="rounded-md bg-black px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-gray focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
-        ☰
+      <DrawerTrigger className="">
+        <svg
+          width="100"
+          height="39"
+          viewBox="0 0 100 39"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <rect y="0.5" width="100" height="6" fill="black" />
+          <rect y="16.5" width="30" height="6" fill="black" />
+          <rect y="32.5" width="60" height="6" fill="black" />
+        </svg>
       </DrawerTrigger>
       <DrawerContent>
         <DrawerHeader>
-          <DrawerTitle className="text-center text-2xl mb-6">Menu</DrawerTitle>
+          <DrawerTitle className=" text-2xl text-center mb-6">Menu</DrawerTitle>
           <div className="flex flex-col items-center gap-4">
             <DrawerClose asChild>
               <Link href="/" className="text-xl hover:text-gray-600 underline">
