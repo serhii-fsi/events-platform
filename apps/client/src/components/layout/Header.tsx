@@ -1,3 +1,5 @@
+import { AuthStaus } from '@/components/AuthStaus';
+
 export const Header = async () => {
   return (
     <header className="p-4 flex justify-between items-center bg-gray-200">
@@ -5,8 +7,7 @@ export const Header = async () => {
       <div className="font-bold">Logo</div>
       {/* Center: login or user info */}
       <div>
-        {/* Placeholder for login link or user session info */}
-        <a href="/login">Login</a>
+        <AuthStaus />
       </div>
       {/* Right: hamburger menu */}
       <button className="p-2">☰</button>

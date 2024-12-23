@@ -3,10 +3,10 @@ import { fetchApi } from '@/utils/fetchApi';
 import { EventCard } from '@/components/EventCard';
 
 export const Events = async ({ page = '1' }) => {
-  const { json, error } = await fetchApi(`/api/events?page=${page}`);
+  const json = await fetchApi(`/api/events?page=${page}`);
 
-  if (error) {
-    throw new Error(error);
+  if (json.error) {
+    throw new Error(json.error);
   }
 
   let events = json?.data?.events || [];
