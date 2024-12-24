@@ -2,6 +2,16 @@
 
 This event management platform showcases modern software architecture through a practical full-stack implementation. Built entirely with TypeScript, the system uses Domain-Driven Design (DDD) architecture with clear separation of concerns and an NX monorepo structure, ensuring clear organized codebase.
 
+## Design Implementation
+
+I have implemented the design for this project, focusing on a user-friendly and accessible interface. The design process involved prioritizing functionality to ensure a smooth user experience.
+
+![Example Image](./design/image1.png)
+
+![Example Image](./design/image2.png)
+
+[Download Design File](./design/EventsPlatform.fig)
+
 ## Technical Architecture
 
 ### Backend Infrastructure
