@@ -57,8 +57,14 @@ services:
     command: >
       sh -c "
         cp -r /app/.vscode/tmp_docker/node_modules/@nx /app/node_modules/ &&
-        npx nx start client --verbose
+        npx nx build client --verbose &&
+        sleep 5 &&
+        node /app/apps/client/.next/standalone/apps/client/server.js
       "
+    # sh -c "
+    #   cp -r /app/.vscode/tmp_docker/node_modules/@nx /app/node_modules/ &&
+    #   npx nx start client --verbose
+    # "
     environment:
       - NODE_ENV=production
       # App
