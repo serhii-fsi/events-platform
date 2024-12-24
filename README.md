@@ -62,7 +62,7 @@ I have implemented the design for this project, focusing on a user-friendly and 
 - **NX Build System**
   - Optimized build caching
   - Efficient dependency management
-      - Dependency graph
+  - Dependency graph
   - Cross-project task orchestration
 
 ## Key Differentiators
