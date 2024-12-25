@@ -1,12 +1,15 @@
-export const mapBaseEventToDto = (event: any) => ({
-  id: event.id,
-  title: event.title,
-  startAt: event.startAt.toISOString(),
-  endAt: event.endAt.toISOString(),
-  location: event.location,
-});
+import {
+  DetailedEventResponseDto,
+  DetailedEventDto,
+  BaseEventDto,
+} from '@/dto';
+import {
+  UserEntity,
+  BaseEventEntity,
+  DetailedEventEntity,
+} from '@/domain/types';
 
-export const mapDtoToBaseEvent = (dto: any) => ({
+export const mapDtoToBaseEvent = (dto: BaseEventDto): BaseEventEntity => ({
   id: dto.id,
   title: dto.title,
   startAt: new Date(dto.startAt),
@@ -16,7 +19,9 @@ export const mapDtoToBaseEvent = (dto: any) => ({
   updatedAt: new Date(dto.updatedAt),
 });
 
-export const mapDtoToDetailedEvent = (dto: any) => ({
+export const mapDtoToDetailedEvent = (
+  dto: DetailedEventDto
+): DetailedEventEntity => ({
   ...mapDtoToBaseEvent(dto),
   description: dto.description,
 });

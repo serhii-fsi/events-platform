@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { AuthStaus } from '@/components/AuthStaus';
+import { AuthStatus } from '@/components/AuthStatus';
 import { Menu } from '@/components/Menu';
 
 export const Header = async () => {
@@ -26,7 +26,7 @@ export const Header = async () => {
         </Link>
       </div>
       <div>
-        <AuthStaus />
+        <AuthStatus />
       </div>
       <div className="w-[191px] flex justify-end ">
         <Menu />

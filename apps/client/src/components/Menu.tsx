@@ -1,4 +1,4 @@
-import env from '@/utils/getEnv';
+import { ENV } from '@/utils/env';
 
 import Link from 'next/link';
 import { Button } from '@/shadcnui/button';
@@ -40,7 +40,7 @@ export const Menu = async () => {
             </DrawerClose>
             <DrawerClose asChild>
               <a
-                href={env.API_URL + env.AUTH0_LOGIN_PATH}
+                href={ENV.API_URL + ENV.AUTH0_LOGIN_PATH}
                 className="text-xl hover:text-gray-600 underline"
               >
                 Login / Sign up
@@ -72,7 +72,7 @@ export const Menu = async () => {
             </DrawerClose>
             <DrawerClose asChild>
               <a
-                href={env.API_URL + env.AUTH0_LOGOUT_PATH}
+                href={ENV.API_URL + ENV.AUTH0_LOGOUT_PATH}
                 className="text-xl hover:text-gray-600 underline"
               >
                 Log Out

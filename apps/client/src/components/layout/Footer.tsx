@@ -1,4 +1,4 @@
-import env from '@/utils/getEnv';
+import { ENV } from '@/utils/env';
 import Link from 'next/link';
 
 export const Footer = async () => {
@@ -30,7 +30,7 @@ export const Footer = async () => {
             Homepage
           </Link>
           <a
-            href={env.API_URL + env.AUTH0_LOGIN_PATH}
+            href={ENV.API_URL + ENV.AUTH0_LOGIN_PATH}
             className="text-text1 hover:text-gray-600 underline"
           >
             Login / Sign up
@@ -54,7 +54,7 @@ export const Footer = async () => {
             Manage Users
           </Link>
           <a
-            href={env.API_URL + env.AUTH0_LOGOUT_PATH}
+            href={ENV.API_URL + ENV.AUTH0_LOGOUT_PATH}
             className="text-text1 hover:text-gray-600 underline"
           >
             Log Out
