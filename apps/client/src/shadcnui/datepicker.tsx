@@ -9,8 +9,27 @@ import { Button } from '@/shadcnui/button';
 import { Calendar } from '@/shadcnui/calendar';
 import { Popover, PopoverContent, PopoverTrigger } from '@/shadcnui/popover';
 
-export function DatePicker() {
-  const [date, setDate] = React.useState<Date>();
+interface DatePickerProps {
+  value?: Date;
+  onChange?: (date: Date | undefined) => void;
+  placeholder?: string;
+  className?: string;
+  disabled?: boolean;
+}
+
+export function DatePicker({
+  value,
+  onChange,
+  placeholder = 'Pick a date',
+  className,
+  disabled,
+}: DatePickerProps) {
+  const [date, setDate] = React.useState<Date | undefined>(value);
+
+  const handleSelect = (newDate: Date | undefined) => {
+    setDate(newDate);
+    onChange?.(newDate);
+  };
 
   return (
     <Popover>
@@ -19,18 +38,20 @@ export function DatePicker() {
           variant={'outline'}
           className={cn(
             'w-[280px] justify-start text-left font-normal',
-            !date && 'text-muted-foreground'
+            !date && 'text-muted-foreground',
+            className
           )}
+          disabled={disabled}
         >
-          <CalendarIcon />
-          {date ? format(date, 'PPP') : <span>Pick a date</span>}
+          <CalendarIcon className="mr-2 h-4 w-4" />
+          {date ? format(date, 'PPP') : <span>{placeholder}</span>}
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-auto p-0">
         <Calendar
           mode="single"
           selected={date}
-          onSelect={setDate}
+          onSelect={handleSelect}
           initialFocus
         />
       </PopoverContent>

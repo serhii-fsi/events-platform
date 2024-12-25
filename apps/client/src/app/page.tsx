@@ -1,6 +1,6 @@
 import { Events } from '@/components/layout/Events';
 
-export default async function Index() {
+export default async function Page() {
   return (
     <div className="flex flex-col gap-y-gap2">
       {/* Banner Section */}

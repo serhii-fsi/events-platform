@@ -56,7 +56,7 @@ export const Menu = async () => {
             </DrawerClose>
             <DrawerClose asChild>
               <Link
-                href="/events/create"
+                href="/create-event"
                 className="text-xl hover:text-gray-600 underline"
               >
                 Create Event
