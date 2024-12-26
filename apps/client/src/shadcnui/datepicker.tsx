@@ -53,6 +53,8 @@ export function DatePicker({
           selected={date}
           onSelect={handleSelect}
           initialFocus
+          disabled={{ before: new Date() }}
+          weekStartsOn={1}
         />
       </PopoverContent>
     </Popover>

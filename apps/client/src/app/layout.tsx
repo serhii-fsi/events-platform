@@ -13,11 +13,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body>
-        <div className="px-gap5 py-gap1 min-h-screen flex flex-col">
+    <html lang="en" className="dark">
+      <body className="flex justify-center bg-background text-foreground">
+        <div className="w-full max-w-[1400px] min-h-screen flex flex-col px-gap5 py-gap1">
           <Header />
-          <main className="py-gap2">{children}</main>
+          <main className="py-gap2 flex-grow">{children}</main>
           <Footer />
         </div>
       </body>

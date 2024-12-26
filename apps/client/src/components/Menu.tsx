@@ -18,15 +18,16 @@ export const Menu = async () => {
     <Drawer>
       <DrawerTrigger className="">
         <svg
+          className="text-foreground"
           width="100"
           height="39"
           viewBox="0 0 100 39"
-          fill="none"
+          fill="currentColor"
           xmlns="http://www.w3.org/2000/svg"
         >
-          <rect y="0.5" width="100" height="6" fill="black" />
-          <rect y="16.5" width="30" height="6" fill="black" />
-          <rect y="32.5" width="60" height="6" fill="black" />
+          <rect y="0.5" width="100" height="6" fill="currentColor" />
+          <rect y="16.5" width="30" height="6" fill="currentColor" />
+          <rect y="32.5" width="60" height="6" fill="currentColor" />
         </svg>
       </DrawerTrigger>
       <DrawerContent>

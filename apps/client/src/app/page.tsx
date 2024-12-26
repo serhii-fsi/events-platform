@@ -10,7 +10,7 @@ export default async function Page() {
           Your guide to gigs, clubs, festivals, and more!
         </p>
       </div>
-      <Events />;
+      <Events />
     </div>
   );
 }
