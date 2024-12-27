@@ -1,30 +1,53 @@
 import { headers } from 'next/headers';
 import { ENV } from '@/utils/env';
+import {
+  EventsListResponseDto,
+  DetailedEventResponseDto,
+  AuthStatusResponseDto,
+} from '@/dto';
+import {
+  BaseEventEntity,
+  PaginationResult,
+  UserEntity,
+  DetailedEventEntity,
+} from '@/domain/types';
+import {
+  mapDtoToBaseEvent,
+  mapDtoToUser,
+  mapDtoToDetailedEvent,
+  mapDetailedEventToDto,
+} from '@/utils/mappers';
 
-export interface ApiResult<Dto> {
-  data: Dto | null;
+export interface ApiResult {
+  data: any | null;
   text: string | null;
   status: number | null;
   error: { message: string | null; obj: Error | null };
 }
 
-class Api<Dto> {
-  private result: ApiResult<Dto>;
+class Api {
+  private result: ApiResult;
   private path: string;
   private options: RequestInit;
 
-  constructor(path: string, options = {} as RequestInit) {
+  constructor() {
     this.result = {
       data: null,
       text: null,
       status: null,
       error: { message: null, obj: null },
     };
-    this.path = path;
-    this.options = options;
+    this.path = '';
+    this.options = {};
   }
 
-  public async fetch(): Promise<Api<Dto>> {
+  public initialize(path: string, options = {} as RequestInit): Api {
+    this.path = path;
+    this.options = options;
+    return this;
+  }
+
+  public async fetch(): Promise<Api> {
     if (!this.options.cache) this.options.cache = 'no-store';
     if (!this.options.headers) this.options.headers = {};
 
@@ -84,7 +107,7 @@ class Api<Dto> {
     return this;
   }
 
-  public getData(): Dto | null {
+  public getData(): any | null {
     return this.result.data;
   }
 
@@ -134,8 +157,76 @@ class Api<Dto> {
     return this.result.status === 404;
   }
 
-  public getDebugObj(): ApiResult<Dto> {
+  public getDebugObj(): ApiResult {
     return this.result;
+  }
+
+  public fetchEvents(page = '1'): Promise<Api> {
+    this.initialize(`/api/events?page=${page}`);
+    return this.fetch();
+  }
+
+  public getEvents(): {
+    events: BaseEventEntity[];
+    pagination: PaginationResult;
+  } | null {
+    const responseDto: EventsListResponseDto | null = this.getData();
+    if (
+      !responseDto?.data?.events ||
+      responseDto?.data?.events.length < 1 ||
+      !responseDto?.meta?.pagination?.totalPages ||
+      !responseDto?.meta?.pagination?.currentPage
+    ) {
+      return null;
+    }
+    const pagination: PaginationResult = responseDto?.meta?.pagination;
+    const events = responseDto.data.events.map(mapDtoToBaseEvent);
+    return { events, pagination };
+  }
+
+  public fetchAuthStatus(): Promise<Api> {
+    this.initialize('/api/auth/status');
+    return this.fetch();
+  }
+
+  public getAuthUser(): UserEntity | null {
+    const responseDto: AuthStatusResponseDto | null = this.getData();
+    if (!responseDto?.data?.user) {
+      return null;
+    }
+    return mapDtoToUser(responseDto?.data?.user);
+  }
+
+  public fetchEvent(id: string): Promise<Api> {
+    this.initialize(`/api/events/${id}`);
+    return this.fetch();
+  }
+
+  public getEvent(): DetailedEventEntity | null {
+    const responseDto: DetailedEventResponseDto | null = this.getData();
+    const eventDto = responseDto?.data?.event;
+    if (!eventDto) {
+      return null;
+    }
+    return mapDtoToDetailedEvent(eventDto);
+  }
+
+  public createEvent(event: DetailedEventEntity): Promise<Api> {
+    const eventDto = mapDetailedEventToDto(event);
+    this.initialize('/api/events', {
+      method: 'POST',
+      body: JSON.stringify(eventDto),
+    });
+    return this.fetch();
+  }
+
+  public getCreatedEvent(): DetailedEventEntity | null {
+    const responseDto: DetailedEventResponseDto | null = this.getData();
+    const eventDto = responseDto?.data?.event;
+    if (!eventDto) {
+      return null;
+    }
+    return mapDtoToDetailedEvent(eventDto);
   }
 }
 

@@ -1,14 +1,11 @@
-import {
-  DetailedEventResponseDto,
-  DetailedEventDto,
-  BaseEventDto,
-} from '@/dto';
+import { UserDto, DetailedEventDto, BaseEventDto } from '@/dto';
 import {
   UserEntity,
   BaseEventEntity,
   DetailedEventEntity,
   Optional,
 } from '@/domain/types';
+import { Role } from '@/domain/constants';
 
 export const mapDtoToBaseEvent = (
   dto: Optional<BaseEventDto, 'id' | 'createdAt' | 'updatedAt'>
@@ -46,4 +43,26 @@ export const mapDetailedEventToDto = (
 ): Optional<DetailedEventDto, 'id' | 'createdAt' | 'updatedAt'> => ({
   ...mapBaseEventToDto(entity),
   description: entity.description,
+});
+
+export const mapDtoToUser = (
+  dto: Optional<UserDto, 'id' | 'createdAt' | 'updatedAt'>
+): UserEntity => ({
+  ...(dto.id && { id: dto.id }),
+  name: dto.name,
+  email: dto.email,
+  role: dto.role as Role,
+  ...(dto.createdAt && { createdAt: new Date(dto.createdAt) }),
+  ...(dto.updatedAt && { updatedAt: new Date(dto.updatedAt) }),
+});
+
+export const mapUserToDto = (
+  entity: UserEntity
+): Optional<UserDto, 'id' | 'createdAt' | 'updatedAt'> => ({
+  ...(entity.id && { id: entity.id }),
+  name: entity.name,
+  email: entity.email,
+  role: entity.role,
+  ...(entity.createdAt && { createdAt: entity.createdAt.toISOString() }),
+  ...(entity.updatedAt && { updatedAt: entity.updatedAt.toISOString() }),
 });

@@ -1,10 +1,7 @@
 import { notFound } from 'next/navigation';
-import { DetailedEventResponseDto, DetailedEventDto } from '@/dto';
-import { mapDtoToDetailedEvent } from '@/utils/mappers';
 import { Api } from 'src/modules/api';
 import { formatDate } from '@/utils/formatDate';
 import { formatEventTime } from '@/utils/formatEventTime';
-
 import {
   Card,
   CardContent,
@@ -14,37 +11,28 @@ import {
   CardTitle,
 } from '@/shadcnui/card';
 
-async function getEventById(id: string) {
-  const api = new Api<DetailedEventResponseDto>(`/api/events/${id}`);
-  await api.fetch();
-
-  if (api.isNotFound()) notFound();
-  if (api.isError()) {
-    throw new Error(api.getUiErrorMessage());
-  }
-
-  const responseDto = api.getData() as DetailedEventResponseDto;
-  const eventDto = responseDto?.data?.event as DetailedEventDto;
-  if (!eventDto) {
-    throw new Error('Unexpected error: server response does not contain event');
-  }
-
-  const event = mapDtoToDetailedEvent(eventDto);
-  return event;
-}
-
 export default async function Page({
   params,
 }: {
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-
   if (!id) {
     throw new Error('No event id provided');
   }
 
-  const event = await getEventById(id);
+  const api = new Api();
+  await api.fetchEvent(id);
+
+  if (api.isNotFound()) notFound();
+  if (api.isError()) {
+    throw new Error(api.getUiErrorMessage());
+  }
+
+  const event = api.getEvent();
+  if (!event) {
+    throw new Error('Unexpected error: unable to get event from server');
+  }
 
   return (
     <div className="p-4">
@@ -58,7 +46,7 @@ export default async function Page({
           <CardDescription>{event.location}</CardDescription>
         </CardHeader>
         <CardContent>
-          <p className="text-text1">{event?.description}</p>
+          <p className="text-text1">{event.description}</p>
         </CardContent>
         <CardFooter></CardFooter>
       </Card>

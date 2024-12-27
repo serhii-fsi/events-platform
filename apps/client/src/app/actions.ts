@@ -1,12 +1,6 @@
 'use server';
 
 import { DetailedEventEntity } from '@/domain/types';
-import {
-  DetailedEventResponseDto,
-  DetailedEventDto,
-  CreateEventRequestDto,
-} from '@/dto';
-import { mapDetailedEventToDto } from '@/utils/mappers';
 import { Api } from 'src/modules/api';
 
 export type EventFormActionResponse = {
@@ -18,39 +12,31 @@ export type EventFormActionResponse = {
 export async function createEvent(
   event: DetailedEventEntity
 ): Promise<EventFormActionResponse> {
-  console.error('event data <<<=====================', event);
-  const res: EventFormActionResponse = { success: false, message: '' };
-
   // Normalize line endings and remove excessive new lines
   event.description = event.description
     .replace(/\r\n/g, '\n')
     .replace(/\n{3,}/g, '\n\n');
 
-  const reqEventDto: CreateEventRequestDto = mapDetailedEventToDto(event);
-  console.error('event data <<<=====================', reqEventDto);
-
-  const api = new Api<DetailedEventResponseDto>(`/api/events`, {
-    method: 'POST',
-    body: JSON.stringify(reqEventDto),
-  });
-  await api.fetch();
+  const api = new Api();
+  await api.createEvent(event);
 
   if (api.isError()) {
-    res.success = false;
-    res.message = api.getUiErrorMessage();
-    return res;
+    return {
+      success: false,
+      message: api.getUiErrorMessage(),
+    };
   }
 
-  const responseDto = api.getData() as DetailedEventResponseDto;
-  const eventDto = responseDto?.data?.event as DetailedEventDto;
-  if (!eventDto || !eventDto.id) {
-    res.success = false;
-    res.message = 'Unexpected error: server response does not contain event';
-    return res;
+  const createdEvent = api.getCreatedEvent();
+  if (!createdEvent?.id) {
+    return {
+      success: false,
+      message: 'Unexpected error: server response does not contain event',
+    };
   }
 
   return {
-    id: eventDto.id,
+    id: createdEvent.id,
     success: true,
     message: 'Event created successfully',
   };

@@ -16,6 +16,11 @@ export interface ItemsWithTotalResult<T> {
 }
 
 // Service result types
+export type PaginationResult = {
+  totalPages: number;
+  currentPage: number;
+};
+
 export interface PaginatedResult<T> {
   items: T[];
   pagination: {
