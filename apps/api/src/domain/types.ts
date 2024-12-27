@@ -1,5 +1,8 @@
 import { Role, AttendanceStatus, CalendarStatus } from './constants';
 
+// Utilities
+export type Optional<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>;
+
 // Repository params types
 export interface PaginationParams {
   skip: number;

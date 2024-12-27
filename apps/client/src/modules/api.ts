@@ -27,6 +27,13 @@ class Api<Dto> {
   public async fetch(): Promise<Api<Dto>> {
     if (!this.options.cache) this.options.cache = 'no-store';
     if (!this.options.headers) this.options.headers = {};
+
+    this.options.headers = {
+      ...this.options.headers,
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+    } as HeadersInit;
+
     // https://stackoverflow.com/questions/76285120/error-dynamic-server-usage-headers-on-next-13-4
     const requestHeaders = headers();
     const cookie = requestHeaders.get('cookie');

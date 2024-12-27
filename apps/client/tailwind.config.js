@@ -65,7 +65,7 @@ module.exports = {
         gap3: 'var(--gap3)',
         gap4: 'var(--gap4)',
         gap5: 'var(--gap5)',
-        gap10px: '10px',
+        gapText: '10px',
       },
       padding: {
         gap1: 'var(--gap1)',

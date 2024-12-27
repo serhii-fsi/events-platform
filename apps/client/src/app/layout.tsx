@@ -1,4 +1,7 @@
 import './global.css';
+
+import { Toaster } from '@/shadcnui/toaster';
+
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
 
@@ -20,6 +23,7 @@ export default function RootLayout({
           <main className="py-gap2 flex-grow">{children}</main>
           <Footer />
         </div>
+        <Toaster />
       </body>
     </html>
   );

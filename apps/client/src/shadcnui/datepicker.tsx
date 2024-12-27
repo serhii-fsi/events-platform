@@ -5,55 +5,59 @@ import { format } from 'date-fns';
 import { CalendarIcon } from 'lucide-react';
 
 import { cn } from '@/shadcnui/utils';
+import { FormControl } from './form';
 import { Button } from '@/shadcnui/button';
 import { Calendar } from '@/shadcnui/calendar';
 import { Popover, PopoverContent, PopoverTrigger } from '@/shadcnui/popover';
 
-interface DatePickerProps {
+export interface DatePickerProps {
   value?: Date;
   onChange?: (date: Date | undefined) => void;
   placeholder?: string;
   className?: string;
   disabled?: boolean;
+  disabledDates?: (date: Date) => boolean;
+  dateFormat?: string;
 }
 
 export function DatePicker({
   value,
   onChange,
-  placeholder = 'Pick a date',
+  placeholder,
   className,
   disabled,
+  disabledDates,
+  dateFormat,
 }: DatePickerProps) {
-  const [date, setDate] = React.useState<Date | undefined>(value);
-
-  const handleSelect = (newDate: Date | undefined) => {
-    setDate(newDate);
-    onChange?.(newDate);
-  };
-
   return (
     <Popover>
       <PopoverTrigger asChild>
-        <Button
-          variant={'outline'}
-          className={cn(
-            'w-[280px] justify-start text-left font-normal',
-            !date && 'text-muted-foreground',
-            className
-          )}
-          disabled={disabled}
-        >
-          <CalendarIcon className="mr-2 h-4 w-4" />
-          {date ? format(date, 'PPP') : <span>{placeholder}</span>}
-        </Button>
+        <FormControl>
+          <Button
+            variant={'outline'}
+            className={cn(
+              'w-[280px] justify-start text-left font-normal',
+              !value && 'text-muted-foreground',
+              className
+            )}
+            disabled={disabled}
+          >
+            <CalendarIcon className="mr-2 h-4 w-4 opacity-50" />
+            {value ? (
+              format(value, dateFormat ? dateFormat : 'PPP')
+            ) : (
+              <span>{placeholder}</span>
+            )}
+          </Button>
+        </FormControl>
       </PopoverTrigger>
-      <PopoverContent className="w-auto p-0">
+      <PopoverContent className="w-auto p-0" align="start">
         <Calendar
           mode="single"
-          selected={date}
-          onSelect={handleSelect}
+          selected={value}
+          onSelect={onChange}
+          disabled={disabledDates}
           initialFocus
-          disabled={{ before: new Date() }}
           weekStartsOn={1}
         />
       </PopoverContent>

@@ -3,7 +3,7 @@ import Link from 'next/link';
 
 export const Footer = async () => {
   return (
-    <footer className="flex justify-between items-start">
+    <footer className="md:flex-col flex justify-between items-start">
       <div className="">
         <Link href="/">
           <svg
