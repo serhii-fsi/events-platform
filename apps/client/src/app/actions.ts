@@ -3,7 +3,7 @@
 import { DetailedEventEntity } from '@/domain/types';
 import { Api } from 'src/modules/api';
 
-export type EventFormActionResponse = {
+export type ActionResponse = {
   id?: number;
   success: boolean;
   message: string;
@@ -11,7 +11,7 @@ export type EventFormActionResponse = {
 
 export async function createEvent(
   event: DetailedEventEntity
-): Promise<EventFormActionResponse> {
+): Promise<ActionResponse> {
   // Normalize line endings and remove excessive new lines
   event.description = event.description
     .replace(/\r\n/g, '\n')
@@ -44,12 +44,36 @@ export async function createEvent(
 
 export async function editEvent(
   event: Partial<DetailedEventEntity>
-): Promise<EventFormActionResponse> {
+): Promise<ActionResponse> {
   await new Promise((resolve) => setTimeout(resolve, 3000));
 
   return {
     id: 1,
     success: true,
     message: 'Success',
+  };
+}
+
+export async function deleteEvent(id: number): Promise<ActionResponse> {
+  const api = new Api();
+  await api.deleteEvent(id);
+
+  if (api.isError()) {
+    return {
+      success: false,
+      message: api.getUiErrorMessage(),
+    };
+  }
+
+  if (!api.isEventDeleted()) {
+    return {
+      success: false,
+      message: 'Unexpected error: event may not have been deleted',
+    };
+  }
+
+  return {
+    success: true,
+    message: 'Event deleted successfully',
   };
 }

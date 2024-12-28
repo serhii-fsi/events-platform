@@ -1,15 +1,8 @@
 import { notFound } from 'next/navigation';
 import { Api } from 'src/modules/api';
-import { formatDate } from '@/utils/formatDate';
-import { formatEventTime } from '@/utils/formatEventTime';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from '@/shadcnui/card';
+import { convertToHtml } from '@/utils/convertToHtml';
+
+import { Event } from '@/components/Event';
 
 export default async function Page({
   params,
@@ -21,35 +14,28 @@ export default async function Page({
     throw new Error('No event id provided');
   }
 
-  const api = new Api();
-  await api.fetchEvent(id);
+  const [apiAuth, apiEvent] = await Promise.all([
+    new Api().fetchAuthUser(),
+    new Api().fetchEvent(id),
+  ]);
 
-  if (api.isNotFound()) notFound();
-  if (api.isError()) {
-    throw new Error(api.getUiErrorMessage());
+  const authUser = apiAuth.getAuthUser();
+
+  if (apiEvent.isNotFound()) notFound();
+  if (apiEvent.isError()) {
+    throw new Error(apiEvent.getUiErrorMessage());
   }
 
-  const event = api.getEvent();
+  const event = apiEvent.getEvent();
   if (!event) {
     throw new Error('Unexpected error: unable to get event from server');
   }
 
+  event.description = convertToHtml(event.description);
+
   return (
-    <div className="p-4">
-      <Card>
-        <CardHeader>
-          <CardTitle className="text-text2">{event.title}</CardTitle>
-          <CardDescription>{formatDate(event.startAt)}</CardDescription>
-          <CardDescription>
-            {formatEventTime(event.startAt, event.endAt)}
-          </CardDescription>
-          <CardDescription>{event.location}</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <p className="text-text1">{event.description}</p>
-        </CardContent>
-        <CardFooter></CardFooter>
-      </Card>
+    <div className="my-gap5">
+      <Event event={event} authUser={authUser} />
     </div>
   );
 }
