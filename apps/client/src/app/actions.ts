@@ -27,7 +27,7 @@ export async function createEvent(
     };
   }
 
-  const createdEvent = api.getCreatedEvent();
+  const createdEvent = api.getEvent();
   if (!createdEvent?.id) {
     return {
       success: false,
@@ -43,14 +43,36 @@ export async function createEvent(
 }
 
 export async function editEvent(
-  event: Partial<DetailedEventEntity>
+  event: DetailedEventEntity,
+  id: number
 ): Promise<ActionResponse> {
-  await new Promise((resolve) => setTimeout(resolve, 3000));
+  // Normalize line endings and remove excessive new lines
+  event.description = event.description
+    .replace(/\r\n/g, '\n')
+    .replace(/\n{3,}/g, '\n\n');
+
+  const api = new Api();
+  await api.updateEvent(event, id);
+
+  if (api.isError()) {
+    return {
+      success: false,
+      message: api.getUiErrorMessage(),
+    };
+  }
+
+  const updatedEvent = api.getEvent();
+  if (!updatedEvent?.id) {
+    return {
+      success: false,
+      message: 'Unexpected error: server response does not contain event',
+    };
+  }
 
   return {
-    id: 1,
+    id: updatedEvent.id,
     success: true,
-    message: 'Success',
+    message: 'Event saved successfully',
   };
 }
 

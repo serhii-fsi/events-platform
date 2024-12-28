@@ -221,13 +221,13 @@ class Api {
     return this.fetch();
   }
 
-  public getCreatedEvent(): DetailedEventEntity | null {
-    const responseDto: DetailedEventResponseDto | null = this.getData();
-    const eventDto = responseDto?.data?.event;
-    if (!eventDto) {
-      return null;
-    }
-    return mapDtoToDetailedEvent(eventDto);
+  public updateEvent(event: DetailedEventEntity, id: number): Promise<Api> {
+    const eventDto = mapDetailedEventToDto(event);
+    this.initialize(`/api/events/${id}`, {
+      method: 'PATCH',
+      body: JSON.stringify(eventDto),
+    });
+    return this.fetch();
   }
 
   public deleteEvent(id: number): Promise<Api> {

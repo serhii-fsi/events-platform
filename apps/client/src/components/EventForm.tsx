@@ -6,13 +6,13 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
-import { createEvent } from 'src/app/actions';
+import { createEvent, editEvent } from 'src/app/actions';
 import { DetailedEventEntity } from '@/domain/types';
 import { dateTo } from '@/utils/date';
 
 import { Textarea } from '@/shadcnui/textarea';
 import { Button } from '@/shadcnui/button';
-import { Send } from 'lucide-react';
+import { Send, Save } from 'lucide-react';
 import { Input } from '@/shadcnui/input';
 import { DatePicker } from '@/shadcnui/datepicker';
 import { toast } from '@/shadcnui/use-toast';
@@ -73,7 +73,7 @@ export function EventForm({
   redirect,
   event,
 }: {
-  formAction: typeof createEvent;
+  formAction: typeof createEvent | typeof editEvent;
   redirect?: 'push' | 'replace';
   event?: DetailedEventEntity | undefined;
 }) {
@@ -95,7 +95,6 @@ export function EventForm({
 
   const onSubmit = async function (data: z.infer<typeof FormSchema>) {
     setLoading(true);
-
     const newEvent: DetailedEventEntity = {
       title: data.title,
       description: data.description,
@@ -103,7 +102,9 @@ export function EventForm({
       endAt: new Date(`${data.endDate.toDateString()} ${data.endTime}`),
       location: data.location,
     };
-    const res = await formAction(newEvent);
+    const res = event?.id
+      ? await formAction(newEvent, event.id)
+      : await formAction(newEvent, 0);
 
     toast({
       variant: res.success ? 'default' : 'destructive',
@@ -117,9 +118,9 @@ export function EventForm({
     }
 
     if (redirect === 'replace') {
-      router.replace('events/' + res.id);
+      router.replace('/events/' + res.id);
     } else if (redirect === 'push') {
-      router.push('events/' + res.id);
+      router.push('/events/' + res.id);
     } else {
       setLoading(false);
     }
@@ -292,9 +293,15 @@ export function EventForm({
 
           <div className="flex justify-end">
             <div className="">
-              <Button type="submit" className="">
-                <Send /> Create Event
-              </Button>
+              {event?.id ? (
+                <Button type="submit" className="">
+                  <Save /> Save Changes
+                </Button>
+              ) : (
+                <Button type="submit" className="">
+                  <Send /> Create Event
+                </Button>
+              )}
             </div>
           </div>
         </div>

@@ -2,7 +2,7 @@ import { formatDate } from '@/utils/formatDate';
 import { formatTime } from '@/utils/formatEventTime';
 import { DetailedEventEntity, AuthUser } from '@/domain/types';
 import { deleteEvent } from 'src/app/actions';
-
+import { Description } from '@/components/Description';
 import { EventControl } from '@/components/EventControl';
 
 export const Event = async ({
@@ -20,9 +20,7 @@ export const Event = async ({
           <h1 className="flex flex-col gap-y-gapText text-text4 font-bold">
             {event.title}
           </h1>
-          <div className="flex flex-col gap-y-gapText text-text2">
-            {event.description}
-          </div>
+          <Description text={event.description} />
         </div>
       </div>
       {/* Right side */}

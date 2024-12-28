@@ -54,7 +54,7 @@ export const Footer = async () => {
 
           {authUser?.role === 'editor' || authUser?.role === 'admin' ? (
             <Link
-              href="/events/create"
+              href="/create-event"
               className="text-text1 hover:text-gray-600 underline"
             >
               Create Event

@@ -1,7 +1,9 @@
+import { redirect } from 'next/navigation';
 import { notFound } from 'next/navigation';
 import { Api } from 'src/modules/api';
+import { editEvent } from 'src/app/actions';
 
-import { Event } from '@/components/Event';
+import { EventForm } from '@/components/EventForm';
 
 export default async function Page({
   params,
@@ -19,6 +21,9 @@ export default async function Page({
   ]);
 
   const authUser = apiAuth.getAuthUser();
+  if (!authUser) {
+    redirect('/');
+  }
 
   if (apiEvent.isNotFound()) notFound();
   if (apiEvent.isError()) {
@@ -32,7 +37,8 @@ export default async function Page({
 
   return (
     <div className="my-gap5">
-      <Event event={event} authUser={authUser} />
+      <h1 className="text-4xl font-black text-center mb-gap5">Edit Event</h1>
+      <EventForm {...{ formAction: editEvent, redirect: 'replace', event }} />
     </div>
   );
 }
