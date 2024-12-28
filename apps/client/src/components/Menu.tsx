@@ -1,7 +1,8 @@
+import Link from 'next/link';
+import { getAuthUser } from 'src/modules/api';
+
 import { ENV } from '@/utils/env';
 
-import Link from 'next/link';
-import { Button } from '@/shadcnui/button';
 import {
   Drawer,
   DrawerClose,
@@ -14,6 +15,8 @@ import {
 } from '@/shadcnui/drawer';
 
 export const Menu = async () => {
+  const authUser = await getAuthUser();
+
   return (
     <Drawer>
       <DrawerTrigger className="">
@@ -39,46 +42,61 @@ export const Menu = async () => {
                 Homepage
               </Link>
             </DrawerClose>
-            <DrawerClose asChild>
-              <a
-                href={ENV.API_URL + ENV.AUTH0_LOGIN_PATH}
-                className="text-xl hover:text-gray-600 underline"
-              >
-                Login / Sign up
-              </a>
-            </DrawerClose>
-            <DrawerClose asChild>
-              <Link
-                href="/profile"
-                className="text-xl hover:text-gray-600 underline"
-              >
-                Profile
-              </Link>
-            </DrawerClose>
-            <DrawerClose asChild>
-              <Link
-                href="/create-event"
-                className="text-xl hover:text-gray-600 underline"
-              >
-                Create Event
-              </Link>
-            </DrawerClose>
-            <DrawerClose asChild>
-              <Link
-                href="/admin"
-                className="text-xl hover:text-gray-600 underline"
-              >
-                Manage Users
-              </Link>
-            </DrawerClose>
-            <DrawerClose asChild>
-              <a
-                href={ENV.API_URL + ENV.AUTH0_LOGOUT_PATH}
-                className="text-xl hover:text-gray-600 underline"
-              >
-                Log Out
-              </a>
-            </DrawerClose>
+
+            {!authUser ? (
+              <DrawerClose asChild>
+                <a
+                  href={ENV.API_URL + ENV.AUTH0_LOGIN_PATH}
+                  className="text-xl hover:text-gray-600 underline"
+                >
+                  Login / Sign up
+                </a>
+              </DrawerClose>
+            ) : null}
+
+            {authUser ? (
+              <DrawerClose asChild>
+                <Link
+                  href="/profile"
+                  className="text-xl hover:text-gray-600 underline"
+                >
+                  Profile
+                </Link>
+              </DrawerClose>
+            ) : null}
+
+            {authUser?.role === 'editor' || authUser?.role === 'admin' ? (
+              <DrawerClose asChild>
+                <Link
+                  href="/create-event"
+                  className="text-xl hover:text-gray-600 underline"
+                >
+                  Create Event
+                </Link>
+              </DrawerClose>
+            ) : null}
+
+            {authUser?.role === 'admin' ? (
+              <DrawerClose asChild>
+                <Link
+                  href="/admin"
+                  className="text-xl hover:text-gray-600 underline"
+                >
+                  Manage Users
+                </Link>
+              </DrawerClose>
+            ) : null}
+
+            {authUser ? (
+              <DrawerClose asChild>
+                <a
+                  href={ENV.API_URL + ENV.AUTH0_LOGOUT_PATH}
+                  className="text-xl hover:text-gray-600 underline"
+                >
+                  Log Out
+                </a>
+              </DrawerClose>
+            ) : null}
           </div>
         </DrawerHeader>
         <DrawerFooter>

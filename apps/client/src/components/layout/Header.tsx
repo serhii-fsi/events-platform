@@ -1,8 +1,12 @@
 import Link from 'next/link';
-import { AuthStatus } from '@/components/AuthStatus';
+import { ENV } from '@/utils/env';
+import { getAuthUser } from 'src/modules/api';
+
 import { Menu } from '@/components/Menu';
 
 export const Header = async () => {
+  const authUser = await getAuthUser();
+
   return (
     <header className="flex justify-between items-center">
       <div>
@@ -27,7 +31,22 @@ export const Header = async () => {
         </Link>
       </div>
       <div>
-        <AuthStatus />
+        <div className="flex gap-gap1 items-center">
+          {authUser ? (
+            <div>
+              <Link href="/profile" className="text-text1 underline">
+                {authUser.name}
+              </Link>
+            </div>
+          ) : (
+            <a
+              href={ENV.API_URL + ENV.AUTH0_LOGIN_PATH}
+              className="text-text1 underline"
+            >
+              Login / Sign up
+            </a>
+          )}
+        </div>
       </div>
       <div className="w-[191px] flex justify-end ">
         <Menu />

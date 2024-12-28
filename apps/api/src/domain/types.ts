@@ -35,6 +35,8 @@ export type UserId = number;
 export type EventId = number;
 
 // Domain-specific complex types
+export type AuthUser = UserEntity | null;
+
 export type AuthenticatedUser = {
   name?: string;
   picture?: string;

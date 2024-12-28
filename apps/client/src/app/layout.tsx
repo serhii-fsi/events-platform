@@ -1,9 +1,8 @@
 import './global.css';
 
-import { Toaster } from '@/shadcnui/toaster';
-
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
+import { Toaster } from '@/shadcnui/toaster';
 
 export const metadata = {
   title: 'Events Platform',

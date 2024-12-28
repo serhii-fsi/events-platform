@@ -4,11 +4,12 @@ import {
   EventsListResponseDto,
   DetailedEventResponseDto,
   AuthStatusResponseDto,
+  SuccessOkResponseDto,
 } from '@/dto';
 import {
   BaseEventEntity,
   PaginationResult,
-  UserEntity,
+  AuthUser,
   DetailedEventEntity,
 } from '@/domain/types';
 import {
@@ -48,7 +49,7 @@ class Api {
   }
 
   public async fetch(): Promise<Api> {
-    if (!this.options.cache) this.options.cache = 'no-store';
+    if (!this.options.next) this.options.next = { revalidate: 3 };
     if (!this.options.headers) this.options.headers = {};
 
     this.options.headers = {
@@ -184,12 +185,12 @@ class Api {
     return { events, pagination };
   }
 
-  public fetchAuthStatus(): Promise<Api> {
+  public fetchAuthUser(): Promise<Api> {
     this.initialize('/api/auth/status');
     return this.fetch();
   }
 
-  public getAuthUser(): UserEntity | null {
+  public getAuthUser(): AuthUser {
     const responseDto: AuthStatusResponseDto | null = this.getData();
     if (!responseDto?.data?.user) {
       return null;
@@ -228,6 +229,24 @@ class Api {
     }
     return mapDtoToDetailedEvent(eventDto);
   }
+
+  public deleteEvent(id: number): Promise<Api> {
+    this.initialize(`/api/events/${id}`, {
+      method: 'DELETE',
+    });
+    return this.fetch();
+  }
+
+  public isEventDeleted(): boolean {
+    const responseDto: SuccessOkResponseDto | null = this.getData();
+    return responseDto?.success === true;
+  }
 }
 
 export { Api };
+
+export const getAuthUser = async (): Promise<AuthUser> => {
+  const api = new Api();
+  await api.fetchAuthUser();
+  return api.getAuthUser();
+};

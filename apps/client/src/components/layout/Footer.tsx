@@ -1,7 +1,10 @@
 import { ENV } from '@/utils/env';
 import Link from 'next/link';
+import { getAuthUser } from 'src/modules/api';
 
 export const Footer = async () => {
+  const authUser = await getAuthUser();
+
   return (
     <footer className="flex flex-col justify-between items-start md:flex-row">
       <div className="">
@@ -30,36 +33,51 @@ export const Footer = async () => {
           <Link href="/" className="text-text1 hover:text-gray-600 underline">
             Homepage
           </Link>
-          <a
-            href={ENV.API_URL + ENV.AUTH0_LOGIN_PATH}
-            className="text-text1 hover:text-gray-600 underline"
-          >
-            Login / Sign up
-          </a>
-          <Link
-            href="/profile"
-            className="text-text1 hover:text-gray-600 underline"
-          >
-            Profile
-          </Link>
-          <Link
-            href="/events/create"
-            className="text-text1 hover:text-gray-600 underline"
-          >
-            Create Event
-          </Link>
-          <Link
-            href="/admin"
-            className="text-text1 hover:text-gray-600 underline"
-          >
-            Manage Users
-          </Link>
-          <a
-            href={ENV.API_URL + ENV.AUTH0_LOGOUT_PATH}
-            className="text-text1 hover:text-gray-600 underline"
-          >
-            Log Out
-          </a>
+
+          {!authUser ? (
+            <a
+              href={ENV.API_URL + ENV.AUTH0_LOGIN_PATH}
+              className="text-text1 hover:text-gray-600 underline"
+            >
+              Login / Sign up
+            </a>
+          ) : null}
+
+          {authUser ? (
+            <Link
+              href="/profile"
+              className="text-text1 hover:text-gray-600 underline"
+            >
+              Profile
+            </Link>
+          ) : null}
+
+          {authUser?.role === 'editor' || authUser?.role === 'admin' ? (
+            <Link
+              href="/events/create"
+              className="text-text1 hover:text-gray-600 underline"
+            >
+              Create Event
+            </Link>
+          ) : null}
+
+          {authUser?.role === 'admin' ? (
+            <Link
+              href="/admin"
+              className="text-text1 hover:text-gray-600 underline"
+            >
+              Manage Users
+            </Link>
+          ) : null}
+
+          {authUser ? (
+            <a
+              href={ENV.API_URL + ENV.AUTH0_LOGOUT_PATH}
+              className="text-text1 hover:text-gray-600 underline"
+            >
+              Log Out
+            </a>
+          ) : null}
         </div>
       </div>
       <div className="space-x-2">

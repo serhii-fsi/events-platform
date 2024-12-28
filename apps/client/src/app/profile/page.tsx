@@ -2,7 +2,7 @@ import { Api } from 'src/modules/api';
 
 export default async function Page() {
   const api = new Api();
-  await api.fetchAuthStatus();
+  await api.fetchAuthUser();
 
   if (api.isError()) {
     throw new Error(api.getUiErrorMessage());

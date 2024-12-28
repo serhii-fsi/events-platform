@@ -34,10 +34,10 @@
 
     /* Text size tokens */
     --text1: 12px;
-    --text2: 14px;
+    --text2: 13px;
     --text3: 16px;
-    --text4: 18px;
-    --text5: 20px;
+    --text4: 21px;
+    --text5: 30px;
 
     /* Color tokens */
     --color1: #ffffff;
@@ -55,11 +55,11 @@
       --gap4: 40px;
       --gap5: 50px;
 
-      --text1: 14px;
-      --text2: 16px;
+      --text1: 13px;
+      --text2: 14px;
       --text3: 18px;
-      --text4: 20px;
-      --text5: 22px;
+      --text4: 24px;
+      --text5: 36px;
     }
   }
 
@@ -71,11 +71,11 @@
       --gap4: 48px;
       --gap5: 60px;
 
-      --text1: 16px;
-      --text2: 18px;
+      --text1: 14px;
+      --text2: 15px;
       --text3: 20px;
-      --text4: 22px;
-      --text5: 24px;
+      --text4: 28px;
+      --text5: 42px;
     }
   }
 
@@ -87,11 +87,11 @@
       --gap4: 56px;
       --gap5: 70px;
 
-      --text1: 18px;
-      --text2: 20px;
+      --text1: 15px;
+      --text2: 16px;
       --text3: 22px;
-      --text4: 24px;
-      --text5: 26px;
+      --text4: 32px;
+      --text5: 46px;
     }
   }
 
@@ -104,10 +104,10 @@
       --gap5: 80px;
 
       --text1: 16px;
-      --text2: 20px;
+      --text2: 17px;
       --text3: 24px;
-      --text4: 26px;
-      --text5: 28px;
+      --text4: 36px;
+      --text5: 50px;
     }
   }
 
