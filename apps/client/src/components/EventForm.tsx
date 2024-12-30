@@ -8,7 +8,7 @@ import { z } from 'zod';
 
 import { createEvent, editEvent } from 'src/app/actions';
 import { DetailedEventEntity } from '@/domain/types';
-import { dateTo } from '@/utils/date';
+import { date } from '@/utils/date';
 
 import { Textarea } from '@/shadcnui/textarea';
 import { Button } from '@/shadcnui/button';
@@ -86,9 +86,9 @@ export function EventForm({
       title: event?.title || '',
       description: event?.description || '',
       startDate: event?.startAt,
-      startTime: event?.startAt ? dateTo.hhmm(event?.startAt) : '',
+      startTime: event?.startAt ? date.toHhmm(event.startAt) : '',
       endDate: event?.endAt,
-      endTime: event?.endAt ? dateTo.hhmm(event?.endAt) : '',
+      endTime: event?.endAt ? date.toHhmm(event.endAt) : '',
       location: event?.location || '',
     },
   });
@@ -98,10 +98,11 @@ export function EventForm({
     const newEvent: DetailedEventEntity = {
       title: data.title,
       description: data.description,
-      startAt: new Date(`${data.startDate.toDateString()} ${data.startTime}`),
-      endAt: new Date(`${data.endDate.toDateString()} ${data.endTime}`),
+      startAt: date.setHhmm(data.startDate, data.startTime),
+      endAt: date.setHhmm(data.endDate, data.endTime),
       location: data.location,
     };
+
     const res = event?.id
       ? await formAction(newEvent, event.id)
       : await formAction(newEvent, 0);

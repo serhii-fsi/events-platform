@@ -1,5 +1,5 @@
-import { formatDate } from '@/utils/formatDate';
-import { formatEventTime } from '@/utils/formatEventTime';
+import { date } from '@/utils/date';
+import { BaseEventEntity } from '@/domain/types';
 import Link from 'next/link';
 
 import {
@@ -17,14 +17,31 @@ export const EventCard = async ({
   startAt,
   endAt,
   location,
-}: any) => {
+}: BaseEventEntity) => {
+  const startEndObj = date.toStartEndObj(startAt, endAt);
+
   return (
     <Link href={`/events/${id}`}>
       <Card>
         <CardHeader>
           <CardTitle className="text-text2">{title}</CardTitle>
-          <CardDescription>{formatDate(startAt)}</CardDescription>
-          <CardDescription>{formatEventTime(startAt, endAt)}</CardDescription>
+
+          <CardDescription>
+            {startEndObj.date && startEndObj.timeRange ? (
+              <>
+                <div className="">{startEndObj.date}</div>
+                <div className="">{startEndObj.timeRange}</div>
+              </>
+            ) : (
+              <>
+                <div className="">{startEndObj.start?.date}</div>
+                <div className="">{startEndObj.start?.time}</div>
+
+                <div className="">{startEndObj.end?.date}</div>
+                <div className="">{startEndObj.end?.time}</div>
+              </>
+            )}
+          </CardDescription>
         </CardHeader>
         <CardContent>
           <p className="text-text1">{location}</p>
