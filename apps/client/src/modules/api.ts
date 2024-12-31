@@ -163,7 +163,7 @@ class Api {
   }
 
   public fetchEvents(page = '1'): Promise<Api> {
-    this.initialize(`/api/events?page=${page}`);
+    this.initialize(`/api/events?page=${page}&limit=12`);
     return this.fetch();
   }
 

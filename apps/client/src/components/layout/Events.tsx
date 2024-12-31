@@ -1,7 +1,9 @@
 import { Api } from 'src/modules/api';
-import { EventCard } from '@/components/EventCard';
 
-export const Events = async ({ page = '1' }) => {
+import { EventCard } from '@/components/EventCard';
+import { EventsPagination } from '../Pagination';
+
+export const Events = async ({ page }: { page: string }) => {
   const api = new Api();
   await api.fetchEvents(page);
 
@@ -16,10 +18,13 @@ export const Events = async ({ page = '1' }) => {
   const { events, pagination } = ret;
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-gap2">
-      {events.map((event) => (
-        <EventCard key={event.id} {...event} />
-      ))}
-    </div>
+    <>
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-gap2">
+        {events.map((event) => (
+          <EventCard key={event.id} {...event} />
+        ))}
+      </div>
+      <EventsPagination paginationResult={pagination} />
+    </>
   );
 };
