@@ -56,6 +56,8 @@ export interface paths {
                 query?: {
                     page?: components["parameters"]["PageQuery"];
                     limit?: components["parameters"]["LimitQuery"];
+                    /** @description Filter events that start on or after this date (ISO 8601 format) */
+                    after?: components["parameters"]["AfterQuery"];
                 };
                 header?: never;
                 path?: never;
@@ -772,6 +774,8 @@ export interface components {
     parameters: {
         PageQuery: number;
         LimitQuery: number;
+        /** @description Filter events that start on or after this date (ISO 8601 format) */
+        AfterQuery: string;
         EventIdPath: number;
         UserIdPath: number;
         SearchQuery: string;

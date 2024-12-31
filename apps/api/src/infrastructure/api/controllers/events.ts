@@ -1,7 +1,9 @@
 import { Request, Response, NextFunction } from 'express';
 import {
+  PageQueryDto,
   PageQuery,
   LimitQuery,
+  AfterQuery,
   BaseEventDto,
   DetailedEventDto,
   CreateEventRequestDto,
@@ -18,6 +20,7 @@ import {
   UpdateEventEntity,
 } from '../../../domain/types';
 import { PAGINATION } from '../../../domain/constants';
+import { ne } from 'drizzle-orm';
 
 const mapBaseEventToDto = (event: BaseEventEntity): BaseEventDto => ({
   id: event.id,
@@ -38,7 +41,7 @@ const mapDetailedEventToDto = (
 
 export const eventsController = {
   getMany: async (
-    req: Request<object, EventsListResponseDto>,
+    req: Request<object, EventsListResponseDto, PageQueryDto, PageQueryDto>,
     res: Response<EventsListResponseDto>,
     next: NextFunction
   ) => {
@@ -46,8 +49,13 @@ export const eventsController = {
       const page: PageQuery = Number(req.query.page) || PAGINATION.DEFAULT_PAGE;
       const limit: LimitQuery =
         Number(req.query.limit) || PAGINATION.DEFAULT_LIMIT;
+      const after = req.query.after ? new Date(req.query.after) : new Date();
 
-      const { items, pagination } = await eventsService.getMany(page, limit);
+      const { items, pagination } = await eventsService.getMany(
+        page,
+        limit,
+        after
+      );
 
       return res.status(200).json({
         data: {

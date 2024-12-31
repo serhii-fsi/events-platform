@@ -23,12 +23,14 @@ export const eventValidator = {
 export const eventsService = {
   getMany: async (
     page: number,
-    limit: number
+    limit: number,
+    after: Date
   ): Promise<PaginatedResult<BaseEventEntity>> => {
     try {
       const skip = (page - 1) * limit;
       const take = limit;
-      const res = await eventsRepository.findMany({ skip, take });
+
+      const res = await eventsRepository.findMany({ skip, take }, after);
 
       res.items.forEach((event) => {
         if (!eventValidator.validateDateRange(event)) {

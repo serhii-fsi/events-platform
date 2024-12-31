@@ -3,14 +3,16 @@ info:
   title: API Documentation
   version: 1.0.0
 servers:
+  - url: 'http://176.117.76.149:3001/'
+    description: Remote server
   - url: 'http://localhost:3001'
-    description: For compose.prod.yml
+    description: Local - compose.prod.yml
   - url: 'http://localhost:3001'
-    description: For compose.dev.yml
+    description: Local - compose.dev.yml
   - url: 'http://localhost:3002'
-    description: For compose.api-e2e.yml
+    description: Local - compose.api-e2e.yml
   - url: 'http://localhost:3003'
-    description: For compose.client-e2e.yml
+    description: Local - compose.client-e2e.yml
 paths:
   #================= /api/auth/status =================
   /api/auth/status:
@@ -38,6 +40,7 @@ paths:
       parameters:
         - $ref: '#/components/parameters/PageQuery'
         - $ref: '#/components/parameters/LimitQuery'
+        - $ref: '#/components/parameters/AfterQuery'
       responses:
         '200':
           description: Successful response
@@ -683,6 +686,15 @@ components:
         minimum: 1
         maximum: 100
         default: 10
+
+    AfterQuery:
+      in: query
+      name: after
+      schema:
+        type: string
+        format: date-time
+      description: Filter events that start on or after this date (ISO 8601 format)
+      example: '2021-01-01T00:00:00Z'
 
     EventIdPath:
       in: path

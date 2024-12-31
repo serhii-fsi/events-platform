@@ -68,6 +68,7 @@ export type ErrorResponseCodes = 400 | 401 | 403 | 404 | 406 | 500;
 // Parameter types
 export type PageQuery = components['parameters']['PageQuery'];
 export type LimitQuery = components['parameters']['LimitQuery'];
+export type AfterQuery = components['parameters']['AfterQuery'];
 export type EventIdPath = components['parameters']['EventIdPath'];
 export type UserIdPath = components['parameters']['UserIdPath'];
 export type SearchQuery = components['parameters']['SearchQuery'];

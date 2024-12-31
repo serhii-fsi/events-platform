@@ -32,7 +32,9 @@ describe('Events API', () => {
   describe('GET /api/events', () => {
     describe('happy path scenarios', () => {
       it('should return first page of events with default pagination', async () => {
-        const response = await request('get', '/api/events');
+        const response = await request('get', '/api/events', {
+          after: '2021-01-01T00:00:00Z',
+        });
         expect(response.status).toBe(200);
 
         const { data, meta } = response.data;
@@ -45,6 +47,7 @@ describe('Events API', () => {
       it('should return events with custom pagination parameters', async () => {
         const response = await request('get', '/api/events', {
           params: { page: 2, limit: 5 },
+          after: '2021-01-01T00:00:00Z',
         });
         expect(response.status).toBe(200);
 
@@ -55,7 +58,9 @@ describe('Events API', () => {
       });
 
       it('should return correct event data structure', async () => {
-        const response = await request('get', '/api/events');
+        const response = await request('get', '/api/events', {
+          after: '2021-01-01T00:00:00Z',
+        });
         expect(response.status).toBe(200);
 
         const event = response.data.data.events[0];
@@ -69,15 +74,34 @@ describe('Events API', () => {
           updatedAt: expect.any(String),
         });
       });
+
+      it('should return events sorted by startAt date', async () => {
+        const response = await request('get', '/api/events', {
+          params: { limit: 30 },
+          after: '2026-01-01T00:00:00Z',
+        });
+        expect(response.status).toBe(200);
+
+        const { data } = response.data;
+        expect(Array.isArray(data.events)).toBe(true);
+        for (let i = 1; i < data.events.length; i++) {
+          const previousDate = new Date(data.events[i - 1].startAt).getTime();
+          const currentDate = new Date(data.events[i].startAt).getTime();
+          expect(currentDate).toBeGreaterThanOrEqual(previousDate);
+        }
+      });
     });
 
     describe('pagination edge cases', () => {
       it('should return empty events array for page beyond total pages', async () => {
-        const initialResponse = await request('get', '/api/events');
+        const initialResponse = await request('get', '/api/events', {
+          after: '2021-01-01T00:00:00Z',
+        });
         const totalPages = initialResponse.data.meta.pagination.totalPages;
 
         const response = await request('get', '/api/events', {
           params: { page: totalPages + 1 },
+          after: '2021-01-01T00:00:00Z',
         });
         expect(response.status).toBe(200);
         expect(response.data.data.events).toHaveLength(0);
