@@ -174,7 +174,7 @@ class Api {
     const responseDto: EventsListResponseDto | null = this.getData();
     if (
       !responseDto?.data?.events ||
-      responseDto?.data?.events.length < 1 ||
+      !(responseDto?.data?.events.length >= 0) ||
       !responseDto?.meta?.pagination?.totalPages ||
       !responseDto?.meta?.pagination?.currentPage
     ) {

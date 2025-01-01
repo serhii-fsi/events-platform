@@ -18,13 +18,13 @@ export const Events = async ({ page }: { page: string }) => {
   const { events, pagination } = ret;
 
   return (
-    <>
+    <div className="flex flex-col gap-y-gap2">
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-gap2">
         {events.map((event) => (
           <EventCard key={event.id} {...event} />
         ))}
       </div>
       <EventsPagination paginationResult={pagination} />
-    </>
+    </div>
   );
 };

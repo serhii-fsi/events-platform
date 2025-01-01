@@ -1,6 +1,6 @@
 import { db } from '../db/connection';
 import { events } from '../db/schema';
-import { gte, sql, eq } from 'drizzle-orm';
+import { gte, count, eq } from 'drizzle-orm';
 import {
   BaseEventEntity,
   DetailedEventEntity,
@@ -32,7 +32,10 @@ const eventsRepository = {
         .offset(skip)
         .orderBy(events.startAt),
 
-      db.select({ count: sql<number>`count(*)` }).from(events),
+      db
+        .select({ count: count() })
+        .from(events)
+        .where(gte(events.startAt, after)),
     ]);
 
     const total = totalCount[0].count;

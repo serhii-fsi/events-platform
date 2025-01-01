@@ -9,7 +9,7 @@ export const Header = async () => {
 
   return (
     <header className="flex justify-between items-center">
-      <div>
+      <div className="w-[191px] flex justify-start">
         <Link href="/">
           <svg
             className="text-foreground"
@@ -48,7 +48,7 @@ export const Header = async () => {
           )}
         </div>
       </div>
-      <div className="w-[191px] flex justify-end ">
+      <div className="w-[191px] flex justify-end">
         <Menu />
       </div>
     </header>

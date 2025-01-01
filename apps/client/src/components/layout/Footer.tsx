@@ -7,7 +7,7 @@ export const Footer = async () => {
 
   return (
     <footer className="flex flex-col justify-between items-start md:flex-row">
-      <div className="">
+      <div className="w-[191px] flex justify-start">
         <Link href="/">
           <svg
             className="text-foreground"
@@ -80,7 +80,7 @@ export const Footer = async () => {
           ) : null}
         </div>
       </div>
-      <div className="space-x-2">
+      <div className="w-[191px] flex justify-end space-x-2">
         <a href="#" className="text-blue-600">
           Facebook
         </a>
