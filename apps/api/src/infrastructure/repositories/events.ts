@@ -15,28 +15,33 @@ const eventsRepository = {
     { skip, take }: PaginationParams,
     after: Date
   ): Promise<ItemsWithTotalResult<BaseEventEntity>> => {
-    const [eventsResult, totalCount] = await Promise.all([
-      db
-        .select({
-          id: events.id,
-          title: events.title,
-          startAt: events.startAt,
-          endAt: events.endAt,
-          location: events.location,
-          createdAt: events.createdAt,
-          updatedAt: events.updatedAt,
-        })
-        .from(events)
-        .where(gte(events.startAt, after))
-        .limit(take)
-        .offset(skip)
-        .orderBy(events.startAt),
+    const [eventsResult, totalCount] = await db.transaction(
+      async (tx) => {
+        return await Promise.all([
+          tx
+            .select({
+              id: events.id,
+              title: events.title,
+              startAt: events.startAt,
+              endAt: events.endAt,
+              location: events.location,
+              createdAt: events.createdAt,
+              updatedAt: events.updatedAt,
+            })
+            .from(events)
+            .where(gte(events.startAt, after))
+            .limit(take)
+            .offset(skip)
+            .orderBy(events.startAt),
 
-      db
-        .select({ count: count() })
-        .from(events)
-        .where(gte(events.startAt, after)),
-    ]);
+          tx
+            .select({ count: count() })
+            .from(events)
+            .where(gte(events.startAt, after)),
+        ]);
+      },
+      { isolationLevel: 'repeatable read' }
+    );
 
     const total = totalCount[0].count;
 
