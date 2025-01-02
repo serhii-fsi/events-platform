@@ -43,8 +43,6 @@ export const eventsService = {
         }
       });
 
-      console.log('res', res);
-
       return {
         items: res.items,
         pagination: {
