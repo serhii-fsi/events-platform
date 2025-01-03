@@ -1,6 +1,9 @@
 'use server';
 
+import { revalidatePath } from 'next/cache';
+
 import { DetailedEventEntity } from '@/domain/types';
+import { AttendanceStatus, CalendarStatus } from '@/domain/constants';
 import { Api } from 'src/modules/api';
 
 export type ActionResponse = {
@@ -98,4 +101,29 @@ export async function deleteEvent(id: number): Promise<ActionResponse> {
     success: true,
     message: 'Event deleted successfully',
   };
+}
+
+export async function setAttendanceStatus(
+  userId: number,
+  eventId: number,
+  status: AttendanceStatus
+): Promise<ActionResponse> {
+  const api = new Api();
+  await api.setAttendance(userId, eventId, status);
+
+  if (api.isError()) {
+    return { success: false, message: api.getUiErrorMessage() };
+  }
+
+  revalidatePath(`/events/${eventId}`);
+
+  return { success: true, message: '' };
+}
+
+export async function setCalendarStatus(
+  userId: number,
+  eventId: number,
+  status: CalendarStatus
+): Promise<ActionResponse> {
+  return { success: true, message: '' };
 }

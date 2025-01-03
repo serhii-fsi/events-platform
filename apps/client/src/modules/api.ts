@@ -5,18 +5,30 @@ import {
   DetailedEventResponseDto,
   AuthStatusResponseDto,
   SuccessOkResponseDto,
+  AttendanceStatusResponseDto,
+  AttendanceStatusDto,
+  CalendarStatusResponseDto,
+  CalendarStatusDto,
 } from '@/dto';
 import {
+  Optional,
   BaseEventEntity,
   PaginationResult,
   AuthUser,
   DetailedEventEntity,
+  Attendance,
+  Calendar,
 } from '@/domain/types';
+import { AttendanceStatus, CalendarStatus } from '@/domain/constants';
 import {
   mapDtoToBaseEvent,
   mapDtoToUser,
   mapDtoToDetailedEvent,
   mapDetailedEventToDto,
+  mapDtoToAttendance,
+  mapAttendanceToDto,
+  mapDtoToCalendar,
+  mapCalendarToDto,
 } from '@/utils/mappers';
 
 export interface ApiResult {
@@ -190,7 +202,7 @@ class Api {
     return this.fetch();
   }
 
-  public getAuthUser(): AuthUser {
+  public getAuthUser(): AuthUser | null {
     const responseDto: AuthStatusResponseDto | null = this.getData();
     if (!responseDto?.data?.user) {
       return null;
@@ -240,6 +252,69 @@ class Api {
   public isEventDeleted(): boolean {
     const responseDto: SuccessOkResponseDto | null = this.getData();
     return responseDto?.success === true;
+  }
+
+  public fetchAttendance(userId: string, eventId: string): Promise<Api> {
+    this.initialize(`/api/users/${userId}/events/${eventId}/attendance-status`);
+    return this.fetch();
+  }
+
+  public setAttendance(
+    userId: number,
+    eventId: number,
+    status: AttendanceStatus
+  ): Promise<Api> {
+    this.initialize(
+      `/api/users/${userId}/events/${eventId}/attendance-status`,
+      {
+        method: 'PATCH',
+        body: JSON.stringify(mapAttendanceToDto(status)),
+      }
+    );
+    return this.fetch();
+  }
+
+  public getAttendance(): Optional<
+    Attendance,
+    'userId' | 'eventId' | 'createdAt' | 'updatedAt'
+  > | null {
+    const responseDto: AttendanceStatusResponseDto | null = this.getData();
+    const attendanceDto: AttendanceStatusDto | undefined =
+      responseDto?.data?.attendanceStatus;
+    if (!attendanceDto) {
+      return null;
+    }
+    return mapDtoToAttendance(attendanceDto);
+  }
+
+  public fetchCalendar(userId: string, eventId: string): Promise<Api> {
+    this.initialize(`/api/users/${userId}/events/${eventId}/calendar-status`);
+    return this.fetch();
+  }
+
+  public setCalendar(
+    userId: number,
+    eventId: number,
+    status: CalendarStatus
+  ): Promise<Api> {
+    this.initialize(`/api/users/${userId}/events/${eventId}/calendar-status`, {
+      method: 'PATCH',
+      body: JSON.stringify(mapCalendarToDto(status)),
+    });
+    return this.fetch();
+  }
+
+  public getCalendar(): Optional<
+    Calendar,
+    'userId' | 'eventId' | 'createdAt' | 'updatedAt'
+  > | null {
+    const responseDto: CalendarStatusResponseDto | null = this.getData();
+    const calendarDto: CalendarStatusDto | undefined =
+      responseDto?.data?.calendarStatus;
+    if (!calendarDto) {
+      return null;
+    }
+    return mapDtoToCalendar(calendarDto);
   }
 }
 

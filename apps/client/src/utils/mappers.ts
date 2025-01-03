@@ -1,11 +1,21 @@
-import { UserDto, DetailedEventDto, BaseEventDto } from '@/dto';
+import {
+  UserDto,
+  DetailedEventDto,
+  BaseEventDto,
+  AttendanceStatusDto,
+  CalendarStatusDto,
+  UpdateAttendanceStatusRequestDto,
+  UpdateCalendarStatusRequestDto,
+} from '@/dto';
 import {
   UserEntity,
   BaseEventEntity,
   DetailedEventEntity,
   Optional,
+  Attendance,
+  Calendar,
 } from '@/domain/types';
-import { Role } from '@/domain/constants';
+import { Role, AttendanceStatus, CalendarStatus } from '@/domain/constants';
 
 export const mapDtoToBaseEvent = (
   dto: Optional<BaseEventDto, 'id' | 'createdAt' | 'updatedAt'>
@@ -65,4 +75,32 @@ export const mapUserToDto = (
   role: entity.role,
   ...(entity.createdAt && { createdAt: entity.createdAt.toISOString() }),
   ...(entity.updatedAt && { updatedAt: entity.updatedAt.toISOString() }),
+});
+
+export const mapDtoToAttendance = (
+  dto: Optional<AttendanceStatusDto, 'createdAt' | 'updatedAt'>
+): Optional<Attendance, 'userId' | 'eventId' | 'createdAt' | 'updatedAt'> => ({
+  status: dto.status as AttendanceStatus,
+  ...(dto.createdAt && { createdAt: new Date(dto.createdAt) }),
+  ...(dto.updatedAt && { updatedAt: new Date(dto.updatedAt) }),
+});
+
+export const mapAttendanceToDto = (
+  attendanceStatus: AttendanceStatus
+): UpdateAttendanceStatusRequestDto => ({
+  attendanceStatus: attendanceStatus,
+});
+
+export const mapDtoToCalendar = (
+  dto: Optional<CalendarStatusDto, 'createdAt' | 'updatedAt'>
+): Optional<Calendar, 'userId' | 'eventId' | 'createdAt' | 'updatedAt'> => ({
+  status: dto.status as CalendarStatus,
+  ...(dto.createdAt && { createdAt: new Date(dto.createdAt) }),
+  ...(dto.updatedAt && { updatedAt: new Date(dto.updatedAt) }),
+});
+
+export const mapCalendarToDto = (
+  calendarStatus: CalendarStatus
+): UpdateCalendarStatusRequestDto => ({
+  calendarStatus: calendarStatus,
 });

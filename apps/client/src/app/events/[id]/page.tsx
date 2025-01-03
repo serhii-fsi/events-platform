@@ -27,12 +27,25 @@ export default async function Page({
 
   const event = apiEvent.getEvent();
   if (!event) {
-    throw new Error('Unexpected error: unable to get event from server');
+    throw new Error('Unexpected error: unable to get event');
   }
+
+  const [apiAttendance, apiCalendar] = await Promise.all([
+    new Api().fetchAttendance(String(authUser?.id), id),
+    new Api().fetchCalendar(String(authUser?.id), id),
+  ]);
+
+  const attendance = apiAttendance.getAttendance();
+  const calendar = apiCalendar.getCalendar();
 
   return (
     <div className="my-gap5">
-      <Event event={event} authUser={authUser} />
+      <Event
+        event={event}
+        authUser={authUser}
+        attendance={attendance}
+        calendar={calendar}
+      />
     </div>
   );
 }

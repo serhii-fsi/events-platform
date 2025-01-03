@@ -1,16 +1,33 @@
 import { date } from '@/utils/date';
-import { DetailedEventEntity, AuthUser } from '@/domain/types';
+import {
+  Optional,
+  DetailedEventEntity,
+  AuthUser,
+  Attendance,
+  Calendar,
+} from '@/domain/types';
 import { deleteEvent } from 'src/app/actions';
 
 import { Description } from '@/components/Description';
 import { EventControl } from '@/components/EventControl';
+import { EventAttendance } from '@/components/EventAttendance';
 
 export const Event = ({
   event,
   authUser,
+  attendance,
+  calendar,
 }: {
   event: DetailedEventEntity;
-  authUser: AuthUser;
+  authUser: AuthUser | null;
+  attendance: Optional<
+    Attendance,
+    'userId' | 'eventId' | 'createdAt' | 'updatedAt'
+  > | null;
+  calendar: Optional<
+    Calendar,
+    'userId' | 'eventId' | 'createdAt' | 'updatedAt'
+  > | null;
 }) => {
   const startEndObj = date.toStartEndObj(event.startAt, event.endAt);
 
@@ -23,6 +40,14 @@ export const Event = ({
             {event.title}
           </h1>
           <Description text={event.description} />
+          {authUser?.id ? (
+            <EventAttendance
+              authUser={authUser}
+              event={event}
+              attendance={attendance}
+              calendar={calendar}
+            />
+          ) : null}
         </div>
       </div>
       {/* Right side */}
