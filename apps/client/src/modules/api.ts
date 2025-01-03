@@ -1,6 +1,8 @@
 'use server';
 
 import { headers } from 'next/headers';
+import { createHash } from 'crypto';
+
 import { ENV } from '@/utils/env';
 import {
   EventsListResponseDto,
@@ -40,7 +42,69 @@ export interface ApiResult {
   error: { message: string | null; obj: Error | null };
 }
 
+interface CacheEntry {
+  timestamp: number;
+  result: ApiResult;
+}
+
 class Api {
+  // Cache functionality begin
+  private static cache: Map<string, CacheEntry> = new Map();
+  private static globalCacheTTL: number = 3 * 1000; // milliseconds
+  private localCacheTTL: number | null = null; // milliseconds
+  private cacheKey: string | null = null;
+
+  public static clearCache(): void {
+    Api.cache.clear();
+  }
+
+  public static setGlobalCacheTTL(ttl: number): void {
+    Api.globalCacheTTL = ttl;
+  }
+
+  public setLocalCacheTTL(ttl: number): void {
+    this.localCacheTTL = ttl;
+  }
+
+  private setCacheKey(): void {
+    const cacheKeyData = JSON.stringify({
+      path: this.path,
+      options: this.options,
+    });
+    this.cacheKey = createHash('sha256').update(cacheKeyData).digest('hex');
+  }
+
+  private getCachedResult(): boolean {
+    this.setCacheKey();
+    if (!this.cacheKey) return false;
+    const cached = Api.cache.get(this.cacheKey);
+    if (!cached) return false;
+    // Check if cache entry has expired
+    if (
+      Date.now() - cached.timestamp >
+      (this.localCacheTTL ? this.localCacheTTL : Api.globalCacheTTL)
+    ) {
+      Api.cache.delete(this.cacheKey);
+      return false;
+    }
+    this.result = structuredClone(cached.result);
+    return true;
+  }
+
+  private setCacheResult(): boolean {
+    if (!this.cacheKey) return false;
+    Api.cache.set(this.cacheKey, {
+      timestamp: Date.now(),
+      result: structuredClone(this.result),
+    });
+    return true;
+  }
+
+  private isCacheable(): boolean {
+    return !this.options?.method?.toUpperCase().match(/POST|PATCH|DELETE/);
+  }
+  // Cache functionality end
+
   private result: ApiResult;
   private path: string;
   private options: RequestInit;
@@ -82,6 +146,13 @@ class Api {
       } as HeadersInit;
     }
 
+    // Cache check
+    if (this.isCacheable()) {
+      if (this.getCachedResult()) {
+        return this;
+      }
+    }
+
     let res: Response;
     try {
       console.log(
@@ -117,6 +188,11 @@ class Api {
       this.result.data = json;
     } else {
       this.result.error.message = json.error;
+    }
+
+    // Cache set
+    if (this.isCacheable()) {
+      this.setCacheResult();
     }
 
     return this;
@@ -201,6 +277,7 @@ class Api {
 
   public fetchAuthUser(): Promise<Api> {
     this.initialize('/api/auth/status');
+    this.setLocalCacheTTL(60 * 1000);
     return this.fetch();
   }
 
