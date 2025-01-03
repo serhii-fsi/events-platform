@@ -1,9 +1,14 @@
 import { ENV } from '@/utils/env';
 import Link from 'next/link';
 import { getAuthUser } from 'src/modules/api';
+import { Role } from '@/domain/constants';
 
 export const Footer = async () => {
   const authUser = await getAuthUser();
+
+  const isAuthUser = Boolean(authUser?.id);
+  const isAdmin = isAuthUser && authUser?.role === Role.ADMIN;
+  const isEditor = isAuthUser && authUser?.role === Role.EDITOR;
 
   return (
     <footer className="flex flex-col justify-between items-start md:flex-row">
@@ -34,7 +39,7 @@ export const Footer = async () => {
             Homepage
           </Link>
 
-          {!authUser ? (
+          {!isAuthUser ? (
             <a
               href={ENV.API_URL + ENV.AUTH0_LOGIN_PATH}
               className="text-text1 hover:text-gray-600 underline"
@@ -43,7 +48,7 @@ export const Footer = async () => {
             </a>
           ) : null}
 
-          {authUser ? (
+          {isAuthUser ? (
             <Link
               href="/profile"
               className="text-text1 hover:text-gray-600 underline"
@@ -52,7 +57,7 @@ export const Footer = async () => {
             </Link>
           ) : null}
 
-          {authUser?.role === 'editor' || authUser?.role === 'admin' ? (
+          {isEditor || isAdmin ? (
             <Link
               href="/create-event"
               className="text-text1 hover:text-gray-600 underline"
@@ -61,7 +66,7 @@ export const Footer = async () => {
             </Link>
           ) : null}
 
-          {authUser?.role === 'admin' ? (
+          {isAdmin ? (
             <Link
               href="/admin"
               className="text-text1 hover:text-gray-600 underline"
@@ -70,7 +75,7 @@ export const Footer = async () => {
             </Link>
           ) : null}
 
-          {authUser ? (
+          {isAuthUser ? (
             <a
               href={ENV.API_URL + ENV.AUTH0_LOGOUT_PATH}
               className="text-text1 hover:text-gray-600 underline"

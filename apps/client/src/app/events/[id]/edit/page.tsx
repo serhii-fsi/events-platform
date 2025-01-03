@@ -1,6 +1,7 @@
 import { redirect } from 'next/navigation';
 import { notFound } from 'next/navigation';
 import { Api } from 'src/modules/api';
+import { Role } from '@/domain/constants';
 import { editEvent } from 'src/app/actions';
 
 import { EventForm } from '@/components/EventForm';
@@ -11,17 +12,20 @@ export default async function Page({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  if (!id) {
+  const eventId = Number(id);
+  if (!eventId || String(eventId) !== id) {
     throw new Error('No event id provided');
   }
 
   const [apiAuth, apiEvent] = await Promise.all([
     new Api().fetchAuthUser(),
-    new Api().fetchEvent(id),
+    new Api().fetchEvent(eventId),
   ]);
 
   const authUser = apiAuth.getAuthUser();
-  if (!authUser) {
+  const isEventEditAllowed =
+    authUser && (authUser.role === Role.EDITOR || authUser.role === Role.ADMIN);
+  if (!isEventEditAllowed) {
     redirect('/');
   }
 
@@ -29,7 +33,6 @@ export default async function Page({
   if (apiEvent.isError()) {
     throw new Error(apiEvent.getUiErrorMessage());
   }
-
   const event = apiEvent.getEvent();
   if (!event) {
     throw new Error('Unexpected error: unable to get event from server');

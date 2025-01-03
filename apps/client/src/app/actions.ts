@@ -72,6 +72,8 @@ export async function editEvent(
     };
   }
 
+  revalidatePath(`/events/${id}`);
+
   return {
     id: updatedEvent.id,
     success: true,

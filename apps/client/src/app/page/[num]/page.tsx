@@ -6,11 +6,10 @@ export default async function Page({
   params: Promise<{ num: string }>;
 }) {
   const { num } = await params;
-  if (!num) {
+  const pageNum = Number(num);
+  if (!pageNum || num !== String(pageNum)) {
     throw new Error('No page number provided');
   }
 
-  const page = num || '1'; // Default to '1' if page is not provided
-
-  return <Events page={page} />;
+  return <Events page={pageNum} />;
 }

@@ -1,8 +1,6 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
-import Link from 'next/link';
 import {
   Optional,
   DetailedEventEntity,
@@ -13,8 +11,8 @@ import {
 import { AttendanceStatus, CalendarStatus } from '@/domain/constants';
 import { setAttendanceStatus, setCalendarStatus } from 'src/app/actions';
 
-import { Button, buttonVariants } from '@/shadcnui/button';
-import { Ban, Trash2, Pencil, Check, CalendarPlus } from 'lucide-react';
+import { Button } from '@/shadcnui/button';
+import { Ban, Check } from 'lucide-react';
 import { Skeleton } from '@/shadcnui/skeleton';
 import { toast } from '@/shadcnui/use-toast';
 import { GoogleCalendarButton } from './GoogleCalendarButton';
@@ -23,18 +21,22 @@ export const EventAttendance = ({
   authUser,
   event,
   attendance,
+  attendanceAction,
   calendar,
+  baseUrl,
 }: {
   authUser: AuthUser;
   event: DetailedEventEntity;
-  attendance?: Optional<
+  attendance: Optional<
     Attendance,
     'userId' | 'eventId' | 'createdAt' | 'updatedAt'
   > | null;
-  calendar?: Optional<
+  attendanceAction: typeof setAttendanceStatus;
+  calendar: Optional<
     Calendar,
     'userId' | 'eventId' | 'createdAt' | 'updatedAt'
   > | null;
+  baseUrl: string;
 }) => {
   const [isLoading, setIsLoading] = useState(false);
 
@@ -45,7 +47,7 @@ export const EventAttendance = ({
   const setAttendance = async (status: AttendanceStatus) => {
     if (status === attendance?.status) return;
     setIsLoading(true);
-    const res = await setAttendanceStatus(
+    const res = await attendanceAction(
       authUser?.id as number,
       event.id as number,
       status
@@ -70,15 +72,7 @@ export const EventAttendance = ({
       ) : (
         <>
           <div>
-            {attendance?.status !== AttendanceStatus.ATTENDING ? (
-              <Button
-                onClick={() => setAttendance(AttendanceStatus.ATTENDING)}
-                variant="default"
-              >
-                <Check />
-                Attend Event
-              </Button>
-            ) : (
+            {attendance?.status === AttendanceStatus.ATTENDING ? (
               <Button
                 onClick={() => setAttendance(AttendanceStatus.DECLINED)}
                 variant="destructive"
@@ -86,12 +80,20 @@ export const EventAttendance = ({
                 <Ban />
                 Decline Attendance
               </Button>
+            ) : (
+              <Button
+                onClick={() => setAttendance(AttendanceStatus.ATTENDING)}
+                variant="default"
+              >
+                <Check />
+                Attend Event
+              </Button>
             )}
           </div>
 
           {attendance?.status === AttendanceStatus.ATTENDING ? (
             <div>
-              <GoogleCalendarButton event={event} />
+              <GoogleCalendarButton event={event} baseUrl={baseUrl} />
             </div>
           ) : null}
         </>

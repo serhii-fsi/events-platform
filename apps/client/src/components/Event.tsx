@@ -6,7 +6,13 @@ import {
   Attendance,
   Calendar,
 } from '@/domain/types';
-import { deleteEvent } from 'src/app/actions';
+import { Role } from '@/domain/constants';
+import { ENV } from '@/utils/env';
+import {
+  deleteEvent,
+  setAttendanceStatus,
+  setCalendarStatus,
+} from 'src/app/actions';
 
 import { Description } from '@/components/Description';
 import { EventControl } from '@/components/EventControl';
@@ -31,6 +37,15 @@ export const Event = ({
 }) => {
   const startEndObj = date.toStartEndObj(event.startAt, event.endAt);
 
+  const isEventAttendanceControlAllowed =
+    authUser &&
+    (authUser.role === Role.USER ||
+      authUser.role === Role.EDITOR ||
+      authUser.role === Role.ADMIN);
+
+  const isEventControlAllowed =
+    authUser && (authUser.role === Role.EDITOR || authUser.role === Role.ADMIN);
+
   return (
     <div className="flex flex-col gap-gap5 w-full md:flex-row">
       {/* Left side */}
@@ -40,12 +55,14 @@ export const Event = ({
             {event.title}
           </h1>
           <Description text={event.description} />
-          {authUser?.id ? (
+          {isEventAttendanceControlAllowed ? (
             <EventAttendance
               authUser={authUser}
               event={event}
               attendance={attendance}
+              attendanceAction={setAttendanceStatus}
               calendar={calendar}
+              baseUrl={ENV.CLIENT_URL}
             />
           ) : null}
         </div>
@@ -81,7 +98,7 @@ export const Event = ({
             <div className="">{event.location}</div>
           </div>
         </div>
-        {authUser?.role === 'editor' || authUser?.role === 'admin' ? (
+        {isEventControlAllowed ? (
           <div className="flex flex-col gap-gap1 items-end">
             <EventControl
               event={event}

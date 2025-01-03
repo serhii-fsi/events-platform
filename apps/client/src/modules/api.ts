@@ -1,3 +1,5 @@
+'use server';
+
 import { headers } from 'next/headers';
 import { ENV } from '@/utils/env';
 import {
@@ -174,7 +176,7 @@ class Api {
     return this.result;
   }
 
-  public fetchEvents(page = '1'): Promise<Api> {
+  public fetchEvents(page = 1): Promise<Api> {
     this.initialize(`/api/events?page=${page}&limit=12`);
     return this.fetch();
   }
@@ -210,7 +212,7 @@ class Api {
     return mapDtoToUser(responseDto?.data?.user);
   }
 
-  public fetchEvent(id: string): Promise<Api> {
+  public fetchEvent(id: number): Promise<Api> {
     this.initialize(`/api/events/${id}`);
     return this.fetch();
   }
@@ -254,7 +256,7 @@ class Api {
     return responseDto?.success === true;
   }
 
-  public fetchAttendance(userId: string, eventId: string): Promise<Api> {
+  public fetchAttendance(userId: number, eventId: number): Promise<Api> {
     this.initialize(`/api/users/${userId}/events/${eventId}/attendance-status`);
     return this.fetch();
   }
@@ -287,7 +289,7 @@ class Api {
     return mapDtoToAttendance(attendanceDto);
   }
 
-  public fetchCalendar(userId: string, eventId: string): Promise<Api> {
+  public fetchCalendar(userId: number, eventId: number): Promise<Api> {
     this.initialize(`/api/users/${userId}/events/${eventId}/calendar-status`);
     return this.fetch();
   }

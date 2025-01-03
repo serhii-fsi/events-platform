@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { getAuthUser } from 'src/modules/api';
-
+import { Role } from '@/domain/constants';
 import { ENV } from '@/utils/env';
 
 import {
@@ -16,6 +16,10 @@ import {
 
 export const Menu = async () => {
   const authUser = await getAuthUser();
+
+  const isAuthUser = Boolean(authUser?.id);
+  const isAdmin = isAuthUser && authUser?.role === Role.ADMIN;
+  const isEditor = isAuthUser && authUser?.role === Role.EDITOR;
 
   return (
     <Drawer>
@@ -51,7 +55,7 @@ export const Menu = async () => {
               </Link>
             </DrawerClose>
 
-            {!authUser ? (
+            {!isAuthUser ? (
               <DrawerClose asChild>
                 <a
                   href={ENV.API_URL + ENV.AUTH0_LOGIN_PATH}
@@ -63,7 +67,7 @@ export const Menu = async () => {
               </DrawerClose>
             ) : null}
 
-            {authUser ? (
+            {isAuthUser ? (
               <DrawerClose asChild>
                 <Link
                   href="/profile"
@@ -75,7 +79,7 @@ export const Menu = async () => {
               </DrawerClose>
             ) : null}
 
-            {authUser?.role === 'editor' || authUser?.role === 'admin' ? (
+            {isEditor || isAdmin ? (
               <DrawerClose asChild>
                 <Link
                   href="/create-event"
@@ -87,7 +91,7 @@ export const Menu = async () => {
               </DrawerClose>
             ) : null}
 
-            {authUser?.role === 'admin' ? (
+            {isAdmin ? (
               <DrawerClose asChild>
                 <Link
                   href="/admin"
@@ -99,7 +103,7 @@ export const Menu = async () => {
               </DrawerClose>
             ) : null}
 
-            {authUser ? (
+            {isAuthUser ? (
               <DrawerClose asChild>
                 <a
                   href={ENV.API_URL + ENV.AUTH0_LOGOUT_PATH}

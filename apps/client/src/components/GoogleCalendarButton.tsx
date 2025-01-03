@@ -2,30 +2,33 @@
 
 import { DetailedEventEntity } from '@/domain/types';
 
-import { Ban, Trash2, Pencil, Check, CalendarPlus } from 'lucide-react';
-import { Button, buttonVariants } from '@/shadcnui/button';
+import { CalendarPlus } from 'lucide-react';
+import { buttonVariants } from '@/shadcnui/button';
 
 export const GoogleCalendarButton = ({
   event,
+  baseUrl,
 }: {
   event: DetailedEventEntity;
+  baseUrl: string;
 }) => {
   const formatDateForCalendar = (date: Date) => {
     return new Date(date).toISOString().replace(/-|:|\.\d+/g, '');
   };
 
   const generateGoogleCalendarUrl = () => {
-    const baseUrl = 'https://calendar.google.com/calendar/u/0/r/eventedit';
+    const gCalendarBaseUrl =
+      'https://calendar.google.com/calendar/u/0/r/eventedit';
     const start = formatDateForCalendar(event.startAt);
     const end = formatDateForCalendar(event.endAt);
     const url =
-      `${baseUrl}?` +
+      `${gCalendarBaseUrl}?` +
+      `trp=false&` +
       `dates=${start}/${end}&` +
       `text=${encodeURIComponent(event.title)}&` +
       `location=${encodeURIComponent(event.location)}&` +
       `details=${encodeURIComponent(
-        event.description +
-          `\n\n Website: http://localhost:4001/events/${event.id}`
+        event.description + `\n\n Website: ${baseUrl}/events/${event.id}`
       )}`;
     return url;
   };
@@ -38,7 +41,7 @@ export const GoogleCalendarButton = ({
       className={buttonVariants({ variant: 'outline' })}
     >
       <CalendarPlus />
-      Add To Calendar
+      Add To Google Calendar
     </a>
   );
 };

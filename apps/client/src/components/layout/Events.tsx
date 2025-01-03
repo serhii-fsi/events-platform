@@ -3,7 +3,7 @@ import { Api } from 'src/modules/api';
 import { EventCard } from '@/components/EventCard';
 import { EventsPagination } from '../Pagination';
 
-export const Events = async ({ page }: { page: string }) => {
+export const Events = async ({ page }: { page: number }) => {
   const api = new Api();
   await api.fetchEvents(page);
 
