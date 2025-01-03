@@ -335,6 +335,7 @@ class Api {
 
   public fetchAttendance(userId: number, eventId: number): Promise<Api> {
     this.initialize(`/api/users/${userId}/events/${eventId}/attendance-status`);
+    this.setLocalCacheTTL(10);
     return this.fetch();
   }
 
@@ -368,6 +369,7 @@ class Api {
 
   public fetchCalendar(userId: number, eventId: number): Promise<Api> {
     this.initialize(`/api/users/${userId}/events/${eventId}/calendar-status`);
+    this.setLocalCacheTTL(10);
     return this.fetch();
   }
 
