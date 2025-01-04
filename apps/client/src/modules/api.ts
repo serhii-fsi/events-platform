@@ -13,8 +13,8 @@ import {
   AttendanceStatusDto,
   CalendarStatusResponseDto,
   CalendarStatusDto,
-  UserDto,
   SearchUsersResponseDto,
+  UserProfileResponseDto,
 } from '@/dto';
 import {
   Optional,
@@ -26,7 +26,7 @@ import {
   Calendar,
   UserEntity,
 } from '@/domain/types';
-import { AttendanceStatus, CalendarStatus } from '@/domain/constants';
+import { AttendanceStatus, CalendarStatus, Role } from '@/domain/constants';
 import {
   mapDtoToBaseEvent,
   mapDtoToUser,
@@ -413,6 +413,22 @@ class Api {
     }
     const users = responseDto.data.users.map(mapDtoToUser);
     return users;
+  }
+
+  public updateUserRole(userId: number, userRole: Role): Promise<Api> {
+    this.initialize(`/api/users/${userId}/role`, {
+      method: 'PATCH',
+      body: JSON.stringify({ role: userRole }),
+    });
+    return this.fetch();
+  }
+
+  public getUser(): UserEntity | null {
+    const responseDto: UserProfileResponseDto | null = this.getData();
+    if (!responseDto?.data?.user) {
+      return null;
+    }
+    return mapDtoToUser(responseDto?.data?.user);
   }
 }
 

@@ -5,7 +5,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
-import { searchUsers, ActionResponse } from 'src/app/actions';
+import { searchUsers } from 'src/app/actions';
 import { UserEntity } from '@/domain/types';
 
 import { Button } from '@/shadcnui/button';
@@ -14,23 +14,21 @@ import { Input } from '@/shadcnui/input';
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
-  FormLabel,
   FormMessage,
 } from '@/shadcnui/form';
 import {
   Table,
   TableBody,
   TableCaption,
-  TableCell,
-  TableFooter,
   TableHead,
   TableHeader,
   TableRow,
 } from '@/shadcnui/table';
-import { ToggleGroup, ToggleGroupItem } from '@/shadcnui/toggle-group';
+import { toast } from '@/shadcnui/use-toast';
+
+import { ManageUserRow } from './ManageUserRow';
 
 const FormSchema = z.object({
   searchTerm: z
@@ -56,15 +54,21 @@ export function ManageUsers() {
     setSearchLoading(true);
     const res = await searchUsers(data.searchTerm);
     setSearchLoading(false);
-    if ((res as ActionResponse)?.success === false) {
-      // error
+
+    if (res.success === false) {
+      toast({
+        variant: 'destructive',
+        title: 'Error',
+        description: res.message,
+      });
       return;
     }
-    setUsers(res as UserEntity[]);
+
+    setUsers(res.data.users);
   };
 
   return (
-    <div className="flex flex-col gap-gap4 w-full max-w-md">
+    <div className="flex flex-col gap-gap4 w-full max-w-lg">
       <Form {...useFormReturn}>
         <form
           onSubmit={useFormReturn.handleSubmit(onSubmit)}
@@ -86,16 +90,16 @@ export function ManageUsers() {
               </FormItem>
             )}
           />
-
           <Button type="submit" disabled={searchLoading}>
             <Search /> Search user
           </Button>
         </form>
       </Form>
-
       <div>
         <Table>
-          <TableCaption>A list of users.</TableCaption>
+          {users.length === 20 ? (
+            <TableCaption>Displays a maximum of 20 users</TableCaption>
+          ) : null}
           <TableHeader>
             <TableRow>
               <TableHead className="text-center">Role</TableHead>
@@ -105,34 +109,7 @@ export function ManageUsers() {
           </TableHeader>
           <TableBody>
             {users.map((user) => (
-              <TableRow key={user.id}>
-                <TableCell>{user.role}</TableCell>
-                <TableCell>
-                  {user.name}
-                  <br />
-                  {user.email}
-                </TableCell>
-                <TableCell>
-                  <ToggleGroup
-                    variant="outline"
-                    type="single"
-                    value={user.role}
-                    onValueChange={(value) => {
-                      console.log(user.id, user.email, value);
-                    }}
-                  >
-                    <ToggleGroupItem value="user" aria-label="User">
-                      U
-                    </ToggleGroupItem>
-                    <ToggleGroupItem value="editor" aria-label="Editor">
-                      E
-                    </ToggleGroupItem>
-                    <ToggleGroupItem value="admin" aria-label="Admin">
-                      A
-                    </ToggleGroupItem>
-                  </ToggleGroup>
-                </TableCell>
-              </TableRow>
+              <ManageUserRow key={user.id} user={user} />
             ))}
           </TableBody>
         </Table>

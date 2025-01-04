@@ -3,13 +3,14 @@
 import { revalidatePath } from 'next/cache';
 
 import { DetailedEventEntity, UserEntity } from '@/domain/types';
-import { AttendanceStatus, CalendarStatus } from '@/domain/constants';
+import { AttendanceStatus, CalendarStatus, Role } from '@/domain/constants';
 import { Api } from 'src/modules/api';
 
 export type ActionResponse = {
   id?: number;
   success: boolean;
   message: string;
+  data?: any;
 };
 
 export async function createEvent(
@@ -130,9 +131,7 @@ export async function setCalendarStatus(
   return { success: true, message: '' };
 }
 
-export async function searchUsers(
-  searchTerm: string
-): Promise<UserEntity[] | ActionResponse> {
+export async function searchUsers(searchTerm: string): Promise<ActionResponse> {
   const api = new Api();
   await api.fetchUsers(searchTerm);
 
@@ -151,5 +150,39 @@ export async function searchUsers(
     };
   }
 
-  return users;
+  return {
+    success: true,
+    message: '',
+    data: { users },
+  };
+}
+
+export async function updateUserRole(
+  userId: number,
+  userRole: Role
+): Promise<ActionResponse> {
+  const api = new Api();
+  await api.updateUserRole(userId, userRole);
+
+  if (api.isError()) {
+    return {
+      success: false,
+      message: api.getUiErrorMessage(),
+    };
+  }
+
+  const updatedUser = api.getUser();
+
+  if (!updatedUser?.id) {
+    return {
+      success: false,
+      message: 'Unexpected error: server response does not contain event',
+    };
+  }
+
+  return {
+    id: updatedUser.id,
+    success: true,
+    message: 'Role successfully updated',
+  };
 }
