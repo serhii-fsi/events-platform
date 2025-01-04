@@ -13,6 +13,8 @@ import {
   AttendanceStatusDto,
   CalendarStatusResponseDto,
   CalendarStatusDto,
+  UserDto,
+  SearchUsersResponseDto,
 } from '@/dto';
 import {
   Optional,
@@ -22,6 +24,7 @@ import {
   DetailedEventEntity,
   Attendance,
   Calendar,
+  UserEntity,
 } from '@/domain/types';
 import { AttendanceStatus, CalendarStatus } from '@/domain/constants';
 import {
@@ -396,6 +399,20 @@ class Api {
       return null;
     }
     return mapDtoToCalendar(calendarDto);
+  }
+
+  public fetchUsers(searchTerm: string): Promise<Api> {
+    this.initialize(`/api/users?search=${encodeURIComponent(searchTerm)}`);
+    return this.fetch();
+  }
+
+  public getUsers(): UserEntity[] | null {
+    const responseDto: SearchUsersResponseDto | null = this.getData();
+    if (!responseDto?.data?.users || !(responseDto?.data?.users.length >= 0)) {
+      return null;
+    }
+    const users = responseDto.data.users.map(mapDtoToUser);
+    return users;
   }
 }
 

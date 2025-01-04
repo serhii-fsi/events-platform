@@ -2,7 +2,7 @@
 
 import { revalidatePath } from 'next/cache';
 
-import { DetailedEventEntity } from '@/domain/types';
+import { DetailedEventEntity, UserEntity } from '@/domain/types';
 import { AttendanceStatus, CalendarStatus } from '@/domain/constants';
 import { Api } from 'src/modules/api';
 
@@ -128,4 +128,28 @@ export async function setCalendarStatus(
   status: CalendarStatus
 ): Promise<ActionResponse> {
   return { success: true, message: '' };
+}
+
+export async function searchUsers(
+  searchTerm: string
+): Promise<UserEntity[] | ActionResponse> {
+  const api = new Api();
+  await api.fetchUsers(searchTerm);
+
+  if (api.isError()) {
+    return {
+      success: false,
+      message: api.getUiErrorMessage(),
+    };
+  }
+
+  const users = api.getUsers();
+  if (!users) {
+    return {
+      success: false,
+      message: 'Unexpected error: server response does not contain users',
+    };
+  }
+
+  return users;
 }
