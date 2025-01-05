@@ -1,8 +1,9 @@
 import Link from 'next/link';
-import { getAuthUser } from 'src/modules/api';
 import { Role } from '@/domain/constants';
+import { AuthUser } from '@/domain/types';
 import { ENV } from '@/utils/env';
 
+import { Focus } from '@/components/Focus';
 import {
   Drawer,
   DrawerClose,
@@ -14,9 +15,7 @@ import {
   DrawerTrigger,
 } from '@/shadcnui/drawer';
 
-export const Menu = async () => {
-  const authUser = await getAuthUser();
-
+export const Menu = async ({ authUser }: { authUser: AuthUser }) => {
   const isAuthUser = Boolean(authUser?.id);
   const isAdmin = isAuthUser && authUser?.role === Role.ADMIN;
   const isEditor = isAuthUser && authUser?.role === Role.EDITOR;
@@ -44,7 +43,7 @@ export const Menu = async () => {
           <DrawerDescription className="sr-only">
             Navigation menu for the website
           </DrawerDescription>
-          <div className="flex flex-col items-center gap-4">
+          <div className="flex flex-col items-center gap-4" id="menu-content">
             <DrawerClose asChild>
               <Link
                 href="/"
@@ -54,6 +53,8 @@ export const Menu = async () => {
                 Homepage
               </Link>
             </DrawerClose>
+
+            <Focus selector="a[role=menuitem]" />
 
             {!isAuthUser ? (
               <DrawerClose asChild>

@@ -56,7 +56,7 @@ export const Header = async () => {
         </div>
       </div>
       <div className="w-[191px] flex justify-end">
-        <Menu />
+        <Menu authUser={authUser} />
       </div>
     </header>
   );
