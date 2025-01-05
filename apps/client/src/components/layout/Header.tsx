@@ -2,7 +2,9 @@ import Link from 'next/link';
 import { ENV } from '@/utils/env';
 import { getAuthUser } from 'src/modules/api';
 
+import { Avatar } from '@/components/Avatar';
 import { Menu } from '@/components/Menu';
+import { ThemeToggle } from '@/components/ThemeToggle';
 
 export const Header = async () => {
   const authUser = await getAuthUser();
@@ -33,11 +35,16 @@ export const Header = async () => {
       <div>
         <div className="flex gap-gap1 items-center">
           {authUser ? (
-            <div>
+            <>
+              <Avatar
+                user={authUser}
+                className="h-[40px] w-[40px] text-text1"
+              />
               <Link href="/profile" className="text-text1 underline">
                 {authUser.name}
               </Link>
-            </div>
+              <ThemeToggle />
+            </>
           ) : (
             <a
               href={ENV.API_URL + ENV.AUTH0_LOGIN_PATH}

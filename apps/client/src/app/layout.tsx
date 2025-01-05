@@ -15,7 +15,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className="dark">
+    <html lang="en" className="">
       <body className="flex justify-center bg-background text-foreground">
         <div className="w-full max-w-[1400px] min-h-screen flex flex-col px-gap5 py-gap1">
           <Header />
