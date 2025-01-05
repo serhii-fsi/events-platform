@@ -176,7 +176,7 @@ export async function updateUserRole(
   if (!updatedUser?.id) {
     return {
       success: false,
-      message: 'Unexpected error: server response does not contain event',
+      message: 'Unexpected error: server response does not contain user',
     };
   }
 
@@ -184,5 +184,38 @@ export async function updateUserRole(
     id: updatedUser.id,
     success: true,
     message: 'Role successfully updated',
+  };
+}
+
+export async function updateUserProfile(
+  userId: number,
+  userName: string
+): Promise<ActionResponse> {
+  const api = new Api();
+  await api.updateUserProfile(userId, userName);
+
+  if (api.isError()) {
+    return {
+      success: false,
+      message: api.getUiErrorMessage(),
+    };
+  }
+
+  const updatedUser = api.getUser();
+
+  if (!updatedUser?.id) {
+    return {
+      success: false,
+      message:
+        'Unexpected error: server response does not contain user profile',
+    };
+  }
+
+  revalidatePath(`/profile`);
+
+  return {
+    id: updatedUser.id,
+    success: true,
+    message: 'User profile successfully updated',
   };
 }

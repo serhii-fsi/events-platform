@@ -5,7 +5,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
-// import { } from 'src/app/actions';
+import { updateUserProfile } from 'src/app/actions';
 import { UserEntity } from '@/domain/types';
 
 import { Avatar } from '@/components/Avatar';
@@ -43,8 +43,23 @@ export function ProfileForm({ user }: { user: UserEntity }) {
   });
 
   const onSubmit = async function (data: z.infer<typeof FormSchema>) {
-    console.log(data);
-    //
+    setLoading(true);
+    const res = await updateUserProfile(user.id as number, data.name);
+    setLoading(false);
+
+    if (res.success === true) {
+      toast({
+        variant: 'default',
+        title: 'Success',
+        description: res.message,
+      });
+    } else if (res.success === false) {
+      toast({
+        variant: 'destructive',
+        title: 'Error',
+        description: res.message,
+      });
+    }
   };
 
   if (loading) {
@@ -68,7 +83,11 @@ export function ProfileForm({ user }: { user: UserEntity }) {
             <FormItem className="flex flex-col gap-y-gapText">
               <FormLabel>Name</FormLabel>
               <FormControl>
-                <Input placeholder="Enter your name" {...field} />
+                <Input
+                  placeholder="Enter your name"
+                  {...field}
+                  disabled={loading}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>

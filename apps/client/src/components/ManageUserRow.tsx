@@ -35,7 +35,6 @@ export function ManageUserRow({ user }: { user: UserEntity }) {
         title: 'Error',
         description: res.message,
       });
-      return;
     }
   };
 

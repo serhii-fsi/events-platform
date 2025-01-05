@@ -280,7 +280,6 @@ class Api {
 
   public fetchAuthUser(): Promise<Api> {
     this.initialize('/api/auth/status');
-    this.setLocalCacheTTL(60 * 1000);
     return this.fetch();
   }
 
@@ -419,6 +418,14 @@ class Api {
     this.initialize(`/api/users/${userId}/role`, {
       method: 'PATCH',
       body: JSON.stringify({ role: userRole }),
+    });
+    return this.fetch();
+  }
+
+  public updateUserProfile(userId: number, userName: string): Promise<Api> {
+    this.initialize(`/api/users/${userId}/profile`, {
+      method: 'PATCH',
+      body: JSON.stringify({ name: userName }),
     });
     return this.fetch();
   }
