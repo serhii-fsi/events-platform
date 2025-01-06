@@ -50,7 +50,7 @@ export function ManageUserRow({ user }: { user: UserEntity }) {
       </TableCell>
       <TableCell>
         {loading ? (
-          <div className="flex gap-1">
+          <div className="flex items-center justify-center gap-1">
             <Skeleton className="h-[40px] w-[40px]" />
             <Skeleton className="h-[40px] w-[40px]" />
             <Skeleton className="h-[40px] w-[40px]" />

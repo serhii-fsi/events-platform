@@ -42,7 +42,7 @@ export const EventControl = ({
   };
 
   return (
-    <div className="flex flex-row items gap-gap2">
+    <div className="flex flex-row gap-gap2 flex-wrap justify-end">
       {isDeleting ? (
         <>
           <div className="flex flex-col items-end gap-gap2">

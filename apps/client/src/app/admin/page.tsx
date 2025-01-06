@@ -18,9 +18,11 @@ export default async function Page() {
   }
 
   return (
-    <div className="my-gap5">
-      <h1 className="text-4xl font-black text-center mb-gap5">Manage Users</h1>
-      <div className="flex flex-col gap-gap2 items-center">
+    <div>
+      <h1 className="text-text5 font-black text-center mb-gap5">
+        Manage Users
+      </h1>
+      <div className="flex flex-col items-center">
         <ManageUsers />
       </div>
     </div>

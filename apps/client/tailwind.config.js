@@ -67,12 +67,21 @@ module.exports = {
         gap5: 'var(--gap5)',
         gapText: '10px',
       },
+      space: {
+        gap1: 'var(--gap1)',
+        gap2: 'var(--gap2)',
+        gap3: 'var(--gap3)',
+        gap4: 'var(--gap4)',
+        gap5: 'var(--gap5)',
+        gapText: '10px',
+      },
       padding: {
         gap1: 'var(--gap1)',
         gap2: 'var(--gap2)',
         gap3: 'var(--gap3)',
         gap4: 'var(--gap4)',
         gap5: 'var(--gap5)',
+        gapText: '10px',
       },
       margin: {
         gap1: 'var(--gap1)',
@@ -80,6 +89,7 @@ module.exports = {
         gap3: 'var(--gap3)',
         gap4: 'var(--gap4)',
         gap5: 'var(--gap5)',
+        gapText: '10px',
       },
       width: {
         gap1: 'var(--gap1)',
@@ -87,6 +97,7 @@ module.exports = {
         gap3: 'var(--gap3)',
         gap4: 'var(--gap4)',
         gap5: 'var(--gap5)',
+        gapText: '10px',
       },
       height: {
         gap1: 'var(--gap1)',
@@ -94,6 +105,7 @@ module.exports = {
         gap3: 'var(--gap3)',
         gap4: 'var(--gap4)',
         gap5: 'var(--gap5)',
+        gapText: '10px',
       },
       fontSize: {
         text1: 'var(--text1)',

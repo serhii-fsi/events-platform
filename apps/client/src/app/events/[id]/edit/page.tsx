@@ -39,8 +39,8 @@ export default async function Page({
   }
 
   return (
-    <div className="my-gap5">
-      <h1 className="text-4xl font-black text-center mb-gap5">Edit Event</h1>
+    <div>
+      <h1 className="text-text5 font-black text-center mb-gap5">Edit Event</h1>
       <EventForm {...{ formAction: editEvent, redirect: 'replace', event }} />
     </div>
   );

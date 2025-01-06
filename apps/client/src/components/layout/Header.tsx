@@ -11,10 +11,10 @@ export const Header = async () => {
 
   return (
     <header className="flex justify-between items-center">
-      <div className="w-[191px] flex justify-start">
+      <div className="flex justify-start">
         <Link href="/">
           <svg
-            className="text-foreground"
+            className="w-[60px] sm:w-[100px] md:w-[120px] lg:w-[191px] text-foreground"
             width="191"
             height="87"
             viewBox="0 0 191 87"
@@ -36,26 +36,33 @@ export const Header = async () => {
         <div className="flex gap-gap1 items-center">
           {authUser ? (
             <>
-              <Avatar
-                user={authUser}
-                className="h-[40px] w-[40px] text-text1"
-              />
-              <Link href="/profile" className="text-text1 underline">
+              <Link href="/profile">
+                <Avatar
+                  user={authUser}
+                  className="h-[37px] w-[37px] sm:h-[40px] sm:w-[40px] text-text1"
+                />
+              </Link>
+
+              <Link
+                href="/profile"
+                className="hidden md:block text-text1 underline hover:text-gray-600 max-w-[200px]"
+              >
                 {authUser.name}
               </Link>
-              <ThemeToggle />
             </>
           ) : (
             <a
               href={ENV.API_URL + ENV.AUTH0_LOGIN_PATH}
-              className="text-text1 underline"
+              className="text-text1 underline hover:text-gray-600"
             >
               Login / Sign up
             </a>
           )}
+
+          <ThemeToggle />
         </div>
       </div>
-      <div className="w-[191px] flex justify-end">
+      <div className="w-[60px] sm:w-[100px] md:w-[120px] lg:w-[191px] flex justify-end">
         <Menu authUser={authUser} />
       </div>
     </header>

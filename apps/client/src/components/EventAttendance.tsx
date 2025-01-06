@@ -64,7 +64,7 @@ export const EventAttendance = ({
   };
 
   return (
-    <div className="flex flex-row items gap-gap2">
+    <div className="flex flex-row items gap-gap2 flex-wrap">
       {isLoading ? (
         <>
           <Skeleton className="h-10 w-64" />

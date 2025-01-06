@@ -41,7 +41,7 @@ export default async function Page({
   }
 
   return (
-    <div className="my-gap5">
+    <div>
       <Event
         event={event}
         authUser={authUser}

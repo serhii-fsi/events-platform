@@ -68,7 +68,7 @@ export function ManageUsers() {
   };
 
   return (
-    <div className="flex flex-col gap-gap4 w-full max-w-lg">
+    <div className="flex flex-col gap-gap3 w-full max-w-lg">
       <Form {...useFormReturn}>
         <form
           onSubmit={useFormReturn.handleSubmit(onSubmit)}

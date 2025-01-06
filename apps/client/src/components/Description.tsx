@@ -1,6 +1,12 @@
 import { Fragment } from 'react';
 
-export const Description = ({ text }: { text: string }) => {
+export const Description = ({
+  text,
+  className,
+}: {
+  text: string;
+  className?: string;
+}) => {
   if (!text) return null;
 
   const processText = (input: string) => {
@@ -12,13 +18,13 @@ export const Description = ({ text }: { text: string }) => {
   const lines = processText(text);
 
   return (
-    <div>
+    <p className={className}>
       {lines.map((line, index) => (
         <Fragment key={index}>
           {line}
           {index < lines.length - 1 && <br />}
         </Fragment>
       ))}
-    </div>
+    </p>
   );
 };

@@ -26,17 +26,17 @@
     --radius: 8px;
 
     /* Gap tokens */
-    --gap1: 8px;
-    --gap2: 16px;
-    --gap3: 24px;
-    --gap4: 32px;
-    --gap5: 40px;
+    --gap1: 10px;
+    --gap2: 14px;
+    --gap3: 26px;
+    --gap4: 30px;
+    --gap5: 50px;
 
     /* Text size tokens */
-    --text1: 12px;
-    --text2: 13px;
+    --text1: 13px;
+    --text2: 14px;
     --text3: 16px;
-    --text4: 21px;
+    --text4: 20px;
     --text5: 30px;
 
     /* Color tokens */
@@ -49,61 +49,61 @@
 
   @media (min-width: 640px) {
     :root {
-      --gap1: 10px;
-      --gap2: 20px;
-      --gap3: 30px;
+      --gap1: 12px;
+      --gap2: 18px;
+      --gap3: 32px;
       --gap4: 40px;
-      --gap5: 50px;
+      --gap5: 60px;
 
       --text1: 13px;
       --text2: 14px;
-      --text3: 18px;
-      --text4: 24px;
-      --text5: 36px;
+      --text3: 16px;
+      --text4: 22px;
+      --text5: 32px;
     }
   }
 
   @media (min-width: 768px) {
     :root {
-      --gap1: 12px;
-      --gap2: 24px;
+      --gap1: 14px;
+      --gap2: 20px;
       --gap3: 36px;
-      --gap4: 48px;
-      --gap5: 60px;
+      --gap4: 50px;
+      --gap5: 70px;
 
       --text1: 14px;
       --text2: 15px;
       --text3: 20px;
       --text4: 28px;
-      --text5: 42px;
+      --text5: 38px;
     }
   }
 
   @media (min-width: 1024px) {
     :root {
       --gap1: 14px;
-      --gap2: 28px;
-      --gap3: 42px;
-      --gap4: 56px;
-      --gap5: 70px;
+      --gap2: 22px;
+      --gap3: 40px;
+      --gap4: 60px;
+      --gap5: 80px;
 
-      --text1: 15px;
+      --text1: 14px;
       --text2: 16px;
       --text3: 22px;
-      --text4: 32px;
-      --text5: 46px;
+      --text4: 30px;
+      --text5: 40px;
     }
   }
 
   @media (min-width: 1280px) {
     :root {
       --gap1: 16px;
-      --gap2: 32px;
-      --gap3: 48px;
+      --gap2: 24px;
+      --gap3: 44px;
       --gap4: 64px;
-      --gap5: 80px;
+      --gap5: 84px;
 
-      --text1: 16px;
+      --text1: 15px;
       --text2: 17px;
       --text3: 24px;
       --text4: 36px;

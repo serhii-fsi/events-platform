@@ -14,6 +14,8 @@ import {
   setCalendarStatus,
 } from 'src/app/actions';
 
+import { Calendar as CalendarIcon, Clock, LocateFixed } from 'lucide-react';
+
 import { Description } from '@/components/Description';
 import { EventControl } from '@/components/EventControl';
 import { EventAttendance } from '@/components/EventAttendance';
@@ -47,57 +49,87 @@ export const Event = ({
     authUser && (authUser.role === Role.EDITOR || authUser.role === Role.ADMIN);
 
   return (
-    <div className="flex flex-col gap-gap5 w-full md:flex-row">
+    <article className="flex flex-col w-full gap-gap4 md:flex-row md:gap-gap5">
       {/* Left side */}
-      <div className="w-full md:w-2/3">
+      <div className="w-full md:w-2/3 flex flex-col gap-y-gap4">
         <div className="flex flex-col gap-y-gap3">
-          <h1 className="flex flex-col gap-y-gapText text-text4 font-bold">
-            {event.title}
-          </h1>
-          <Description text={event.description} />
-          {isEventAttendanceControlAllowed ? (
-            <EventAttendance
-              authUser={authUser}
-              event={event}
-              attendance={attendance}
-              attendanceAction={setAttendanceStatus}
-              calendar={calendar}
-              baseUrl={ENV.CLIENT_URL}
-            />
-          ) : null}
+          <h1 className="text-text4 font-bold">{event.title}</h1>
+
+          <Description text={event.description} className="text-text2" />
         </div>
+
+        {isEventAttendanceControlAllowed ? (
+          <EventAttendance
+            authUser={authUser}
+            event={event}
+            attendance={attendance}
+            attendanceAction={setAttendanceStatus}
+            calendar={calendar}
+            baseUrl={ENV.CLIENT_URL}
+          />
+        ) : null}
       </div>
       {/* Right side */}
-      <div className="w-full flex flex-col gap-y-gap3 md:w-1/3">
-        {startEndObj.date && startEndObj.timeRange ? (
-          <div className="flex flex-col gap-gap1">
-            <div className="text-text3 font-bold">Date</div>
-            <div className="flex flex-col gap-gap1 justify-start pl-gap2">
-              <div className="">{startEndObj.date}</div>
-              <div className="">{startEndObj.timeRange}</div>
-            </div>
-          </div>
-        ) : (
-          <div className="flex flex-col gap-gap1">
-            <div className="text-text3 font-bold">Starts</div>
-            <div className="flex flex-col gap-gap1 justify-start pl-gap2">
-              <div className="">{startEndObj.start?.date}</div>
-              <div className="">{startEndObj.start?.time}</div>
-            </div>
-            <div className="text-text3 font-bold">Ends</div>
-            <div className="flex flex-col gap-gap1 justify-start pl-gap2">
-              <div className="">{startEndObj.end?.date}</div>
-              <div className="">{startEndObj.end?.time}</div>
-            </div>
-          </div>
-        )}
-
-        <div className="flex flex-col gap-gap1">
-          <div className="text-text3 font-bold">Location</div>
-          <div className="flex gap-gap1 justify-start pl-gap2">
-            <div className="">{event.location}</div>
+      <div className="w-full flex flex-col gap-y-gap4 md:w-1/3">
+        <div className="flex flex-col gap-y-gap1 mt-gap1 text-text2">
+          {startEndObj.date && startEndObj.timeRange ? (
+            <>
+              <div className="flex gap-gapText">
+                <CalendarIcon
+                  strokeWidth={1}
+                  className="w-[20px] h-[20px] mt-[3px] flex-shrink-0"
+                />
+                {startEndObj.date}
+              </div>
+              <div className="flex gap-gapText">
+                <Clock
+                  strokeWidth={1}
+                  className="w-[20px] h-[20px] mt-[3px] flex-shrink-0"
+                />
+                {startEndObj.timeRange}
+              </div>
+            </>
+          ) : (
+            <>
+              <div className="flex gap-gapText">
+                <CalendarIcon
+                  strokeWidth={1}
+                  className="w-[20px] h-[20px] mt-[3px] flex-shrink-0"
+                />
+                {startEndObj.start?.date}
+              </div>
+              <div className="flex gap-gapText">
+                <Clock
+                  strokeWidth={1}
+                  className="w-[20px] h-[20px] mt-[3px] flex-shrink-0"
+                />
+                {startEndObj.start?.time}
+              </div>
+              <div className="flex gap-gapText pl-[20px]">
+                <CalendarIcon
+                  strokeWidth={1}
+                  className="w-[20px] h-[20px] mt-[3px] flex-shrink-0"
+                />
+                {startEndObj.end?.date}
+              </div>
+              <div className="flex gap-gapText pl-[20px]">
+                <Clock
+                  strokeWidth={1}
+                  className="w-[20px] h-[20px] mt-[3px] flex-shrink-0"
+                />
+                {startEndObj.end?.time}
+              </div>
+            </>
+          )}
+          <div className="flex gap-gapText">
+            <LocateFixed
+              strokeWidth={1}
+              className="w-[20px] h-[20px] mt-[3px] flex-shrink-0"
+            />
+            {event.location}
           </div>
         </div>
+
         {isEventControlAllowed ? (
           <div className="flex flex-col gap-gap1 items-end">
             <EventControl
@@ -108,6 +140,6 @@ export const Event = ({
           </div>
         ) : null}
       </div>
-    </div>
+    </article>
   );
 };

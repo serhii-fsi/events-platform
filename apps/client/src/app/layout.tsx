@@ -17,9 +17,9 @@ export default function RootLayout({
   return (
     <html lang="en" className="">
       <body className="flex justify-center bg-background text-foreground">
-        <div className="w-full max-w-[1400px] min-h-screen flex flex-col px-gap5 py-gap1">
+        <div className="w-full max-w-[1400px] min-h-screen flex flex-col px-gap4 py-gap1">
           <Header />
-          <main className="py-gap2 flex-grow">{children}</main>
+          <main className="py-gap5 flex-grow">{children}</main>
           <Footer />
         </div>
         <Toaster />

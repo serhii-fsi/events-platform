@@ -11,12 +11,12 @@ export const Footer = async () => {
   const isEditor = isAuthUser && authUser?.role === Role.EDITOR;
 
   return (
-    <footer className="flex flex-col gap-gap2">
-      <div className="flex flex-col justify-between items-start md:flex-row">
-        <div className="w-[191px] flex justify-start">
+    <footer className="flex flex-col gap-gap3">
+      <div className="flex flex-col items-center gap-y-gap3 sm:flex-row sm:justify-between sm:items-start">
+        <div className="flex justify-start">
           <Link href="/">
             <svg
-              className="text-foreground"
+              className="w-[130px] sm:w-[120px] lg:w-[191px] text-foreground"
               width="191"
               height="87"
               viewBox="0 0 191 87"
@@ -34,7 +34,7 @@ export const Footer = async () => {
             </svg>
           </Link>
         </div>
-        <div className="space-x-4">
+        <div>
           <div className="flex flex-col items-center gap-gap1">
             <Link href="/" className="text-text1 hover:text-gray-600 underline">
               Homepage
@@ -86,7 +86,7 @@ export const Footer = async () => {
             ) : null}
           </div>
         </div>
-        <div className="w-[191px] flex justify-end gap-x-gap2 pt-[15px]">
+        <div className="w-[120px] sm:w-[120px] lg:w-[191px] flex justify-end flex-wrap gap-gap2 pt-gap2">
           <a href="#">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -98,7 +98,7 @@ export const Footer = async () => {
               strokeWidth="2"
               strokeLinecap="round"
               strokeLinejoin="round"
-              className="text-foreground w-[40px] h-[40px]"
+              className="text-foreground w-[30px] h-[30px]"
             >
               <rect width="20" height="20" x="2" y="2" rx="5" ry="5" />
               <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
@@ -113,7 +113,7 @@ export const Footer = async () => {
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
-              className="text-foreground w-[40px] h-[40px]"
+              className="text-foreground w-[30px] h-[30px]"
             >
               <path
                 fill="currentColor"
@@ -132,7 +132,7 @@ export const Footer = async () => {
               strokeWidth="2"
               strokeLinecap="round"
               strokeLinejoin="round"
-              className="text-foreground w-[40px] h-[40px]"
+              className="text-foreground w-[30px] h-[30px]"
             >
               <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
               <rect width="4" height="12" x="2" y="9" />
@@ -141,7 +141,7 @@ export const Footer = async () => {
           </a>
         </div>
       </div>
-      <p className="text-text1 text-center">
+      <p className="text-text1 text-center font-light">
         © 2024 - 2025 Events Platform Ltd | ALL RIGHTS RESERVED
       </p>
     </footer>

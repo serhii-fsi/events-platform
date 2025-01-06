@@ -21,7 +21,7 @@ import {
   FormLabel,
   FormMessage,
 } from '@/shadcnui/form';
-import { EditEventSkeleton } from './EditEventSkeleton';
+import { Skeleton } from '@/shadcnui/skeleton';
 
 const FormSchema = z.object({
   name: z
@@ -63,7 +63,19 @@ export function ProfileForm({ user }: { user: UserEntity }) {
   };
 
   if (loading) {
-    return <EditEventSkeleton />;
+    return (
+      <div className="flex flex-col gap-gap4 w-full max-w-sm">
+        <div className="flex justify-center">
+          <Skeleton className="h-[100px] w-[100px] rounded-full" />
+        </div>
+        <Skeleton className="h-gap3 w-full" />
+        <Skeleton className="h-gap3 w-3/5" />
+        <Skeleton className="h-gap3 w-4/5" />
+        <div className="flex justify-center">
+          <Skeleton className="h-gap3 w-[150px]" />
+        </div>
+      </div>
+    );
   }
 
   return (
@@ -72,7 +84,7 @@ export function ProfileForm({ user }: { user: UserEntity }) {
         onSubmit={useFormReturn.handleSubmit(onSubmit)}
         className="flex flex-col gap-y-gap3 w-full max-w-sm"
       >
-        <div className="flex justify-center pb-gap1">
+        <div className="flex justify-center">
           <Avatar user={user} className="h-[100px] w-[100px] text-text4" />
         </div>
 

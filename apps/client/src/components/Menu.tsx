@@ -22,9 +22,9 @@ export const Menu = async ({ authUser }: { authUser: AuthUser }) => {
 
   return (
     <Drawer>
-      <DrawerTrigger className="" aria-label="Open menu" aria-haspopup="dialog">
+      <DrawerTrigger aria-label="Open menu" aria-haspopup="dialog">
         <svg
-          className="text-foreground"
+          className="w-[36px] sm:w-[50px] md:w-[60px] lg:w-[100px] text-foreground"
           width="100"
           height="39"
           viewBox="0 0 100 39"
@@ -39,7 +39,9 @@ export const Menu = async ({ authUser }: { authUser: AuthUser }) => {
       </DrawerTrigger>
       <DrawerContent aria-label="Navigation menu">
         <DrawerHeader>
-          <DrawerTitle className="text-2xl text-center mb-6">Menu</DrawerTitle>
+          <DrawerTitle className="text-text4 text-center mb-6">
+            Menu
+          </DrawerTitle>
           <DrawerDescription className="sr-only">
             Navigation menu for the website
           </DrawerDescription>
@@ -48,7 +50,7 @@ export const Menu = async ({ authUser }: { authUser: AuthUser }) => {
               <Link
                 href="/"
                 role="menuitem"
-                className="text-xl hover:text-gray-600 underline"
+                className="text-text3 hover:text-gray-600 underline"
               >
                 Homepage
               </Link>
@@ -61,7 +63,7 @@ export const Menu = async ({ authUser }: { authUser: AuthUser }) => {
                 <a
                   href={ENV.API_URL + ENV.AUTH0_LOGIN_PATH}
                   role="menuitem"
-                  className="text-xl hover:text-gray-600 underline"
+                  className="text-text3 hover:text-gray-600 underline"
                 >
                   Login / Sign up
                 </a>
@@ -73,7 +75,7 @@ export const Menu = async ({ authUser }: { authUser: AuthUser }) => {
                 <Link
                   href="/profile"
                   role="menuitem"
-                  className="text-xl hover:text-gray-600 underline"
+                  className="text-text3 hover:text-gray-600 underline"
                 >
                   Profile
                 </Link>
@@ -85,7 +87,7 @@ export const Menu = async ({ authUser }: { authUser: AuthUser }) => {
                 <Link
                   href="/create-event"
                   role="menuitem"
-                  className="text-xl hover:text-gray-600 underline"
+                  className="text-text3 hover:text-gray-600 underline"
                 >
                   Create Event
                 </Link>
@@ -97,7 +99,7 @@ export const Menu = async ({ authUser }: { authUser: AuthUser }) => {
                 <Link
                   href="/admin"
                   role="menuitem"
-                  className="text-xl hover:text-gray-600 underline"
+                  className="text-text3 hover:text-gray-600 underline"
                 >
                   Manage Users
                 </Link>
@@ -109,7 +111,7 @@ export const Menu = async ({ authUser }: { authUser: AuthUser }) => {
                 <a
                   href={ENV.API_URL + ENV.AUTH0_LOGOUT_PATH}
                   role="menuitem"
-                  className="text-xl hover:text-gray-600 underline"
+                  className="text-text3 hover:text-gray-600 underline"
                 >
                   Log Out
                 </a>
@@ -118,7 +120,9 @@ export const Menu = async ({ authUser }: { authUser: AuthUser }) => {
           </div>
         </DrawerHeader>
         <DrawerFooter>
-          <DrawerClose>Close Menu</DrawerClose>
+          <DrawerClose className="text-text2 hover:text-gray-600">
+            Close Menu
+          </DrawerClose>
         </DrawerFooter>
       </DrawerContent>
     </Drawer>

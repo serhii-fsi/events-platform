@@ -1,5 +1,5 @@
-import { EditEventSkeleton } from '@/components/EditEventSkeleton';
+import { CentredSkeleton } from '@/components/CentredSkeleton';
 
 export default function Loading() {
-  return <EditEventSkeleton />;
+  return <CentredSkeleton />;
 }
