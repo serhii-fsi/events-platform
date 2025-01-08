@@ -1,3 +1,4 @@
+import { ErrorPage } from '@/components/ErrorPage';
 import { Role } from '@/domain/constants';
 import { Api } from 'src/modules/api';
 
@@ -8,13 +9,12 @@ export default async function Page() {
   await apiAuth.fetchAuthUser();
 
   if (apiAuth.isError()) {
-    throw new Error(apiAuth.getUiErrorMessage());
+    return <ErrorPage message={apiAuth.getUiErrorMessage()} />;
   }
 
   const authUser = apiAuth.getAuthUser();
-
   if (authUser?.role !== Role.ADMIN) {
-    throw new Error('Unauthorized');
+    return <ErrorPage message="Only admins can manage users" />;
   }
 
   return (

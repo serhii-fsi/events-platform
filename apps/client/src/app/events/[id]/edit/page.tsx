@@ -1,4 +1,4 @@
-import { redirect } from 'next/navigation';
+import { ErrorPage } from '@/components/ErrorPage';
 import { notFound } from 'next/navigation';
 import { Api } from 'src/modules/api';
 import { Role } from '@/domain/constants';
@@ -14,7 +14,7 @@ export default async function Page({
   const { id } = await params;
   const eventId = Number(id);
   if (!eventId || String(eventId) !== id) {
-    throw new Error('No event id provided');
+    return <ErrorPage message="No event id provided" />;
   }
 
   const [apiAuth, apiEvent] = await Promise.all([
@@ -23,19 +23,25 @@ export default async function Page({
   ]);
 
   const authUser = apiAuth.getAuthUser();
-  const isEventEditAllowed =
-    authUser && (authUser.role === Role.EDITOR || authUser.role === Role.ADMIN);
-  if (!isEventEditAllowed) {
-    redirect('/');
+
+  if (apiAuth.isError()) {
+    return <ErrorPage message={apiAuth.getUiErrorMessage()} />;
+  }
+
+  if (authUser?.role !== Role.EDITOR && authUser?.role !== Role.ADMIN) {
+    return <ErrorPage message="Only editors and admins can edit events" />;
   }
 
   if (apiEvent.isNotFound()) notFound();
   if (apiEvent.isError()) {
-    throw new Error(apiEvent.getUiErrorMessage());
+    return <ErrorPage message={apiEvent.getUiErrorMessage()} />;
   }
+
   const event = apiEvent.getEvent();
   if (!event) {
-    throw new Error('Unexpected error: unable to get event from server');
+    return (
+      <ErrorPage message="Unexpected error: unable to get event from server" />
+    );
   }
 
   return (

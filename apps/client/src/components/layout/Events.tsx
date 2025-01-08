@@ -1,3 +1,5 @@
+import { notFound } from 'next/navigation';
+import { ErrorPage } from '@/components/ErrorPage';
 import { Api } from 'src/modules/api';
 
 import { EventCard } from '@/components/EventCard';
@@ -8,14 +10,20 @@ export const Events = async ({ page }: { page: number }) => {
   await api.fetchEvents(page);
 
   if (api.isError()) {
-    throw new Error(api.getUiErrorMessage());
+    return <ErrorPage message={api.getUiErrorMessage()} />;
   }
 
   const ret = api.getEvents();
   if (!ret) {
-    throw new Error('Unexpected error: unable to get events from server');
+    return (
+      <ErrorPage message="Unexpected error: unable to get events from server" />
+    );
   }
   const { events, pagination } = ret;
+
+  if (page > pagination.totalPages) {
+    notFound();
+  }
 
   return (
     <div className="flex flex-col gap-y-gap5">

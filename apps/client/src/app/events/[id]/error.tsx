@@ -1,10 +1,7 @@
 'use client';
 
+import { ErrorPage } from '@/components/ErrorPage';
+
 export default function ErrorBoundary({ error }: { error: Error }) {
-  return (
-    <div className="p-4">
-      <h1 className="text-2xl font-bold">Error</h1>
-      <p>{error.message}</p>
-    </div>
-  );
+  return <ErrorPage message={error.message} />;
 }

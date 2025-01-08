@@ -2,7 +2,7 @@
 
 import { revalidatePath } from 'next/cache';
 
-import { DetailedEventEntity, UserEntity } from '@/domain/types';
+import { DetailedEventEntity } from '@/domain/types';
 import { AttendanceStatus, CalendarStatus, Role } from '@/domain/constants';
 import { Api } from 'src/modules/api';
 
@@ -39,6 +39,8 @@ export async function createEvent(
     };
   }
 
+  revalidatePath(`/`);
+
   return {
     id: createdEvent.id,
     success: true,
@@ -73,7 +75,7 @@ export async function editEvent(
     };
   }
 
-  revalidatePath(`/events/${id}`);
+  revalidatePath(`/`);
 
   return {
     id: updatedEvent.id,
@@ -99,6 +101,8 @@ export async function deleteEvent(id: number): Promise<ActionResponse> {
       message: 'Unexpected error: event may not have been deleted',
     };
   }
+
+  revalidatePath(`/`);
 
   return {
     success: true,
@@ -179,6 +183,8 @@ export async function updateUserRole(
       message: 'Unexpected error: server response does not contain user',
     };
   }
+
+  revalidatePath(`/admin`);
 
   return {
     id: updatedUser.id,

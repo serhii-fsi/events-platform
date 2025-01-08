@@ -1,3 +1,4 @@
+import { ErrorPage } from '@/components/ErrorPage';
 import { Events } from '@/components/layout/Events';
 
 export default async function Page({
@@ -8,7 +9,7 @@ export default async function Page({
   const { num } = await params;
   const pageNum = Number(num);
   if (!pageNum || num !== String(pageNum)) {
-    throw new Error('No page number provided');
+    return <ErrorPage message="No page number provided" />;
   }
 
   return <Events page={pageNum} />;

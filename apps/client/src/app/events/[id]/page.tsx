@@ -1,3 +1,4 @@
+import { ErrorPage } from '@/components/ErrorPage';
 import { notFound } from 'next/navigation';
 import { Api } from 'src/modules/api';
 
@@ -11,7 +12,7 @@ export default async function Page({
   const { id } = await params;
   const eventId = Number(id);
   if (!eventId || String(eventId) !== id) {
-    throw new Error('No event id provided');
+    return <ErrorPage message="No event id provided" />;
   }
 
   const [apiEvent, apiAuth] = await Promise.all([
@@ -21,14 +22,16 @@ export default async function Page({
 
   if (apiEvent.isNotFound()) notFound();
   if (apiEvent.isError()) {
-    throw new Error(apiEvent.getUiErrorMessage());
+    return <ErrorPage message={apiEvent.getUiErrorMessage()} />;
   }
+
   const event = apiEvent.getEvent();
   if (!event) {
-    throw new Error('Unexpected error: unable to get event');
+    return <ErrorPage message="Unexpected error: unable to get event" />;
   }
 
   const authUser = apiAuth.getAuthUser();
+
   let attendance = null;
   let calendar = null;
   if (authUser?.id) {

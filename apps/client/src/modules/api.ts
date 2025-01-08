@@ -130,7 +130,7 @@ class Api {
   }
 
   public async fetch(): Promise<Api> {
-    if (!this.options.next) this.options.next = { revalidate: 3 };
+    if (!this.options.cache) this.options.cache = 'no-store';
     if (!this.options.headers) this.options.headers = {};
 
     this.options.headers = {
@@ -156,13 +156,14 @@ class Api {
       }
     }
 
+    console.log(
+      new Date().getSeconds(),
+      'fetching',
+      `${ENV.API_PROTOCOL}://${ENV.API_HOST}:${ENV.API_PORT}${this.path}`
+    );
+
     let res: Response;
     try {
-      console.log(
-        'fetching',
-        `${ENV.API_PROTOCOL}://${ENV.API_HOST}:${ENV.API_PORT}${this.path}`
-      );
-
       res = await fetch(
         `${ENV.API_PROTOCOL}://${ENV.API_HOST}:${ENV.API_PORT}${this.path}`,
         this.options

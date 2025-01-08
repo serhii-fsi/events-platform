@@ -1,3 +1,4 @@
+import { ErrorPage } from '@/components/ErrorPage';
 import { Api } from 'src/modules/api';
 
 import { ProfileForm } from '@/components/ProfileForm';
@@ -7,12 +8,12 @@ export default async function Page() {
   await api.fetchAuthUser();
 
   if (api.isError()) {
-    throw new Error(api.getUiErrorMessage());
+    return <ErrorPage message={api.getUiErrorMessage()} />;
   }
 
   const user = api.getAuthUser();
   if (!user) {
-    throw new Error('Unauthorized');
+    return <ErrorPage message="Unauthorized" />;
   }
 
   return (
