@@ -14,7 +14,7 @@ export const Footer = async () => {
     <footer className="flex flex-col gap-gap3">
       <div className="flex flex-col items-center gap-y-gap3 sm:flex-row sm:justify-between sm:items-start">
         <div className="flex justify-start">
-          <Link href="/">
+          <Link href="/" aria-label="Events Platform footer logo">
             <svg
               className="w-[130px] sm:w-[120px] lg:w-[191px] text-foreground"
               width="191"
@@ -87,7 +87,7 @@ export const Footer = async () => {
           </div>
         </div>
         <div className="w-[120px] sm:w-[120px] lg:w-[191px] flex justify-end flex-wrap gap-gap2 pt-gap2">
-          <a href="#">
+          <a href="#" aria-label="Instagram link">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="24"
@@ -105,7 +105,7 @@ export const Footer = async () => {
               <line x1="17.5" x2="17.51" y1="6.5" y2="6.5" />
             </svg>
           </a>
-          <a href="#">
+          <a href="#" aria-label="Facebook link">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="24"
@@ -121,7 +121,7 @@ export const Footer = async () => {
               />
             </svg>
           </a>
-          <a href="#">
+          <a href="#" aria-label="Linkedin link">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="24"

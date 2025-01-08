@@ -12,7 +12,7 @@ export const Header = async () => {
   return (
     <header className="flex justify-between items-center">
       <div className="flex justify-start">
-        <Link href="/">
+        <Link href="/" aria-label="Events Platform header logo">
           <svg
             className="w-[60px] sm:w-[100px] md:w-[120px] lg:w-[191px] text-foreground"
             width="191"

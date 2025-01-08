@@ -31,6 +31,7 @@ export function ThemeToggle() {
       onClick={toggleTheme}
       variant="outline"
       className="rounded-full p-0 h-[40px] w-[40px]"
+      aria-label="Toggle dark/light theme"
     >
       {isDark ? <Sun /> : <Moon />}
     </Button>
