@@ -6,11 +6,23 @@ This event management platform showcases modern software architecture through a 
 
 I have implemented the design for this project, focusing on a user-friendly and accessible interface. The design process involved prioritizing functionality to ensure a smooth user experience.
 
-![Example Image](./design/image1.png)
+![Image1](./assets/image1.png)
 
-![Example Image](./design/image2.png)
+![Image2](./assets/image2.png)
 
-[Download Design File](./design/EventsPlatform.fig)
+[Download Design File](./assets/EventsPlatform.fig)
+
+## Reports
+
+### Lighthouse
+
+![Lighthouse 100 100 79 100](./assets/lighthouse-home-all.png)
+
+![Lighthouse 79 (but 100 with https)](./assets/lighthouse-home-bp.png)
+
+### Screen Reader + Keyboard navigation
+
+![Screen Reader + Keyboard navigation](./assets/screen-reader.gif)
 
 ## Technical Architecture
 
