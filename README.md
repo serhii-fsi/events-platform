@@ -4,7 +4,7 @@ This event management platform showcases modern software architecture through a 
 
 ## Design Implementation
 
-I have implemented the design for this project, focusing on a user-friendly and accessible interface. The design process involved prioritizing functionality to ensure a smooth user experience.
+I have implemented the design for this project, focusing on a user-friendly and accessible interface. The design process prioritized functionality by addressing core and essential aspects first, with additional features planned for later stages.
 
 ![Image1](./assets/image1.png)
 
